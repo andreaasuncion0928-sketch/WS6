@@ -9,21 +9,19 @@
 
         :root {
             /* Nostalgic, Cinematic Filipino Palette */
-            --wood-dark: #1A1109;
-            --wood-warm: #3A2616;
+            --wood-dark: #120C07;
+            --wood-warm: #2A1B10;
             --capiz-glow: #F2E3C6;
-            --capiz-dim: #D1BFAe;
+            --capiz-dim: #9C8B76;
             --afternoon-sun: #D4A35A;
-            --sampaguita-white: #F4EFEB;
-            --evening-blue: #0F1626;
+            --sampaguita-white: #E8E0D5;
             
             --font-display: 'Cormorant Garamond', serif;
             --font-sans: 'Montserrat', sans-serif;
             
             --section-pad: 10rem 2rem;
-            /* Heavy overlay to ensure it feels like a memory/mood */
-            --overlay-dark: rgba(20, 14, 8, 0.85); 
-            --overlay-vignette: radial-gradient(circle at center, transparent 0%, rgba(10, 6, 2, 0.95) 100%);
+            --overlay-dark: rgba(14, 9, 5, 0.92); 
+            --overlay-vignette: radial-gradient(circle at center, transparent 0%, rgba(8, 5, 2, 0.98) 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,7 +38,7 @@
         /* --- GLOBAL TEXTURES (FILM GRAIN & NOISE) --- */
         .film-grain {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.05"/%3E%3C/svg%3E');
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.06"/%3E%3C/svg%3E');
             pointer-events: none; z-index: 9999; mix-blend-mode: overlay;
         }
 
@@ -60,51 +58,70 @@
         }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-        /* --- IMAGE CONTAINERS & FALLBACKS --- */
+        /* --- INLINE SVG IMAGE CONTAINERS --- */
         .img-container {
-            background-color: rgba(255,255,255,0.03);
+            background-color: rgba(212, 163, 90, 0.03);
             display: flex; align-items: center; justify-content: center;
-            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);
-            overflow: hidden; /* Keeps images neatly inside */
-            position: relative;
+            border: 1px solid rgba(212, 163, 90, 0.15); backdrop-filter: blur(5px);
+            overflow: hidden; position: relative;
         }
-        .img-container img {
-            width: 100%; height: 100%; object-fit: cover; display: block;
-        }
-        /* Fallback text if image is missing */
-        .fallback-text {
-            position: absolute;
-            color: rgba(255,255,255,0.4); font-family: var(--font-sans); font-size: 0.7rem;
-            letter-spacing: 0.2em; text-transform: uppercase; text-align: center; z-index: -1;
+        .img-container svg {
+            width: 70%; height: 70%; stroke: var(--afternoon-sun); fill: none; stroke-width: 1.5;
+            opacity: 0.7;
         }
 
         /* --- PARALLAX BACKGROUND SECTIONS --- */
         .room-section {
             position: relative; background-size: cover; background-position: center;
             background-attachment: fixed; z-index: 1;
+            background-color: var(--wood-dark);
         }
-        .room-section::before { /* Base darkener */
+        .room-section::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--overlay-dark); z-index: -1;
         }
-        .room-section::after { /* Vignette */
+        .room-section::after {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--overlay-vignette); z-index: -1; pointer-events: none;
         }
 
-        /* --- 01. THE ENTRY (TRADITIONAL HOUSE EXTERIOR) --- */
+        /* --- GENERATED BACKGROUND SKETCHES (SVG DATA URIs) --- */
+        
+        /* 1. Exterior Old House (Bahay na Bato) */
+        .bg-exterior {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='800' viewBox='0 0 1000 800'%3E%3Cg stroke='%23D4A35A' stroke-width='1' fill='none' opacity='0.15'%3E%3Cpath d='M 100 400 L 500 200 L 900 400 Z'/%3E%3Crect x='150' y='400' width='700' height='150'/%3E%3Crect x='200' y='550' width='600' height='250'/%3E%3Cpath d='M 150 450 L 850 450 M 150 500 L 850 500 M 350 400 L 350 550 M 650 400 L 650 550'/%3E%3Cpath d='M 250 550 L 250 800 M 750 550 L 750 800 M 450 550 L 450 800 M 550 550 L 550 800'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* 2. Capiz Window / Front Yard Grid */
+        .bg-capiz {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg stroke='%23D4A35A' stroke-width='0.5' fill='none' opacity='0.08'%3E%3Crect x='0' y='0' width='40' height='40'/%3E%3Crect x='40' y='0' width='40' height='40'/%3E%3Crect x='0' y='40' width='40' height='40'/%3E%3Crect x='40' y='40' width='40' height='40'/%3E%3Cpath d='M 0 20 L 80 20 M 0 60 L 80 60 M 20 0 L 20 80 M 60 0 L 60 80'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* 3. Grand Foyer / Doors */
+        .bg-foyer {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='800' viewBox='0 0 1000 800'%3E%3Cg stroke='%23D4A35A' stroke-width='1' fill='none' opacity='0.1'%3E%3Cpath d='M 300 800 L 300 250 Q 500 100 700 250 L 700 800'/%3E%3Cpath d='M 350 800 L 350 300 Q 500 180 650 300 L 650 800'/%3E%3Cline x1='500' y1='200' x2='500' y2='800'/%3E%3Crect x='380' y='400' width='90' height='150'/%3E%3Crect x='530' y='400' width='90' height='150'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* 4. Tropical Leaves / Garden */
+        .bg-garden {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cg stroke='%23D4A35A' stroke-width='1' fill='none' opacity='0.08'%3E%3Cpath d='M 0 400 Q 150 200 350 50 Q 250 150 200 400 Z'/%3E%3Cpath d='M 0 400 Q 150 200 350 50'/%3E%3Cpath d='M 100 300 Q 200 250 250 150'/%3E%3Cpath d='M 50 350 Q 100 300 150 200'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* 5. Dining/Veranda Arches */
+        .bg-arches {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='400' viewBox='0 0 200 400'%3E%3Cg stroke='%23D4A35A' stroke-width='1' fill='none' opacity='0.1'%3E%3Cpath d='M 20 400 L 20 150 Q 100 50 180 150 L 180 400'/%3E%3Cline x1='100' y1='100' x2='100' y2='400'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* --- 01. THE ENTRY SCREEN --- */
         #entry-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: var(--wood-dark); /* FIX: Prevents overlap if image fails */
-            background-image: url('exterior-house-bg.jpg'); /* Swap with your image */
-            background-size: cover; background-position: center;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 9000; text-align: center;
-            transition: transform 2.5s cubic-bezier(0.64, 0, 0.35, 1), opacity 2.5s ease;
+            transition: transform 3s cubic-bezier(0.5, 0, 0.2, 1), opacity 3s ease;
         }
         #entry-screen::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(20,14,8,0.3), rgba(20,14,8,0.85)); pointer-events: none;
+            background: linear-gradient(to bottom, rgba(14,9,5,0.7), rgba(14,9,5,0.95)); pointer-events: none; z-index: -1;
         }
         .entry-content { z-index: 2; }
         .btn-entry {
@@ -114,36 +131,31 @@
             transition: all 0.4s ease;
         }
         .btn-entry:hover { background: var(--capiz-glow); color: var(--wood-dark); }
-        
-        /* The Walk-In Animation */
-        #entry-screen.zoom-in { transform: scale(1.5); opacity: 0; pointer-events: none; }
+        #entry-screen.zoom-in { transform: scale(1.3); opacity: 0; pointer-events: none; }
 
         /* --- 01b. THE INVITATION --- */
         #invitation {
             min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
             background-color: var(--sampaguita-white); color: var(--wood-dark);
             text-align: center; padding: 2rem; position: relative; z-index: 0;
-            background-image: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.05) 100%);
+            background-image: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.08) 100%);
         }
 
-        /* --- 02. STORY (FRONT YARD) --- */
-        #story {
-            background-image: url('front-yard-bg.jpg'); /* Swap with your image */
-            padding: var(--section-pad); text-align: center;
-        }
+        /* --- 02. STORY --- */
+        #story { padding: var(--section-pad); text-align: center; }
         .framed-memories { display: flex; gap: 2rem; justify-content: center; margin-top: 4rem; flex-wrap: wrap; }
         .wooden-frame {
-            padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(212,163,90,0.2);
             backdrop-filter: blur(10px); width: 250px; aspect-ratio: 3/4; transform: rotate(-2deg);
         }
         .wooden-frame:nth-child(2) { transform: rotate(1deg) translateY(20px); }
         .wooden-frame:nth-child(3) { transform: rotate(-1deg); }
         .wooden-frame .img-container { height: 100%; width: 100%; }
 
-        /* --- 03. NAVIGATION (FOYER) --- */
+        /* --- 03. NAVIGATION --- */
         #foyer {
-            background-image: url('foyer-bg.jpg'); /* Swap with your image */
-            padding: 6rem 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 6rem 2rem; text-align: center; 
+            border-top: 1px solid rgba(212,163,90,0.1); border-bottom: 1px solid rgba(212,163,90,0.1);
         }
         .house-nav { display: flex; justify-content: center; gap: 3rem; margin-top: 3rem; flex-wrap: wrap; }
         .house-nav a {
@@ -153,101 +165,78 @@
         }
         .house-nav a:hover { color: var(--afternoon-sun); border-bottom: 1px solid var(--afternoon-sun); }
 
-        /* --- 04. ENTOURAGE (SALA) --- */
-        #entourage {
-            background-image: url('sala-bg.jpg'); /* Swap with your image */
-            padding: var(--section-pad);
-        }
+        /* --- 04. ENTOURAGE --- */
+        #entourage { padding: var(--section-pad); }
         .console-table {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;
             max-width: 1000px; margin: 4rem auto 0; align-items: end;
         }
         .antique-portrait {
-            background: rgba(255,255,255,0.02); padding: 15px; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(212,163,90,0.02); padding: 15px; border: 1px solid rgba(212,163,90,0.15);
             text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(5px);
         }
-        .antique-portrait .img-container { aspect-ratio: 3/4; margin-bottom: 1rem; border: none; background: rgba(0,0,0,0.3); }
+        .antique-portrait .img-container { aspect-ratio: 3/4; margin-bottom: 1rem; border: none; background: transparent; }
 
-        /* --- 05. ATTIRE (BEDROOM) --- */
-        #attire {
-            background-image: url('bedroom-bg.jpg'); /* Swap with your image */
-            padding: var(--section-pad); text-align: center;
-        }
-        .clothing-display {
-            display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap;
-        }
+        /* --- 05. ATTIRE --- */
+        #attire { padding: var(--section-pad); text-align: center; }
+        .clothing-display { display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap; }
         .clothing-item .img-container { width: 160px; aspect-ratio: 1/2; margin-bottom: 1rem; }
 
-        /* --- 06. VENUES (VERANDA) --- */
-        #venues {
-            background-image: url('veranda-bg.jpg'); /* Swap with your image */
-            padding: var(--section-pad); text-align: center;
-        }
+        /* --- 06. VENUES --- */
+        #venues { padding: var(--section-pad); text-align: center; }
         .venue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 4rem auto 0; }
         @media (max-width: 768px) { .venue-grid { grid-template-columns: 1fr; } }
         .venue-card {
-            background: rgba(0,0,0,0.4); padding: 3rem 2rem; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(212,163,90,0.03); padding: 3rem 2rem; border: 1px solid rgba(212,163,90,0.2);
             backdrop-filter: blur(10px);
         }
         .venue-card .img-container { aspect-ratio: 4/3; margin-bottom: 2rem; }
 
-        /* --- 07. CELEBRATION (DINING ROOM) --- */
-        #celebration {
-            background-image: url('dining-room-bg.jpg'); /* Swap with your image */
-            padding: var(--section-pad); text-align: center;
-        }
+        /* --- 07. CELEBRATION --- */
+        #celebration { padding: var(--section-pad); text-align: center; }
         .dining-table {
             width: 100%; max-width: 1000px; margin: 4rem auto 0;
             display: flex; justify-content: center; gap: 2rem; align-items: flex-end; padding-bottom: 2rem;
         }
-        .table-item { width: 220px; height: 160px; }
-        .table-item:nth-child(2) { height: 220px; } /* Centerpiece */
+        .table-item { width: 220px; height: 160px; border: 1px solid rgba(212,163,90,0.2); background: rgba(212,163,90,0.02); }
+        .table-item:nth-child(2) { height: 220px; } 
 
-        /* --- 08. FAQ (GARDEN) --- */
-        #faq {
-            background-image: url('garden-bg.jpg'); /* Swap with your image */
-            padding: var(--section-pad); text-align: center;
-        }
+        /* --- 08. FAQ --- */
+        #faq { padding: var(--section-pad); text-align: center; }
         .garden-objects { display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap; }
-        .garden-object { width: 260px; padding: 2rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(8px); }
+        .garden-object { width: 260px; padding: 2rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(212,163,90,0.2); backdrop-filter: blur(8px); }
 
-        /* --- 09. MOMENTS (BACKYARD) --- */
-        #moments {
-            background-image: url('backyard-bg.jpg'); /* Swap with your image */
-            padding: var(--section-pad); text-align: center; overflow: hidden;
-        }
+        /* --- 09. MOMENTS --- */
+        #moments { padding: var(--section-pad); text-align: center; overflow: hidden; }
         .clothesline-wrapper { position: relative; max-width: 1000px; margin: 5rem auto; padding-top: 2rem; }
         .clothesline-string {
             position: absolute; top: 0; left: -10%; width: 120%; height: 50px;
-            border-top: 1px solid rgba(255,255,255,0.2); border-radius: 50%;
+            border-top: 1px solid rgba(212,163,90,0.3); border-radius: 50%;
         }
         .clothesline-photos { display: flex; justify-content: space-around; position: relative; z-index: 2; }
         .hanging-photo {
-            width: 200px; padding: 10px 10px 30px 10px; background: rgba(255,255,255,0.9); color: var(--wood-dark);
-            box-shadow: 2px 10px 20px rgba(0,0,0,0.5); position: relative; transform-origin: top center;
+            width: 200px; padding: 10px 10px 30px 10px; background: rgba(232,224,213,0.95); color: var(--wood-dark);
+            box-shadow: 2px 10px 20px rgba(0,0,0,0.8); position: relative; transform-origin: top center;
         }
-        .hanging-photo::before { /* Clothespin */
+        .hanging-photo::before { 
             content: ''; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
             width: 8px; height: 25px; background: var(--wood-warm); border-radius: 4px;
         }
-        .hanging-photo .img-container { background: rgba(0,0,0,0.1); border: none; aspect-ratio: 1; }
+        .hanging-photo .img-container { background: rgba(0,0,0,0.05); border: 1px dashed rgba(0,0,0,0.2); aspect-ratio: 1; }
+        .hanging-photo .img-container svg { stroke: var(--wood-warm); opacity: 0.5; }
         .hanging-photo:nth-child(1) { transform: rotate(-3deg) translateY(10px); }
         .hanging-photo:nth-child(2) { transform: rotate(2deg) translateY(20px); }
         .hanging-photo:nth-child(3) { transform: rotate(-1deg) translateY(15px); }
 
         /* --- 10. CLOSING NIGHT --- */
-        #night {
-            background-image: url('night-house-bg.jpg'); /* Swap with your image */
-            padding: 15rem 2rem; text-align: center;
-        }
-        #night::before { background: rgba(10, 14, 20, 0.9); } /* Dark blue night overlay */
+        #night { padding: 15rem 2rem; text-align: center; }
+        #night::before { background: rgba(8, 6, 4, 0.95); } 
 
         /* --- 11. RSVP --- */
         #rsvp {
-            background-image: url('exterior-house-bg.jpg'); /* Swap with your image */
             min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
-        #rsvp::before { background: rgba(5, 3, 2, 0.95); }
+        #rsvp::before { background: rgba(6, 4, 2, 0.97); }
         .btn-rsvp {
             display: inline-block; margin-top: 3rem; padding: 1.2rem 3rem; background: var(--afternoon-sun);
             color: var(--wood-dark); font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.2em;
@@ -262,10 +251,10 @@
     <!-- Film Grain Overlay for entire site -->
     <div class="film-grain"></div>
 
-    <!-- 01. THE ENTRY SCREEN (TRADITIONAL HOUSE VISUAL) -->
-    <div id="entry-screen">
+    <!-- 01. THE ENTRY SCREEN -->
+    <div id="entry-screen" class="room-section bg-exterior">
         <div class="entry-content">
-            <h1 class="display-title" style="color: var(--capiz-glow); text-shadow: 0 4px 20px rgba(0,0,0,0.8); margin-bottom: 2rem;">Come in.</h1>
+            <h1 class="display-title" style="color: var(--capiz-glow); text-shadow: 0 4px 20px rgba(0,0,0,0.9); margin-bottom: 2rem;">Come in.</h1>
             <button class="btn-entry" onclick="enterHouse()">Enter the Celebration</button>
         </div>
     </div>
@@ -284,8 +273,8 @@
         </div>
     </section>
 
-    <!-- 02. STORY (Dim Yard) -->
-    <section id="story" class="room-section">
+    <!-- 02. STORY (Capiz/Yard Pattern) -->
+    <section id="story" class="room-section bg-capiz">
         <div class="fade-up">
             <h2 style="font-size: 3.5rem; margin-bottom: 2rem;">Every home has a story.<br><span style="color: var(--afternoon-sun);">Ours began with coffee.</span></h2>
             <p class="editorial-body">
@@ -295,29 +284,29 @@
         </div>
         
         <div class="framed-memories fade-up">
+            <!-- Sketch: New York Skyline -->
             <div class="wooden-frame">
                 <div class="img-container">
-                    <img src="new-york-story.jpg" alt="New York Memory">
-                    <span class="fallback-text">[ New York ]</span>
+                    <svg viewBox="0 0 100 100"><path d="M20,90 L20,50 L35,50 L35,30 L45,30 L45,10 L55,10 L55,40 L65,40 L65,20 L80,20 L80,90 Z M48,15 L48,25 M52,15 L52,25 M25,60 L25,70 M30,60 L30,70 M70,30 L70,40 M75,30 L75,40" /></svg>
                 </div>
             </div>
+            <!-- Sketch: Tokyo Torii Gate -->
             <div class="wooden-frame">
                 <div class="img-container">
-                    <img src="tokyo-story.jpg" alt="Tokyo Memory">
-                    <span class="fallback-text">[ Tokyo ]</span>
+                    <svg viewBox="0 0 100 100"><path d="M10,30 L90,30 M15,45 L85,45 M30,30 L30,90 M70,30 L70,90 M30,60 L70,60" stroke-width="3"/></svg>
                 </div>
             </div>
+            <!-- Sketch: Barcelona Arch -->
             <div class="wooden-frame">
                 <div class="img-container">
-                    <img src="barcelona-story.jpg" alt="Barcelona Memory">
-                    <span class="fallback-text">[ Barcelona ]</span>
+                    <svg viewBox="0 0 100 100"><path d="M20,90 L20,40 C20,10 80,10 80,40 L80,90 M35,90 L35,45 C35,30 65,30 65,45 L65,90" /></svg>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 03. NAVIGATION (Dim Foyer) -->
-    <section id="foyer" class="room-section">
+    <!-- 03. NAVIGATION (Grand Foyer) -->
+    <section id="foyer" class="room-section bg-foyer">
         <div class="fade-up">
             <p class="label-sans" style="margin-bottom: 1rem;">Step inside our celebration</p>
             <div class="house-nav">
@@ -329,40 +318,37 @@
         </div>
     </section>
 
-    <!-- 04. ENTOURAGE (Dim Sala/Living) -->
-    <section id="entourage" class="room-section">
+    <!-- 04. ENTOURAGE (Capiz Wall) -->
+    <section id="entourage" class="room-section bg-capiz">
         <div class="fade-up text-center">
             <h2 style="font-size: 3.5rem;">The People Who Will Stand With Us</h2>
             
             <div class="console-table">
+                <!-- Silhouette Portraits -->
                 <div class="antique-portrait">
                     <div class="img-container">
-                        <img src="sofia-portrait.jpg" alt="Sofia">
-                        <span class="fallback-text">[ Portrait ]</span>
+                        <svg viewBox="0 0 100 100"><circle cx="50" cy="40" r="15"/><path d="M30,90 C30,65 70,65 70,90"/></svg>
                     </div>
                     <h4 style="font-family: var(--font-sans); font-size: 1rem;">Sofia Reyes</h4>
                     <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Maid of Honor</p>
                 </div>
                 <div class="antique-portrait" style="transform: translateY(-20px);">
                     <div class="img-container">
-                        <img src="daniel-portrait.jpg" alt="Daniel">
-                        <span class="fallback-text">[ Portrait ]</span>
+                        <svg viewBox="0 0 100 100"><circle cx="50" cy="40" r="15"/><path d="M25,90 C25,70 75,70 75,90"/></svg>
                     </div>
                     <h4 style="font-family: var(--font-sans); font-size: 1rem;">Daniel Cruz</h4>
                     <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Best Man</p>
                 </div>
                 <div class="antique-portrait">
                     <div class="img-container">
-                        <img src="isabella-portrait.jpg" alt="Isabella">
-                        <span class="fallback-text">[ Portrait ]</span>
+                        <svg viewBox="0 0 100 100"><circle cx="50" cy="40" r="15"/><path d="M30,90 C30,65 70,65 70,90"/></svg>
                     </div>
                     <h4 style="font-family: var(--font-sans); font-size: 1rem;">Isabella Santos</h4>
                     <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Bridesmaid</p>
                 </div>
                 <div class="antique-portrait" style="transform: translateY(-10px);">
                     <div class="img-container">
-                        <img src="mateo-portrait.jpg" alt="Mateo">
-                        <span class="fallback-text">[ Portrait ]</span>
+                        <svg viewBox="0 0 100 100"><circle cx="50" cy="40" r="15"/><path d="M25,90 C25,70 75,70 75,90"/></svg>
                     </div>
                     <h4 style="font-family: var(--font-sans); font-size: 1rem;">Mateo Lim</h4>
                     <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Groomsman</p>
@@ -371,31 +357,31 @@
         </div>
     </section>
 
-    <!-- 05. ATTIRE (Dim Bedroom) -->
-    <section id="attire" class="room-section">
+    <!-- 05. ATTIRE (Wood Wall) -->
+    <section id="attire" class="room-section bg-exterior">
         <div class="fade-up">
             <h2 style="font-size: 3.5rem; margin-bottom: 1rem;">What Will We Wear?</h2>
             <p class="editorial-body">Formal Filipiniana in elegant shades of purple.</p>
             
             <div class="clothing-display">
+                <!-- Barong Sketch -->
                 <div class="clothing-item">
                     <div class="img-container">
-                        <img src="barong-reference.jpg" alt="Barong Tagalog">
-                        <span class="fallback-text">[ Barong ]</span>
+                        <svg viewBox="0 0 100 150"><path d="M25,30 L75,30 L85,120 L15,120 Z M40,30 L40,80 C40,90 60,90 60,80 L60,30" stroke-dasharray="2,2"/></svg>
                     </div>
                     <p class="label-sans">Barong Tagalog</p>
                 </div>
+                <!-- Terno Sketch -->
                 <div class="clothing-item">
                     <div class="img-container" style="transform: translateY(20px);">
-                        <img src="terno-reference.jpg" alt="Terno">
-                        <span class="fallback-text">[ Terno ]</span>
+                        <svg viewBox="0 0 100 150"><path d="M25,40 C10,10 40,20 40,40 M75,40 C90,10 60,20 60,40 M35,40 L65,40 L80,130 L20,130 Z"/></svg>
                     </div>
                     <p class="label-sans" style="transform: translateY(20px);">Terno & Filipiniana</p>
                 </div>
+                <!-- Suit/Gown Sketch -->
                 <div class="clothing-item">
                     <div class="img-container">
-                        <img src="eveningwear-reference.jpg" alt="Eveningwear">
-                        <span class="fallback-text">[ Eveningwear ]</span>
+                        <svg viewBox="0 0 100 150"><path d="M30,30 L70,30 L85,130 L15,130 Z M30,30 L50,60 L70,30"/></svg>
                     </div>
                     <p class="label-sans">Formal Eveningwear</p>
                 </div>
@@ -403,24 +389,24 @@
         </div>
     </section>
 
-    <!-- 06. VENUES (Dim Veranda/Balcony) -->
-    <section id="venues" class="room-section">
+    <!-- 06. VENUES (Arches) -->
+    <section id="venues" class="room-section bg-arches">
         <div class="fade-up">
             <h2 style="font-size: 3.5rem;">Where We Gather</h2>
             
             <div class="venue-grid">
                 <div class="venue-card">
+                    <!-- Church Facade Sketch -->
                     <div class="img-container">
-                        <img src="church-photo.jpg" alt="San Sebastian Church">
-                        <span class="fallback-text">[ Church ]</span>
+                        <svg viewBox="0 0 100 100"><path d="M30,80 L30,40 L50,10 L70,40 L70,80 Z M40,80 L40,60 L60,60 L60,80 M50,30 L50,50 M40,40 L60,40"/></svg>
                     </div>
                     <h3 style="font-size: 2rem; margin-bottom: 1rem;">San Sebastian Church</h3>
                     <p class="editorial-body" style="font-size: 1rem;">Plaza del Carmen, Quiapo, Manila<br>4:30 in the afternoon</p>
                 </div>
                 <div class="venue-card">
+                    <!-- Grand Hotel Sketch -->
                     <div class="img-container">
-                        <img src="hotel-photo.jpg" alt="The Manila Hotel">
-                        <span class="fallback-text">[ Hotel ]</span>
+                        <svg viewBox="0 0 100 100"><path d="M10,80 L10,30 L90,30 L90,80 Z M30,30 L30,15 L70,15 L70,30 M25,50 L35,50 M45,50 L55,50 M65,50 L75,50 M25,65 L35,65 M45,65 L55,65 M65,65 L75,65"/></svg>
                     </div>
                     <h3 style="font-size: 2rem; margin-bottom: 1rem;">The Manila Hotel</h3>
                     <p class="editorial-body" style="font-size: 1rem;">One Rizal Park, Ermita, Manila<br>6:30 in the evening</p>
@@ -429,31 +415,31 @@
         </div>
     </section>
 
-    <!-- 07. CELEBRATION (Dim Dining Area) -->
-    <section id="celebration" class="room-section">
+    <!-- 07. CELEBRATION (Dining Arches) -->
+    <section id="celebration" class="room-section bg-arches">
         <div class="fade-up">
             <h2 style="font-size: 3.5rem; margin-bottom: 1rem;">The table is set.</h2>
             <p class="editorial-body">Experience the warmth, the textures, and the heart of a Filipino celebration.</p>
             
             <div class="dining-table">
+                <!-- Placemat/Plate Sketch -->
                 <div class="table-item img-container">
-                    <img src="placemats-detail.jpg" alt="Placemats">
-                    <span class="fallback-text">[ Placemats ]</span>
+                    <svg viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="35" ry="15"/><ellipse cx="50" cy="50" rx="25" ry="10" stroke-dasharray="2,2"/></svg>
                 </div>
+                <!-- Floral Centerpiece Sketch -->
                 <div class="table-item img-container">
-                    <img src="florals-detail.jpg" alt="Florals">
-                    <span class="fallback-text">[ Florals ]</span>
+                    <svg viewBox="0 0 100 100"><path d="M40,80 L60,80 L55,60 L45,60 Z M50,60 C30,30 20,40 50,50 C80,40 70,30 50,60 M50,60 C40,20 60,20 50,60"/></svg>
                 </div>
+                <!-- Glassware Sketch -->
                 <div class="table-item img-container">
-                    <img src="glassware-detail.jpg" alt="Glassware">
-                    <span class="fallback-text">[ Glassware ]</span>
+                    <svg viewBox="0 0 100 100"><path d="M35,30 C35,60 65,60 65,30 Z M50,53 L50,80 M35,80 L65,80"/></svg>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 08. FAQ (Dim Garden) -->
-    <section id="faq" class="room-section">
+    <!-- 08. FAQ (Garden Foliage) -->
+    <section id="faq" class="room-section bg-garden">
         <div class="fade-up">
             <h2 style="font-size: 3.5rem;">A Few Things to Know</h2>
             
@@ -461,46 +447,46 @@
                 <div class="garden-object">
                     <p class="label-sans" style="margin-bottom: 1rem;">[ An Envelope ]</p>
                     <h4 style="font-size: 1.5rem; margin-bottom: 1rem;">Plus Ones</h4>
-                    <p style="font-family: var(--font-sans); font-size: 0.9rem; font-weight: 300;">Due to the intimacy of our venue, we can only accommodate guests formally named on your invitation.</p>
+                    <p style="font-family: var(--font-sans); font-size: 0.9rem; font-weight: 300; line-height: 1.6;">Due to the intimacy of our venue, we can only accommodate guests formally named on your invitation.</p>
                 </div>
                 <div class="garden-object" style="transform: translateY(20px);">
                     <p class="label-sans" style="margin-bottom: 1rem;">[ A Gift Box ]</p>
                     <h4 style="font-size: 1.5rem; margin-bottom: 1rem;">Gifts</h4>
-                    <p style="font-family: var(--font-sans); font-size: 0.9rem; font-weight: 300;">Your presence is the greatest gift. Should you wish to honor us with a present, a monetary gift is warmly appreciated.</p>
+                    <p style="font-family: var(--font-sans); font-size: 0.9rem; font-weight: 300; line-height: 1.6;">Your presence is the greatest gift. Should you wish to honor us with a present, a monetary gift is warmly appreciated.</p>
                 </div>
                 <div class="garden-object">
                     <p class="label-sans" style="margin-bottom: 1rem;">[ A Resting Phone ]</p>
                     <h4 style="font-size: 1.5rem; margin-bottom: 1rem;">Unplugged</h4>
-                    <p style="font-family: var(--font-sans); font-size: 0.9rem; font-weight: 300;">We kindly ask that you keep your phones put away during the ceremony so we can all be fully present.</p>
+                    <p style="font-family: var(--font-sans); font-size: 0.9rem; font-weight: 300; line-height: 1.6;">We kindly ask that you keep your phones put away during the ceremony so we can all be fully present.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 09. MOMENTS (Dim Backyard/Wall) -->
-    <section id="moments" class="room-section">
+    <!-- 09. MOMENTS (Garden Vines) -->
+    <section id="moments" class="room-section bg-garden">
         <div class="fade-up">
             <h2 style="font-size: 3.5rem;">The Moments Between</h2>
             
             <div class="clothesline-wrapper">
                 <div class="clothesline-string"></div>
                 <div class="clothesline-photos">
+                    <!-- Abstract Memory 1 -->
                     <div class="hanging-photo">
                         <div class="img-container">
-                            <img src="moment-1.jpg" alt="Moment 1">
-                            <span class="fallback-text">[ Photo ]</span>
+                            <svg viewBox="0 0 100 100"><path d="M30,80 Q40,40 50,60 Q60,40 70,80" stroke-width="2"/></svg>
                         </div>
                     </div>
+                    <!-- Abstract Memory 2 -->
                     <div class="hanging-photo">
                         <div class="img-container">
-                            <img src="moment-2.jpg" alt="Moment 2">
-                            <span class="fallback-text">[ Photo ]</span>
+                            <svg viewBox="0 0 100 100"><circle cx="40" cy="50" r="15"/><circle cx="60" cy="50" r="15"/></svg>
                         </div>
                     </div>
+                    <!-- Abstract Memory 3 -->
                     <div class="hanging-photo">
                         <div class="img-container">
-                            <img src="moment-3.jpg" alt="Moment 3">
-                            <span class="fallback-text">[ Photo ]</span>
+                            <svg viewBox="0 0 100 100"><path d="M20,50 C40,20 60,80 80,50"/></svg>
                         </div>
                     </div>
                 </div>
@@ -508,8 +494,8 @@
         </div>
     </section>
 
-    <!-- 10. CLOSING NIGHT -->
-    <section id="night" class="room-section">
+    <!-- 10. CLOSING NIGHT (Dark House) -->
+    <section id="night" class="room-section bg-exterior">
         <div class="fade-up">
             <h2 class="display-title" style="line-height: 1.4;">
                 One Night.<br>
@@ -519,8 +505,8 @@
         </div>
     </section>
 
-    <!-- 11. RSVP -->
-    <section id="rsvp" class="room-section">
+    <!-- 11. RSVP (Dark House) -->
+    <section id="rsvp" class="room-section bg-exterior">
         <div class="fade-up text-center">
             <h2 style="font-size: 3.5rem; margin-bottom: 1rem;">We'd Love to Celebrate With You</h2>
             <p class="editorial-body">Please let us know if you can join us by December 1st.</p>
@@ -539,12 +525,11 @@
         function enterHouse() {
             const screen = document.getElementById('entry-screen');
             screen.classList.add('zoom-in');
-            document.body.style.overflow = 'auto'; // Unlock scrolling
+            document.body.style.overflow = 'auto'; 
             
-            // Remove the element after animation completes so it doesn't block clicks
             setTimeout(() => {
                 screen.style.display = 'none';
-            }, 2500);
+            }, 3000);
         }
 
         // Intersection Observer for Cinematic Fade-Ups
