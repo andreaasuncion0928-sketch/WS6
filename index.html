@@ -21,7 +21,7 @@
             --font-sans: 'Montserrat', sans-serif;
             
             --section-pad: 10rem 2rem;
-            /* Heavy overlay to ensure it feels like a memory/mood, not a real estate listing */
+            /* Heavy overlay to ensure it feels like a memory/mood */
             --overlay-dark: rgba(20, 14, 8, 0.85); 
             --overlay-vignette: radial-gradient(circle at center, transparent 0%, rgba(10, 6, 2, 0.95) 100%);
         }
@@ -60,12 +60,22 @@
         }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-        .img-placeholder {
+        /* --- IMAGE CONTAINERS & FALLBACKS --- */
+        .img-container {
             background-color: rgba(255,255,255,0.03);
             display: flex; align-items: center; justify-content: center;
-            color: rgba(255,255,255,0.4); font-family: var(--font-sans); font-size: 0.7rem;
-            letter-spacing: 0.2em; text-transform: uppercase; text-align: center; padding: 1rem;
             border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);
+            overflow: hidden; /* Keeps images neatly inside */
+            position: relative;
+        }
+        .img-container img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        /* Fallback text if image is missing */
+        .fallback-text {
+            position: absolute;
+            color: rgba(255,255,255,0.4); font-family: var(--font-sans); font-size: 0.7rem;
+            letter-spacing: 0.2em; text-transform: uppercase; text-align: center; z-index: -1;
         }
 
         /* --- PARALLAX BACKGROUND SECTIONS --- */
@@ -85,8 +95,8 @@
         /* --- 01. THE ENTRY (TRADITIONAL HOUSE EXTERIOR) --- */
         #entry-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            /* Atmospheric old house / tropical yard visual */
-            background-image: url('https://images.unsplash.com/photo-1548625361-ec859baeb8cb?auto=format&fit=crop&q=80'); 
+            background-color: var(--wood-dark); /* FIX: Prevents overlap if image fails */
+            background-image: url('exterior-house-bg.jpg'); /* Swap with your image */
             background-size: cover; background-position: center;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 9000; text-align: center;
@@ -118,7 +128,7 @@
 
         /* --- 02. STORY (FRONT YARD) --- */
         #story {
-            background-image: url('https://images.unsplash.com/photo-1518558997970-4fdc6ed6fb19?auto=format&fit=crop&q=80');
+            background-image: url('front-yard-bg.jpg'); /* Swap with your image */
             padding: var(--section-pad); text-align: center;
         }
         .framed-memories { display: flex; gap: 2rem; justify-content: center; margin-top: 4rem; flex-wrap: wrap; }
@@ -128,10 +138,11 @@
         }
         .wooden-frame:nth-child(2) { transform: rotate(1deg) translateY(20px); }
         .wooden-frame:nth-child(3) { transform: rotate(-1deg); }
+        .wooden-frame .img-container { height: 100%; width: 100%; }
 
         /* --- 03. NAVIGATION (FOYER) --- */
         #foyer {
-            background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80');
+            background-image: url('foyer-bg.jpg'); /* Swap with your image */
             padding: 6rem 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .house-nav { display: flex; justify-content: center; gap: 3rem; margin-top: 3rem; flex-wrap: wrap; }
@@ -144,7 +155,7 @@
 
         /* --- 04. ENTOURAGE (SALA) --- */
         #entourage {
-            background-image: url('https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&q=80');
+            background-image: url('sala-bg.jpg'); /* Swap with your image */
             padding: var(--section-pad);
         }
         .console-table {
@@ -155,21 +166,21 @@
             background: rgba(255,255,255,0.02); padding: 15px; border: 1px solid rgba(255,255,255,0.1);
             text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(5px);
         }
-        .antique-portrait .img-placeholder { aspect-ratio: 3/4; margin-bottom: 1rem; border: none; background: rgba(0,0,0,0.3); }
+        .antique-portrait .img-container { aspect-ratio: 3/4; margin-bottom: 1rem; border: none; background: rgba(0,0,0,0.3); }
 
         /* --- 05. ATTIRE (BEDROOM) --- */
         #attire {
-            background-image: url('https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&q=80');
+            background-image: url('bedroom-bg.jpg'); /* Swap with your image */
             padding: var(--section-pad); text-align: center;
         }
         .clothing-display {
             display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap;
         }
-        .clothing-item .img-placeholder { width: 160px; aspect-ratio: 1/2; margin-bottom: 1rem; }
+        .clothing-item .img-container { width: 160px; aspect-ratio: 1/2; margin-bottom: 1rem; }
 
         /* --- 06. VENUES (VERANDA) --- */
         #venues {
-            background-image: url('https://images.unsplash.com/photo-1533596664406-9311c62ce7eb?auto=format&fit=crop&q=80');
+            background-image: url('veranda-bg.jpg'); /* Swap with your image */
             padding: var(--section-pad); text-align: center;
         }
         .venue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 4rem auto 0; }
@@ -178,11 +189,11 @@
             background: rgba(0,0,0,0.4); padding: 3rem 2rem; border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
         }
-        .venue-card .img-placeholder { aspect-ratio: 4/3; margin-bottom: 2rem; }
+        .venue-card .img-container { aspect-ratio: 4/3; margin-bottom: 2rem; }
 
         /* --- 07. CELEBRATION (DINING ROOM) --- */
         #celebration {
-            background-image: url('https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&q=80');
+            background-image: url('dining-room-bg.jpg'); /* Swap with your image */
             padding: var(--section-pad); text-align: center;
         }
         .dining-table {
@@ -194,7 +205,7 @@
 
         /* --- 08. FAQ (GARDEN) --- */
         #faq {
-            background-image: url('https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&q=80');
+            background-image: url('garden-bg.jpg'); /* Swap with your image */
             padding: var(--section-pad); text-align: center;
         }
         .garden-objects { display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap; }
@@ -202,7 +213,7 @@
 
         /* --- 09. MOMENTS (BACKYARD) --- */
         #moments {
-            background-image: url('https://images.unsplash.com/photo-1464013778555-8e723c2f01f8?auto=format&fit=crop&q=80');
+            background-image: url('backyard-bg.jpg'); /* Swap with your image */
             padding: var(--section-pad); text-align: center; overflow: hidden;
         }
         .clothesline-wrapper { position: relative; max-width: 1000px; margin: 5rem auto; padding-top: 2rem; }
@@ -219,21 +230,21 @@
             content: ''; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
             width: 8px; height: 25px; background: var(--wood-warm); border-radius: 4px;
         }
-        .hanging-photo .img-placeholder { background: rgba(0,0,0,0.1); color: var(--wood-warm); border: none; }
+        .hanging-photo .img-container { background: rgba(0,0,0,0.1); border: none; aspect-ratio: 1; }
         .hanging-photo:nth-child(1) { transform: rotate(-3deg) translateY(10px); }
         .hanging-photo:nth-child(2) { transform: rotate(2deg) translateY(20px); }
         .hanging-photo:nth-child(3) { transform: rotate(-1deg) translateY(15px); }
 
         /* --- 10. CLOSING NIGHT --- */
         #night {
-            background-image: url('https://images.unsplash.com/photo-1519750157634-b6d493a0f77c?auto=format&fit=crop&q=80');
+            background-image: url('night-house-bg.jpg'); /* Swap with your image */
             padding: 15rem 2rem; text-align: center;
         }
         #night::before { background: rgba(10, 14, 20, 0.9); } /* Dark blue night overlay */
 
         /* --- 11. RSVP --- */
         #rsvp {
-            background-image: url('https://images.unsplash.com/photo-1548625361-ec859baeb8cb?auto=format&fit=crop&q=80'); /* Same house but darkened */
+            background-image: url('exterior-house-bg.jpg'); /* Swap with your image */
             min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
         #rsvp::before { background: rgba(5, 3, 2, 0.95); }
@@ -285,13 +296,22 @@
         
         <div class="framed-memories fade-up">
             <div class="wooden-frame">
-                <div class="img-placeholder" style="height: 100%;">[ New York ]</div>
+                <div class="img-container">
+                    <img src="new-york-story.jpg" alt="New York Memory">
+                    <span class="fallback-text">[ New York ]</span>
+                </div>
             </div>
             <div class="wooden-frame">
-                <div class="img-placeholder" style="height: 100%;">[ Tokyo ]</div>
+                <div class="img-container">
+                    <img src="tokyo-story.jpg" alt="Tokyo Memory">
+                    <span class="fallback-text">[ Tokyo ]</span>
+                </div>
             </div>
             <div class="wooden-frame">
-                <div class="img-placeholder" style="height: 100%;">[ Barcelona ]</div>
+                <div class="img-container">
+                    <img src="barcelona-story.jpg" alt="Barcelona Memory">
+                    <span class="fallback-text">[ Barcelona ]</span>
+                </div>
             </div>
         </div>
     </section>
@@ -316,22 +336,34 @@
             
             <div class="console-table">
                 <div class="antique-portrait">
-                    <div class="img-placeholder">[ Portrait ]</div>
+                    <div class="img-container">
+                        <img src="sofia-portrait.jpg" alt="Sofia">
+                        <span class="fallback-text">[ Portrait ]</span>
+                    </div>
                     <h4 style="font-family: var(--font-sans); font-size: 1rem;">Sofia Reyes</h4>
                     <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Maid of Honor</p>
                 </div>
                 <div class="antique-portrait" style="transform: translateY(-20px);">
-                    <div class="img-placeholder">[ Portrait ]</div>
+                    <div class="img-container">
+                        <img src="daniel-portrait.jpg" alt="Daniel">
+                        <span class="fallback-text">[ Portrait ]</span>
+                    </div>
                     <h4 style="font-family: var(--font-sans); font-size: 1rem;">Daniel Cruz</h4>
                     <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Best Man</p>
                 </div>
                 <div class="antique-portrait">
-                    <div class="img-placeholder">[ Portrait ]</div>
+                    <div class="img-container">
+                        <img src="isabella-portrait.jpg" alt="Isabella">
+                        <span class="fallback-text">[ Portrait ]</span>
+                    </div>
                     <h4 style="font-family: var(--font-sans); font-size: 1rem;">Isabella Santos</h4>
                     <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Bridesmaid</p>
                 </div>
                 <div class="antique-portrait" style="transform: translateY(-10px);">
-                    <div class="img-placeholder">[ Portrait ]</div>
+                    <div class="img-container">
+                        <img src="mateo-portrait.jpg" alt="Mateo">
+                        <span class="fallback-text">[ Portrait ]</span>
+                    </div>
                     <h4 style="font-family: var(--font-sans); font-size: 1rem;">Mateo Lim</h4>
                     <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Groomsman</p>
                 </div>
@@ -347,15 +379,24 @@
             
             <div class="clothing-display">
                 <div class="clothing-item">
-                    <div class="img-placeholder">[ Barong ]</div>
+                    <div class="img-container">
+                        <img src="barong-reference.jpg" alt="Barong Tagalog">
+                        <span class="fallback-text">[ Barong ]</span>
+                    </div>
                     <p class="label-sans">Barong Tagalog</p>
                 </div>
                 <div class="clothing-item">
-                    <div class="img-placeholder" style="transform: translateY(20px);">[ Terno ]</div>
+                    <div class="img-container" style="transform: translateY(20px);">
+                        <img src="terno-reference.jpg" alt="Terno">
+                        <span class="fallback-text">[ Terno ]</span>
+                    </div>
                     <p class="label-sans" style="transform: translateY(20px);">Terno & Filipiniana</p>
                 </div>
                 <div class="clothing-item">
-                    <div class="img-placeholder">[ Eveningwear ]</div>
+                    <div class="img-container">
+                        <img src="eveningwear-reference.jpg" alt="Eveningwear">
+                        <span class="fallback-text">[ Eveningwear ]</span>
+                    </div>
                     <p class="label-sans">Formal Eveningwear</p>
                 </div>
             </div>
@@ -369,12 +410,18 @@
             
             <div class="venue-grid">
                 <div class="venue-card">
-                    <div class="img-placeholder">[ San Sebastian Church ]</div>
+                    <div class="img-container">
+                        <img src="church-photo.jpg" alt="San Sebastian Church">
+                        <span class="fallback-text">[ Church ]</span>
+                    </div>
                     <h3 style="font-size: 2rem; margin-bottom: 1rem;">San Sebastian Church</h3>
                     <p class="editorial-body" style="font-size: 1rem;">Plaza del Carmen, Quiapo, Manila<br>4:30 in the afternoon</p>
                 </div>
                 <div class="venue-card">
-                    <div class="img-placeholder">[ The Manila Hotel ]</div>
+                    <div class="img-container">
+                        <img src="hotel-photo.jpg" alt="The Manila Hotel">
+                        <span class="fallback-text">[ Hotel ]</span>
+                    </div>
                     <h3 style="font-size: 2rem; margin-bottom: 1rem;">The Manila Hotel</h3>
                     <p class="editorial-body" style="font-size: 1rem;">One Rizal Park, Ermita, Manila<br>6:30 in the evening</p>
                 </div>
@@ -389,9 +436,18 @@
             <p class="editorial-body">Experience the warmth, the textures, and the heart of a Filipino celebration.</p>
             
             <div class="dining-table">
-                <div class="table-item img-placeholder">[ Placemats ]</div>
-                <div class="table-item img-placeholder">[ Florals ]</div>
-                <div class="table-item img-placeholder">[ Glassware ]</div>
+                <div class="table-item img-container">
+                    <img src="placemats-detail.jpg" alt="Placemats">
+                    <span class="fallback-text">[ Placemats ]</span>
+                </div>
+                <div class="table-item img-container">
+                    <img src="florals-detail.jpg" alt="Florals">
+                    <span class="fallback-text">[ Florals ]</span>
+                </div>
+                <div class="table-item img-container">
+                    <img src="glassware-detail.jpg" alt="Glassware">
+                    <span class="fallback-text">[ Glassware ]</span>
+                </div>
             </div>
         </div>
     </section>
@@ -430,13 +486,22 @@
                 <div class="clothesline-string"></div>
                 <div class="clothesline-photos">
                     <div class="hanging-photo">
-                        <div class="img-placeholder" style="aspect-ratio: 1;">[ Photo ]</div>
+                        <div class="img-container">
+                            <img src="moment-1.jpg" alt="Moment 1">
+                            <span class="fallback-text">[ Photo ]</span>
+                        </div>
                     </div>
                     <div class="hanging-photo">
-                        <div class="img-placeholder" style="aspect-ratio: 1;">[ Photo ]</div>
+                        <div class="img-container">
+                            <img src="moment-2.jpg" alt="Moment 2">
+                            <span class="fallback-text">[ Photo ]</span>
+                        </div>
                     </div>
                     <div class="hanging-photo">
-                        <div class="img-placeholder" style="aspect-ratio: 1;">[ Photo ]</div>
+                        <div class="img-container">
+                            <img src="moment-3.jpg" alt="Moment 3">
+                            <span class="fallback-text">[ Photo ]</span>
+                        </div>
                     </div>
                 </div>
             </div>
