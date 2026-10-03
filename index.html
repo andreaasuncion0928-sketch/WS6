@@ -3,531 +3,450 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elena & Adrian | A Grand Filipino Celebration</title>
+    <title>Elena & Adrian | Come In. We Have a Story to Tell.</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
 
         :root {
-            /* Color Palette */
-            --ph-green: #15261E;       /* Deep Philippine Green */
-            --imperial-purple: #321A30; /* Imperial Purple */
-            --warm-ivory: #F9F6F0;      /* Warm Ivory */
-            --antique-gold: #C5A059;    /* Antique Gold */
-            --capiz-pearl: #EAE6DF;     /* Capiz Pearl */
-            --dark-ink: #2C2A28;        /* Soft Black for text */
+            /* Nostalgic Old House Palette */
+            --wood-dark: #2E1F11;
+            --wood-warm: #4A3623;
+            --wood-faded: #8C7561;
+            --capiz-glow: #FFF9E6;
+            --capiz-dim: #E8DECC;
+            --afternoon-sun: #D1A562;
+            --sampaguita-white: #F9F6F0;
+            --evening-blue: #152238;
+            --night-sky: #0A111F;
+            --foliage-green: #2D4026;
             
-            /* Typography */
             --font-display: 'Cormorant Garamond', serif;
             --font-sans: 'Montserrat', sans-serif;
             
-            /* Spacing */
             --section-pad: 8rem 2rem;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--warm-ivory);
-            color: var(--dark-ink);
+            background-color: var(--sampaguita-white);
+            color: var(--wood-dark);
             font-family: var(--font-display);
+            overflow: hidden; /* Locked until door opens */
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* --- GLOBAL TEXTURES --- */
-        .pina-texture {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: multiply;
-        }
-
-        /* --- TYPOGRAPHY UTILITIES --- */
+        /* --- GLOBAL UTILITIES & TYPOGRAPHY --- */
         h1, h2, h3, h4 { font-weight: 300; line-height: 1.2; }
-        .text-gold { color: var(--antique-gold); }
-        .text-ivory { color: var(--warm-ivory); }
         .text-center { text-align: center; }
-        
         .label-sans {
             font-family: var(--font-sans);
             font-size: 0.75rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
         }
+        .display-title { font-size: clamp(3rem, 6vw, 6rem); }
+        .editorial-body { font-size: 1.2rem; line-height: 1.8; max-width: 600px; margin: 0 auto; }
         
-        .display-title {
-            font-size: clamp(3rem, 6vw, 6rem);
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .editorial-body {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* --- ANIMATION UTILITIES --- */
         .fade-up {
-            opacity: 0;
-            transform: translateY(40px);
+            opacity: 0; transform: translateY(40px);
             transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        .img-placeholder {
+            background-color: rgba(0,0,0,0.05);
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(0,0,0,0.3); font-family: var(--font-sans); font-size: 0.7rem;
+            letter-spacing: 0.2em; text-transform: uppercase; text-align: center; padding: 1rem;
+            border: 1px dashed rgba(0,0,0,0.1);
         }
 
-        /* --- 01. THE ARRIVAL (HERO) --- */
-        #arrival {
-            position: relative;
-            height: 100vh;
-            background: linear-gradient(to bottom, var(--ph-green), var(--imperial-purple));
+        /* --- 01. THE OLD HOUSE (FRONT DOOR) --- */
+        #door-wrapper {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            perspective: 1200px; z-index: 9999;
+            background: var(--wood-dark);
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: var(--antique-gold);
-            overflow: hidden;
         }
+        .door {
+            width: 50%; height: 100%;
+            background: linear-gradient(to bottom, var(--wood-warm), var(--wood-dark));
+            border: 2px solid #1a1109;
+            position: relative;
+            transition: transform 2s cubic-bezier(0.64, 0.04, 0.35, 1);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+        .door-left { transform-origin: left; border-right: 1px solid #111; }
+        .door-right { transform-origin: right; border-left: 1px solid #111; }
         
-        .arrival-floral-frame {
-            position: absolute;
-            top: 2vw; left: 2vw; right: 2vw; bottom: 2vw;
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            pointer-events: none;
+        /* Capiz window panels on doors */
+        .door-panel {
+            width: 60%; height: 70%;
+            background: rgba(255, 249, 230, 0.1);
+            border: 10px solid var(--wood-dark);
+            display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr);
+            gap: 2px; background-color: var(--wood-dark);
         }
+        .door-panel div { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(2px); }
 
-        /* Stylized SVG Florals (Sampaguita/Ilang-Ilang) */
-        .floral-svg {
-            position: absolute;
-            width: 100%; height: 100%;
-            top: 0; left: 0;
-            fill: none;
-            stroke: var(--antique-gold);
-            stroke-width: 0.5;
-            opacity: 0.6;
-        }
-
-        .capiz-glow {
-            position: absolute;
-            width: 60vw; height: 60vw;
-            background: radial-gradient(circle, rgba(234, 230, 223, 0.15) 0%, rgba(234, 230, 223, 0) 70%);
-            top: 50%; left: 50%;
+        .door-text {
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            pointer-events: none;
-            mix-blend-mode: screen;
+            color: var(--afternoon-sun); font-size: 2rem; pointer-events: none;
+            transition: opacity 0.5s ease; width: 200vw; text-align: center;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
+        .door-right .door-text { margin-left: -100vw; }
 
-        /* --- 02. THE INVITATION --- */
+        /* Door Open State */
+        #door-wrapper.open .door-left { transform: rotateY(-105deg); }
+        #door-wrapper.open .door-right { transform: rotateY(105deg); }
+        #door-wrapper.open .door-text { opacity: 0; }
+        #door-wrapper.open { pointer-events: none; background: transparent; transition: background 2s; }
+
+        /* --- 01b. THE INVITATION (BEHIND THE DOOR) --- */
         #invitation {
-            padding: var(--section-pad);
-            background-color: var(--warm-ivory);
-        }
-        .invitation-panel {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 5rem 3rem;
-            border: 1px solid rgba(197, 160, 89, 0.4);
-            position: relative;
-            background: var(--capiz-pearl);
-            box-shadow: inset 0 0 40px rgba(255,255,255,0.5), 0 20px 40px rgba(0,0,0,0.03);
-        }
-        .invitation-panel::before {
-            content: '';
-            position: absolute;
-            top: 10px; left: 10px; right: 10px; bottom: 10px;
-            border: 1px dashed rgba(197, 160, 89, 0.3); /* Embroidery hint */
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: linear-gradient(rgba(249,246,240,0.9), rgba(249,246,240,0.9)), url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.04"/%3E%3C/svg%3E');
+            text-align: center; padding: 2rem;
         }
 
-        /* --- 03 & 04. THE COUPLE & THEIR STORY --- */
-        #story {
+        /* --- 02. THE FRONT YARD (STORY) --- */
+        #front-yard {
             padding: var(--section-pad);
-            background-color: var(--warm-ivory);
-            text-align: center;
-        }
-        .image-placeholder {
-            background-color: #E6E1D6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(44, 42, 40, 0.4);
-            font-family: var(--font-sans);
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
+            background: var(--capiz-dim);
             position: relative;
         }
-        .portrait-hero {
-            width: 100%;
-            max-width: 500px;
-            aspect-ratio: 3/4;
-            margin: 0 auto 3rem;
-            border-radius: 200px 200px 0 0; /* Architectural Arch */
+        .yard-story { max-width: 800px; margin: 0 auto; text-align: center; }
+        .framed-memories {
+            display: flex; gap: 2rem; justify-content: center; margin-top: 4rem; flex-wrap: wrap;
         }
-        .memory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 4rem auto;
+        .wooden-frame {
+            padding: 1rem; background: #fff;
+            border: 8px solid var(--wood-warm); box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            width: 250px; aspect-ratio: 3/4; transform: rotate(-2deg);
         }
-        .memory-item {
-            padding: 1rem;
-            border: 1px solid var(--antique-gold);
-            background: #fff;
-        }
+        .wooden-frame:nth-child(2) { transform: rotate(1deg) translateY(20px); }
+        .wooden-frame:nth-child(3) { transform: rotate(-1deg); }
 
-        /* --- 05. THE FILIPINO CELEBRATION (MOODBOARD) --- */
-        #celebration {
-            padding: 10rem 2rem;
-            background: var(--dark-ink);
-            color: var(--warm-ivory);
-            text-align: center;
+        /* --- 03. THE FOYER (NAVIGATION) --- */
+        #foyer {
+            padding: 6rem 2rem; background: var(--wood-dark); color: var(--capiz-glow);
+            text-align: center; border-top: 1px solid rgba(255,255,255,0.1);
         }
-        .moodboard-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            max-width: 1200px;
-            margin: 4rem auto 0;
+        .house-nav {
+            display: flex; justify-content: center; gap: 3rem; margin-top: 3rem; flex-wrap: wrap;
         }
-        .mood-img {
-            aspect-ratio: 1;
-            background: #3A3836;
+        .house-nav a {
+            color: var(--capiz-dim); text-decoration: none; font-family: var(--font-sans);
+            font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+            padding-bottom: 5px; border-bottom: 1px solid transparent; transition: all 0.3s;
         }
-        .mood-img:nth-child(2), .mood-img:nth-child(3) { aspect-ratio: 3/4; }
-        @media (max-width: 768px) {
-            .moodboard-grid { grid-template-columns: repeat(2, 1fr); }
-        }
+        .house-nav a:hover { color: var(--afternoon-sun); border-bottom: 1px solid var(--afternoon-sun); }
 
-        /* --- 06. THE FASHION MOMENT --- */
-        #fashion {
-            padding: var(--section-pad);
-            background-color: var(--imperial-purple);
-            color: var(--capiz-pearl);
-            text-align: center;
+        /* --- 04. THE SALA (ENTOURAGE) --- */
+        #sala {
+            padding: var(--section-pad); background: var(--sampaguita-white);
+            background-image: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.02) 100%);
         }
-        .fashion-silhouettes {
-            display: flex;
-            justify-content: center;
-            gap: 4rem;
-            margin-top: 4rem;
-            flex-wrap: wrap;
+        .console-table {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem; max-width: 1000px; margin: 4rem auto 0;
+            border-bottom: 15px solid var(--wood-warm); padding-bottom: 1rem;
+            align-items: end;
         }
-        .fashion-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
+        .antique-portrait {
+            background: #fff; padding: 10px; border: 4px solid var(--wood-dark);
+            text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        .fashion-svg {
-            width: 150px;
-            height: 200px;
-            stroke: var(--antique-gold);
-            stroke-width: 0.5;
-            fill: none;
-        }
+        .antique-portrait .img-placeholder { aspect-ratio: 3/4; margin-bottom: 1rem; }
 
-        /* --- 07. THE PEOPLE (ENTOURAGE) --- */
-        #entourage {
-            padding: var(--section-pad);
-            background: var(--warm-ivory);
-            text-align: center;
+        /* --- 05. THE BEDROOM / DRESSING ROOM (ATTIRE) --- */
+        #bedroom {
+            padding: var(--section-pad); background: var(--capiz-glow); text-align: center;
         }
-        .portrait-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 3rem;
-            max-width: 1000px;
-            margin: 4rem auto 0;
+        .aparador-container {
+            max-width: 800px; margin: 4rem auto 0; position: relative;
+            height: 500px; perspective: 1000px;
         }
-        .entourage-member {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        .aparador-content {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--wood-dark); display: flex; justify-content: space-around;
+            align-items: center; padding: 2rem; color: var(--capiz-glow);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
         }
-        .entourage-photo {
-            aspect-ratio: 3/4;
-            border: 4px solid var(--capiz-pearl);
-            outline: 1px solid var(--antique-gold);
-            outline-offset: -10px;
-            background: #E6E1D6;
-        }
-
-        /* --- 08. THE PLACE (VENUES) --- */
-        #venues {
-            padding: var(--section-pad);
-            background: var(--capiz-pearl);
-            text-align: center;
-        }
-        .venue-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            max-width: 1000px;
-            margin: 4rem auto 0;
-        }
-        @media (max-width: 768px) { .venue-container { grid-template-columns: 1fr; } }
-        .venue-img {
-            aspect-ratio: 4/5;
-            background: #D9D4C9;
-            border-radius: 150px 150px 0 0;
-            margin-bottom: 2rem;
-        }
-
-        /* --- 09. THE WEDDING NIGHT --- */
-        #wedding-night {
-            padding: 12rem 2rem;
-            background: linear-gradient(to bottom, var(--dark-ink), var(--ph-green));
-            color: var(--antique-gold);
-            text-align: center;
-            position: relative;
-        }
+        .clothing-item { text-align: center; }
+        .clothing-item .img-placeholder { width: 150px; aspect-ratio: 1/2; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); margin-bottom: 1rem; }
         
-        /* --- 11. THE DETAILS (FAQ) --- */
-        #details {
-            padding: var(--section-pad);
-            background: var(--warm-ivory);
+        .aparador-door {
+            position: absolute; top: 0; width: 50%; height: 100%;
+            background: var(--wood-warm); border: 2px solid var(--wood-dark);
+            transition: transform 1.5s ease; transform-origin: left; z-index: 2;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+        }
+        .aparador-door::after { content: 'Click to Open'; font-family: var(--font-sans); font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.5); text-transform: uppercase;}
+        .aparador-door.right { right: 0; transform-origin: right; }
+        
+        .aparador-container.open .aparador-door.left { transform: rotateY(-110deg); }
+        .aparador-container.open .aparador-door.right { transform: rotateY(110deg); }
+        .aparador-container.open .aparador-door::after { opacity: 0; }
+
+        /* --- 06. THE VERANDA (VENUES) --- */
+        #veranda {
+            padding: var(--section-pad); background: linear-gradient(to bottom, var(--capiz-dim), var(--wood-faded));
             text-align: center;
         }
-        .faq-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 900px;
-            margin: 4rem auto 0;
+        .venue-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 4rem auto 0;
         }
-        .faq-card {
-            padding: 3rem 2rem;
-            background: #fff;
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        @media (max-width: 768px) { .venue-grid { grid-template-columns: 1fr; } }
+        .venue-card {
+            background: var(--sampaguita-white); padding: 2rem; border-radius: 10px 10px 0 0;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .venue-card .img-placeholder { aspect-ratio: 4/3; margin-bottom: 2rem; }
+
+        /* --- 07. THE DINING ROOM (CELEBRATION) --- */
+        #dining-room {
+            padding: var(--section-pad); background: var(--wood-dark); color: var(--capiz-glow);
+            text-align: center; border-top: 5px solid var(--wood-warm);
+        }
+        .dining-table {
+            width: 100%; max-width: 1200px; height: 300px; margin: 4rem auto 0;
+            background: linear-gradient(to bottom, var(--wood-warm), var(--wood-dark));
+            border-top: 10px solid #5a422a;
+            position: relative; display: flex; justify-content: center; gap: 2rem; align-items: flex-end; padding-bottom: 2rem;
+            box-shadow: 0 -20px 50px rgba(0,0,0,0.5);
+        }
+        .table-item { width: 200px; height: 150px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
+        .table-item:nth-child(2) { height: 200px; } /* Centerpiece */
+
+        /* --- 08. THE GARDEN (FAQ) --- */
+        #garden {
+            padding: var(--section-pad); background: var(--foliage-green); color: var(--capiz-glow);
+            text-align: center;
+        }
+        .garden-objects {
+            display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap;
+        }
+        .garden-object {
+            width: 250px; padding: 2rem; background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
         }
 
-        /* --- 12. FINAL INVITATION (RSVP) --- */
+        /* --- 09. THE BACKYARD (PHOTO ALBUM) --- */
+        #backyard {
+            padding: var(--section-pad); background: var(--capiz-dim); text-align: center; overflow: hidden;
+        }
+        .clothesline-wrapper {
+            position: relative; max-width: 1000px; margin: 5rem auto; padding-top: 2rem;
+        }
+        .clothesline-string {
+            position: absolute; top: 0; left: -10%; width: 120%; height: 50px;
+            border-top: 2px solid rgba(0,0,0,0.3); border-radius: 50%;
+        }
+        .clothesline-photos {
+            display: flex; justify-content: space-around; position: relative; z-index: 2;
+        }
+        .hanging-photo {
+            width: 200px; padding: 10px 10px 30px 10px; background: #fff; box-shadow: 2px 5px 10px rgba(0,0,0,0.2);
+            position: relative; transform-origin: top center;
+        }
+        .hanging-photo::before { /* Clothespin */
+            content: ''; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 10px; height: 30px; background: var(--wood-warm); border-radius: 5px;
+        }
+        .hanging-photo:nth-child(1) { transform: rotate(-3deg) translateY(10px); }
+        .hanging-photo:nth-child(2) { transform: rotate(2deg) translateY(20px); }
+        .hanging-photo:nth-child(3) { transform: rotate(-1deg) translateY(15px); }
+
+        /* --- 10. HOUSE AT NIGHT --- */
+        #house-night {
+            padding: 12rem 2rem; background: linear-gradient(to bottom, var(--evening-blue), var(--night-sky));
+            color: var(--capiz-glow); text-align: center;
+        }
+
+        /* --- 11. FRONT DOOR AGAIN (RSVP) --- */
         #rsvp {
-            height: 100vh;
-            background: linear-gradient(to bottom, var(--imperial-purple), var(--ph-green));
-            color: var(--antique-gold);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            text-align: center;
-            overflow: hidden;
+            min-height: 100vh; background: var(--night-sky); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; position: relative; color: var(--capiz-glow); text-align: center;
         }
-        
+        /* Open Door Frame Background */
+        #rsvp::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, var(--wood-dark) 0%, transparent 15%, transparent 85%, var(--wood-dark) 100%);
+            pointer-events: none;
+        }
         .btn-rsvp {
-            display: inline-block;
-            margin-top: 3rem;
-            padding: 1.2rem 3rem;
-            background: transparent;
-            border: 1px solid var(--antique-gold);
-            color: var(--antique-gold);
-            font-family: var(--font-sans);
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            text-decoration: none;
+            display: inline-block; margin-top: 3rem; padding: 1.2rem 3rem; background: transparent;
+            border: 1px solid var(--capiz-glow); color: var(--capiz-glow); font-family: var(--font-sans);
+            font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
             transition: all 0.4s ease;
         }
-        .btn-rsvp:hover {
-            background: var(--antique-gold);
-            color: var(--ph-green);
-        }
+        .btn-rsvp:hover { background: var(--capiz-glow); color: var(--night-sky); }
 
     </style>
 </head>
 <body>
 
-    <!-- Global Piña Texture Overlay -->
-    <div class="pina-texture"></div>
-
-    <!-- 01. THE ARRIVAL -->
-    <section id="arrival">
-        <div class="capiz-glow"></div>
-        <div class="arrival-floral-frame">
-            <!-- Stylized Botanical Frame SVG -->
-            <svg class="floral-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-                <path d="M 50,50 Q 200,80 300,50 T 500,50" />
-                <path d="M 950,50 Q 800,80 700,50 T 500,50" />
-                <path d="M 50,950 Q 200,920 300,950 T 500,950" />
-                <path d="M 950,950 Q 800,920 700,950 T 500,950" />
-                <!-- Corner details representing Sampaguita -->
-                <circle cx="80" cy="80" r="5" fill="var(--antique-gold)"/>
-                <circle cx="920" cy="80" r="5" fill="var(--antique-gold)"/>
-                <circle cx="80" cy="920" r="5" fill="var(--antique-gold)"/>
-                <circle cx="920" cy="920" r="5" fill="var(--antique-gold)"/>
-            </svg>
+    <!-- 01. THE OLD HOUSE (FRONT DOOR) -->
+    <div id="door-wrapper" onclick="openFrontDoor()">
+        <div class="door door-left">
+            <div class="door-panel">
+                <div></div><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div>
+            </div>
+            <div class="door-text">Come in.</div>
         </div>
-        
-        <div class="fade-up" style="z-index: 2; text-align: center;">
-            <h1 class="display-title">Elena & Adrian</h1>
-            <p class="label-sans" style="margin-top: 2rem; color: var(--capiz-pearl);">January 31, 2028</p>
-            <div style="width: 1px; height: 60px; background: var(--antique-gold); margin: 2rem auto;"></div>
-            <p class="label-sans text-gold">A Filipino Wedding Celebration</p>
+        <div class="door door-right">
+            <div class="door-panel">
+                <div></div><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div>
+            </div>
+            <div class="door-text">Come in.</div>
         </div>
-    </section>
+    </div>
 
-    <!-- 02. THE INVITATION -->
+    <!-- 01b. THE INVITATION -->
     <section id="invitation">
-        <div class="invitation-panel fade-up text-center">
-            <p class="label-sans text-gold" style="margin-bottom: 2rem;">With joy in our hearts</p>
-            <h2 class="display-title" style="font-size: 2.5rem; margin-bottom: 1.5rem;">Elena & Adrian</h2>
+        <div class="fade-up">
+            <p class="label-sans" style="margin-bottom: 2rem; color: var(--wood-faded);">An Invitation</p>
+            <h1 class="display-title" style="margin-bottom: 1rem;">Elena & Adrian</h1>
+            <h2 style="font-size: 2rem; color: var(--afternoon-sun); margin-bottom: 2rem;">January 31, 2028</h2>
             <p class="editorial-body">
-                invite you to witness and celebrate<br>the beginning of their marriage.
+                We joyfully invite you to witness and celebrate<br>the beginning of our marriage.
             </p>
-            <div style="margin-top: 3rem;">
-                <p class="label-sans text-gold">Saturday, The Thirty-First of January</p>
-                <p class="label-sans text-gold" style="margin-top: 0.5rem;">Two Thousand Twenty-Eight</p>
-                <p class="label-sans text-gold" style="margin-top: 0.5rem;">Manila, Philippines</p>
-            </div>
+            <p class="label-sans" style="margin-top: 4rem;">Scroll to explore</p>
+            <div style="width: 1px; height: 40px; background: var(--wood-faded); margin: 1rem auto 0;"></div>
         </div>
     </section>
 
-    <!-- 03 & 04. THE COUPLE & THEIR STORY -->
-    <section id="story">
-        <div class="fade-up">
-            <p class="label-sans text-gold" style="margin-bottom: 3rem;">The Two Who Started It All</p>
-            <div class="image-placeholder portrait-hero">
-                [ Editorial Couple Portrait ]
-            </div>
-            
-            <h2 style="font-size: 3rem; margin: 3rem 0 1.5rem;">It Started With Coffee.</h2>
+    <!-- 02. THE FRONT YARD (STORY) -->
+    <section id="front-yard">
+        <div class="yard-story fade-up">
+            <p class="label-sans" style="margin-bottom: 1rem;">Where Our Story Began</p>
+            <h2 style="font-size: 3rem; margin-bottom: 2rem;">Every home has a story.<br>Ours began with coffee.</h2>
             <p class="editorial-body">
-                We met over iced coffee on an ordinary afternoon in Manila. What started as a conversation about architecture and travel turned into a journey across the world. From the bustling streets of New York to the quiet temples of Tokyo, and the warmth of Barcelona, our story has been shaped by many cities. 
-                <br><br>
+                We met over iced coffee on an ordinary afternoon in Manila. What started as a conversation about architecture and travel turned into a journey across the world.
                 But no matter how far we traveled, the most important chapters always brought us back home.
             </p>
         </div>
-
-        <div class="memory-grid fade-up">
-            <div class="memory-item">
-                <div class="image-placeholder" style="aspect-ratio: 1;">[ Framed Memory: NY ]</div>
+        
+        <div class="framed-memories fade-up">
+            <div class="wooden-frame">
+                <div class="img-placeholder" style="height: 100%;">[ Photo: New York ]</div>
+                <p class="label-sans" style="margin-top: 1rem; text-align: center;">New York</p>
             </div>
-            <div class="memory-item">
-                <div class="image-placeholder" style="aspect-ratio: 4/5;">[ Candid: Tokyo ]</div>
+            <div class="wooden-frame">
+                <div class="img-placeholder" style="height: 100%;">[ Photo: Tokyo ]</div>
+                <p class="label-sans" style="margin-top: 1rem; text-align: center;">Tokyo</p>
             </div>
-            <div class="memory-item">
-                <div class="image-placeholder" style="aspect-ratio: 1;">[ Archival: Barcelona ]</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 05. THE FILIPINO CELEBRATION -->
-    <section id="celebration">
-        <div class="fade-up">
-            <h2 style="font-size: 3.5rem; margin-bottom: 1rem;">Now, We Celebrate.</h2>
-            <p class="label-sans text-gold">A Glimpse into the Evening</p>
-            
-            <div class="moodboard-grid">
-                <div class="image-placeholder mood-img">[ Capiz Details ]</div>
-                <div class="image-placeholder mood-img">[ Pearls & Gold ]</div>
-                <div class="image-placeholder mood-img">[ Architecture ]</div>
-                <div class="image-placeholder mood-img">[ Floral Tablescape ]</div>
+            <div class="wooden-frame">
+                <div class="img-placeholder" style="height: 100%;">[ Photo: Barcelona ]</div>
+                <p class="label-sans" style="margin-top: 1rem; text-align: center;">Barcelona</p>
             </div>
         </div>
     </section>
 
-    <!-- 06. THE FASHION MOMENT -->
-    <section id="fashion">
+    <!-- 03. THE FOYER (NAVIGATION) -->
+    <section id="foyer">
         <div class="fade-up">
-            <p class="label-sans text-gold" style="margin-bottom: 1rem;">Dress for the Celebration</p>
-            <h2 class="display-title" style="font-size: 3rem; margin-bottom: 2rem;">Formal Attire</h2>
-            <p class="editorial-body">We request the honor of your presence in formal attire. <br>Our color palette features elegant shades of purple.</p>
-            
-            <div class="fashion-silhouettes">
-                <!-- Barong -->
-                <div class="fashion-item">
-                    <svg class="fashion-svg" viewBox="0 0 100 150">
-                        <path d="M25,40 Q50,50 75,40 L85,130 L15,130 Z" />
-                        <!-- Embroidery Hint -->
-                        <path d="M40,45 Q50,90 60,45" stroke-dasharray="2,2"/>
-                        <line x1="50" y1="40" x2="50" y2="85" stroke-dasharray="2,2"/>
-                    </svg>
-                    <p class="label-sans text-gold">Barong Tagalog</p>
-                </div>
-                
-                <!-- Terno -->
-                <div class="fashion-item">
-                    <svg class="fashion-svg" viewBox="0 0 100 150">
-                        <!-- Butterfly Sleeves -->
-                        <path d="M15,35 Q30,10 40,35" />
-                        <path d="M85,35 Q70,10 60,35" />
-                        <!-- Dress -->
-                        <path d="M40,35 L60,35 L75,140 L25,140 Z" />
-                    </svg>
-                    <p class="label-sans text-gold">Terno & Filipiniana</p>
-                </div>
-                
-                <!-- Formal Eveningwear -->
-                <div class="fashion-item">
-                    <svg class="fashion-svg" viewBox="0 0 100 150">
-                        <path d="M30,30 L70,30 L80,140 L20,140 Z" />
-                        <path d="M30,30 L50,60 L70,30" />
-                    </svg>
-                    <p class="label-sans text-gold">Formal Eveningwear</p>
-                </div>
+            <h2 style="font-size: 2.5rem;">The Foyer</h2>
+            <p class="label-sans" style="margin-top: 1rem; color: var(--wood-faded);">Step inside our celebration</p>
+            <div class="house-nav">
+                <a href="#sala">Sala (Entourage)</a>
+                <a href="#bedroom">Dressing Room (Attire)</a>
+                <a href="#veranda">Veranda (Venues)</a>
+                <a href="#dining-room">Dining Room (Celebration)</a>
+                <a href="#garden">Garden (Details)</a>
             </div>
         </div>
     </section>
 
-    <!-- 07. THE PEOPLE -->
-    <section id="entourage">
-        <div class="fade-up">
-            <p class="label-sans text-gold" style="margin-bottom: 1rem;">The People We Love</p>
-            <h2 style="font-size: 3rem;">Our Entourage</h2>
+    <!-- 04. THE SALA (ENTOURAGE) -->
+    <section id="sala">
+        <div class="fade-up text-center">
+            <p class="label-sans" style="color: var(--wood-faded); margin-bottom: 1rem;">The Sala</p>
+            <h2 style="font-size: 3rem;">The People Who Will Stand With Us</h2>
             
-            <div class="portrait-gallery">
-                <div class="entourage-member">
-                    <div class="image-placeholder entourage-photo">[ Formal Portrait ]</div>
-                    <h3 style="font-size: 1.5rem; margin-top: 1rem;">Sofia Reyes</h3>
-                    <p class="label-sans">Maid of Honor</p>
+            <div class="console-table">
+                <div class="antique-portrait">
+                    <div class="img-placeholder">[ Portrait ]</div>
+                    <h4 style="font-family: var(--font-sans); font-size: 1rem;">Sofia Reyes</h4>
+                    <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Maid of Honor</p>
                 </div>
-                <div class="entourage-member">
-                    <div class="image-placeholder entourage-photo">[ Formal Portrait ]</div>
-                    <h3 style="font-size: 1.5rem; margin-top: 1rem;">Daniel Cruz</h3>
-                    <p class="label-sans">Best Man</p>
+                <div class="antique-portrait" style="transform: translateY(-20px);">
+                    <div class="img-placeholder">[ Portrait ]</div>
+                    <h4 style="font-family: var(--font-sans); font-size: 1rem;">Daniel Cruz</h4>
+                    <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Best Man</p>
                 </div>
-                <div class="entourage-member">
-                    <div class="image-placeholder entourage-photo">[ Formal Portrait ]</div>
-                    <h3 style="font-size: 1.5rem; margin-top: 1rem;">Isabella Santos</h3>
-                    <p class="label-sans">Bridesmaid</p>
+                <div class="antique-portrait">
+                    <div class="img-placeholder">[ Portrait ]</div>
+                    <h4 style="font-family: var(--font-sans); font-size: 1rem;">Isabella Santos</h4>
+                    <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Bridesmaid</p>
                 </div>
-                <div class="entourage-member">
-                    <div class="image-placeholder entourage-photo">[ Formal Portrait ]</div>
-                    <h3 style="font-size: 1.5rem; margin-top: 1rem;">Mateo Lim</h3>
-                    <p class="label-sans">Groomsman</p>
+                <div class="antique-portrait" style="transform: translateY(-10px);">
+                    <div class="img-placeholder">[ Portrait ]</div>
+                    <h4 style="font-family: var(--font-sans); font-size: 1rem;">Mateo Lim</h4>
+                    <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Groomsman</p>
                 </div>
+            </div>
+            <p class="label-sans" style="margin-top: 2rem; color: var(--wood-faded);">[ The Antique Console ]</p>
+        </div>
+    </section>
+
+    <!-- 05. THE BEDROOM (ATTIRE) -->
+    <section id="bedroom">
+        <div class="fade-up">
+            <p class="label-sans" style="color: var(--wood-faded); margin-bottom: 1rem;">The Dressing Room</p>
+            <h2 style="font-size: 3rem;">What Will We Wear?</h2>
+            <p class="editorial-body" style="margin-top: 1rem;">Formal Filipiniana in shades of purple.</p>
+            
+            <div class="aparador-container" onclick="this.classList.toggle('open')">
+                <div class="aparador-content">
+                    <div class="clothing-item">
+                        <div class="img-placeholder">[ Barong ]</div>
+                        <p class="label-sans">Barong Tagalog</p>
+                    </div>
+                    <div class="clothing-item">
+                        <div class="img-placeholder">[ Terno ]</div>
+                        <p class="label-sans">Terno & Filipiniana</p>
+                    </div>
+                    <div class="clothing-item">
+                        <div class="img-placeholder">[ Gown/Suit ]</div>
+                        <p class="label-sans">Formal Eveningwear</p>
+                    </div>
+                </div>
+                <div class="aparador-door left"></div>
+                <div class="aparador-door right"></div>
             </div>
         </div>
     </section>
 
-    <!-- 08. THE PLACE -->
-    <section id="venues">
+    <!-- 06. THE VERANDA (VENUES) -->
+    <section id="veranda">
         <div class="fade-up">
-            <p class="label-sans text-gold" style="margin-bottom: 1rem;">Where We Gather</p>
-            <h2 style="font-size: 3rem;">The Venues</h2>
+            <p class="label-sans" style="color: var(--wood-dark); margin-bottom: 1rem;">The Veranda</p>
+            <h2 style="font-size: 3rem;">Where We Gather</h2>
             
-            <div class="venue-container">
-                <div>
-                    <div class="image-placeholder venue-img">[ Architecutral Sketch: Church ]</div>
-                    <p class="label-sans text-gold" style="margin-bottom: 1rem;">The Ceremony</p>
+            <div class="venue-grid">
+                <div class="venue-card">
+                    <div class="img-placeholder">[ View of Church from Veranda ]</div>
+                    <p class="label-sans" style="color: var(--afternoon-sun); margin-bottom: 1rem;">The Ceremony</p>
                     <h3 style="font-size: 2rem; margin-bottom: 1rem;">San Sebastian Church</h3>
                     <p class="editorial-body" style="font-size: 1rem;">Plaza del Carmen, Quiapo, Manila<br>4:30 in the afternoon</p>
                 </div>
-                <div>
-                    <div class="image-placeholder venue-img">[ Evening Photo: Hotel ]</div>
-                    <p class="label-sans text-gold" style="margin-bottom: 1rem;">The Reception</p>
+                <div class="venue-card">
+                    <div class="img-placeholder">[ View of Evening Hotel ]</div>
+                    <p class="label-sans" style="color: var(--afternoon-sun); margin-bottom: 1rem;">The Reception</p>
                     <h3 style="font-size: 2rem; margin-bottom: 1rem;">The Manila Hotel</h3>
                     <p class="editorial-body" style="font-size: 1rem;">One Rizal Park, Ermita, Manila<br>6:30 in the evening</p>
                 </div>
@@ -535,88 +454,114 @@
         </div>
     </section>
 
-    <!-- 09. THE WEDDING NIGHT -->
-    <section id="wedding-night">
+    <!-- 07. THE DINING ROOM (CELEBRATION) -->
+    <section id="dining-room">
         <div class="fade-up">
-            <h2 class="display-title" style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.4;">
+            <p class="label-sans" style="color: var(--capiz-dim); margin-bottom: 1rem;">The Dining Room</p>
+            <h2 style="font-size: 3.5rem; margin-bottom: 1rem;">The table is set.</h2>
+            <p class="editorial-body">Experience the warmth, the textures, and the heart of a Filipino celebration.</p>
+            
+            <div class="dining-table">
+                <div class="table-item img-placeholder" style="color: rgba(255,255,255,0.5);">[ Woven Placemats ]</div>
+                <div class="table-item img-placeholder" style="color: rgba(255,255,255,0.5);">[ Capiz & Florals ]</div>
+                <div class="table-item img-placeholder" style="color: rgba(255,255,255,0.5);">[ Heirloom Glassware ]</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 08. THE GARDEN (FAQ) -->
+    <section id="garden">
+        <div class="fade-up">
+            <p class="label-sans" style="color: var(--capiz-dim); margin-bottom: 1rem;">The Garden</p>
+            <h2 style="font-size: 3rem;">A Few Things to Know</h2>
+            
+            <div class="garden-objects">
+                <div class="garden-object">
+                    <p class="label-sans" style="margin-bottom: 1rem; color: var(--afternoon-sun);">[ An Envelope ]</p>
+                    <h4 style="font-size: 1.5rem; margin-bottom: 1rem;">Plus Ones</h4>
+                    <p style="font-family: var(--font-sans); font-size: 0.9rem; font-weight: 300;">Due to the intimacy of our venue, we can only accommodate guests formally named on your invitation.</p>
+                </div>
+                <div class="garden-object" style="transform: translateY(20px);">
+                    <p class="label-sans" style="margin-bottom: 1rem; color: var(--afternoon-sun);">[ A Gift Box ]</p>
+                    <h4 style="font-size: 1.5rem; margin-bottom: 1rem;">Gifts</h4>
+                    <p style="font-family: var(--font-sans); font-size: 0.9rem; font-weight: 300;">Your presence is the greatest gift. Should you wish to honor us with a present, a monetary gift to start our new life is warmly appreciated.</p>
+                </div>
+                <div class="garden-object">
+                    <p class="label-sans" style="margin-bottom: 1rem; color: var(--afternoon-sun);">[ A Resting Phone ]</p>
+                    <h4 style="font-size: 1.5rem; margin-bottom: 1rem;">Unplugged</h4>
+                    <p style="font-family: var(--font-sans); font-size: 0.9rem; font-weight: 300;">We kindly ask that you keep your phones put away during the ceremony so we can all be fully present.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 09. THE BACKYARD (PHOTO ALBUM) -->
+    <section id="backyard">
+        <div class="fade-up">
+            <p class="label-sans" style="color: var(--wood-faded); margin-bottom: 1rem;">The Backyard</p>
+            <h2 style="font-size: 3rem;">The Moments Between</h2>
+            
+            <div class="clothesline-wrapper">
+                <div class="clothesline-string"></div>
+                <div class="clothesline-photos">
+                    <div class="hanging-photo">
+                        <div class="img-placeholder" style="aspect-ratio: 1; background: #E8DECC;">[ Photo ]</div>
+                    </div>
+                    <div class="hanging-photo">
+                        <div class="img-placeholder" style="aspect-ratio: 1; background: #E8DECC;">[ Photo ]</div>
+                    </div>
+                    <div class="hanging-photo">
+                        <div class="img-placeholder" style="aspect-ratio: 1; background: #E8DECC;">[ Photo ]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. HOUSE AT NIGHT -->
+    <section id="house-night">
+        <div class="fade-up">
+            <h2 class="display-title" style="line-height: 1.4;">
                 One Night.<br>
                 One Celebration.<br>
-                One New Chapter.
+                <span style="color: var(--afternoon-sun);">One New Chapter.</span>
             </h2>
         </div>
     </section>
 
-    <!-- 10. THE MOMENTS -->
-    <section id="story" style="padding-top: 8rem;">
-        <div class="fade-up">
-            <p class="label-sans text-gold" style="margin-bottom: 1rem;">A Photo Journal</p>
-            <h2 style="font-size: 3rem; margin-bottom: 3rem;">A Few of Our Favorite Moments</h2>
-            
-            <!-- Simplified gallery representation -->
-            <div class="image-placeholder" style="width: 100%; max-width: 1000px; aspect-ratio: 16/9; margin: 0 auto;">
-                [ Full Bleed Editorial Photo Spread ]
-            </div>
-        </div>
-    </section>
-
-    <!-- 11. THE DETAILS -->
-    <section id="details">
-        <div class="fade-up">
-            <p class="label-sans text-gold" style="margin-bottom: 1rem;">Essential Information</p>
-            <h2 style="font-size: 3rem;">A Few Things to Know</h2>
-            
-            <div class="faq-grid">
-                <div class="faq-card">
-                    <h4 style="font-size: 1.3rem; margin-bottom: 1rem;">Plus Ones</h4>
-                    <p class="editorial-body" style="font-size: 1rem;">Due to the intimacy of our venue, we are only able to accommodate guests formally named on your invitation.</p>
-                </div>
-                <div class="faq-card">
-                    <h4 style="font-size: 1.3rem; margin-bottom: 1rem;">Gifts</h4>
-                    <p class="editorial-body" style="font-size: 1rem;">Your presence is the greatest gift. Should you wish to honor us with a present, a monetary gift to start our new life would be warmly appreciated.</p>
-                </div>
-                <div class="faq-card">
-                    <h4 style="font-size: 1.3rem; margin-bottom: 1rem;">Unplugged Ceremony</h4>
-                    <p class="editorial-body" style="font-size: 1rem;">We kindly ask that you keep your phones put away during the ceremony so we can all be fully present in the moment.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 12. FINAL INVITATION (RSVP) -->
+    <!-- 11. FRONT DOOR AGAIN (RSVP) -->
     <section id="rsvp">
-        <div class="capiz-glow" style="opacity: 0.5;"></div>
-        <div class="arrival-floral-frame" style="transform: scale(0.95);">
-             <!-- Repeating the floral SVG to bookend the experience -->
-             <svg class="floral-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-                <path d="M 50,50 Q 200,80 300,50 T 500,50" />
-                <path d="M 950,50 Q 800,80 700,50 T 500,50" />
-                <path d="M 50,950 Q 200,920 300,950 T 500,950" />
-                <path d="M 950,950 Q 800,920 700,950 T 500,950" />
-            </svg>
-        </div>
-        
         <div class="fade-up text-center" style="z-index: 2;">
+            <p class="label-sans" style="color: var(--afternoon-sun); margin-bottom: 1rem;">The Front Door is Open</p>
             <h2 style="font-size: 3rem; margin-bottom: 1rem;">We'd Love to Celebrate With You</h2>
-            <p class="editorial-body" style="color: var(--capiz-pearl);">Please let us know if you can join us by December 1st.</p>
+            <p class="editorial-body">Please let us know if you can join us by December 1st.</p>
             
             <a href="#" class="btn-rsvp">RSVP Now</a>
             
             <div style="margin-top: 6rem;">
-                <p class="label-sans" style="color: var(--capiz-pearl);">See you in Filipiniana</p>
-                <h3 style="font-size: 2rem; margin-top: 1rem;">Elena & Adrian</h3>
+                <h3 style="font-size: 2.5rem; margin-top: 1rem;">Elena & Adrian</h3>
             </div>
         </div>
     </section>
 
     <!-- INTERACTION SCRIPT -->
     <script>
-        // Simple Intersection Observer for Fade-Up Animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
+        // 01. Door Opening Logic
+        function openFrontDoor() {
+            const wrapper = document.getElementById('door-wrapper');
+            if (!wrapper.classList.contains('open')) {
+                wrapper.classList.add('open');
+                document.body.style.overflow = 'auto'; // Unlock scrolling
+                
+                // Optional: Scroll down slightly after opening to hint at the page content
+                setTimeout(() => {
+                    window.scrollBy({ top: window.innerHeight * 0.1, behavior: 'smooth' });
+                }, 1500);
+            }
+        }
 
+        // 02. Intersection Observer for Fade-Up Animations
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
