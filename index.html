@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elena & Adrian | A Filipiniana Celebration</title>
+    <title>Elena & Adrian | A Grand Filipino Celebration</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
 
         :root {
-            --ivory: #F9F6F0;
-            --pina-base: #F0EAE1;
-            --dark-ink: #2C2A28;
-            --antique-gold: #B39256;
-            --aubergine: #3A1F3E;
-            --amethyst: #6F4A75;
+            /* Color Palette */
+            --ph-green: #15261E;       /* Deep Philippine Green */
+            --imperial-purple: #321A30; /* Imperial Purple */
+            --warm-ivory: #F9F6F0;      /* Warm Ivory */
+            --antique-gold: #C5A059;    /* Antique Gold */
+            --capiz-pearl: #EAE6DF;     /* Capiz Pearl */
+            --dark-ink: #2C2A28;        /* Soft Black for text */
             
+            /* Typography */
             --font-display: 'Cormorant Garamond', serif;
             --font-sans: 'Montserrat', sans-serif;
             
-            --spacing-suite: 12vw;
+            /* Spacing */
+            --section-pad: 8rem 2rem;
         }
 
         * {
@@ -28,435 +31,603 @@
         }
 
         body {
-            background-color: var(--ivory);
+            background-color: var(--warm-ivory);
             color: var(--dark-ink);
             font-family: var(--font-display);
-            overflow: hidden; /* Locked until invitation opens */
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        /* --- THE PIÑA TEXTURE --- */
+        /* --- GLOBAL TEXTURES --- */
         .pina-texture {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: 9999;
             mix-blend-mode: multiply;
         }
 
-        /* --- THE CAPIZ TRANSITION EFFECT --- */
-        .capiz-transition {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(240,235,225,0.7) 100%);
-            backdrop-filter: blur(15px) contrast(1.1) brightness(1.2);
-            z-index: 9000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .capiz-transition.active {
-            opacity: 1;
-        }
-
-        /* --- TYPOGRAPHY --- */
-        h1, h2, h3 { font-weight: 300; letter-spacing: 0.05em; line-height: 1.2; text-transform: uppercase; }
-        .names-display { font-size: clamp(3rem, 6vw, 6rem); letter-spacing: 0.1em; }
-        .subheading { font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; }
-        .editorial-text { font-size: 1.5rem; line-height: 1.6; font-style: italic; }
-        .body-text { font-family: var(--font-sans); font-size: 0.85rem; line-height: 2; font-weight: 300; }
+        /* --- TYPOGRAPHY UTILITIES --- */
+        h1, h2, h3, h4 { font-weight: 300; line-height: 1.2; }
+        .text-gold { color: var(--antique-gold); }
+        .text-ivory { color: var(--warm-ivory); }
+        .text-center { text-align: center; }
         
-        .gold-text { color: var(--antique-gold); }
-
-        /* --- LAYOUT: SUITE PAGES --- */
-        .suite-page {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: var(--spacing-suite);
-            position: relative;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        .label-sans {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
         }
-        .suite-page.visible {
+        
+        .display-title {
+            font-size: clamp(3rem, 6vw, 6rem);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .editorial-body {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- ANIMATION UTILITIES --- */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-up.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* --- HERO: THE PHYSICAL COVER --- */
-        #invitation-cover {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: var(--pina-base);
-            z-index: 1000;
+        /* --- 01. THE ARRIVAL (HERO) --- */
+        #arrival {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(to bottom, var(--ph-green), var(--imperial-purple));
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: transform 1.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 2s ease;
+            color: var(--antique-gold);
+            overflow: hidden;
         }
         
-        .cover-border {
+        .arrival-floral-frame {
             position: absolute;
-            top: 4vw; left: 4vw; right: 4vw; bottom: 4vw;
-            border: 1px solid rgba(179, 146, 86, 0.2);
+            top: 2vw; left: 2vw; right: 2vw; bottom: 2vw;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            pointer-events: none;
         }
 
-        /* SVG Embroidery Animation */
-        .embroidery-svg {
+        /* Stylized SVG Florals (Sampaguita/Ilang-Ilang) */
+        .floral-svg {
             position: absolute;
             width: 100%; height: 100%;
             top: 0; left: 0;
-            pointer-events: none;
-        }
-        .embroidery-path {
             fill: none;
             stroke: var(--antique-gold);
-            stroke-width: 1;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: drawEmbroidery 4s ease forwards 0.5s;
-        }
-        @keyframes drawEmbroidery { to { stroke-dashoffset: 0; } }
-
-        .btn-open {
-            margin-top: 4rem;
-            padding: 1rem 3rem;
-            background: transparent;
-            border: 1px solid var(--antique-gold);
-            color: var(--antique-gold);
-            font-family: var(--font-sans);
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-open:hover {
-            background: var(--antique-gold);
-            color: var(--ivory);
+            stroke-width: 0.5;
+            opacity: 0.6;
         }
 
-        /* Cover Unfold Animation */
-        .invitation-open #invitation-cover {
-            transform: scale(1.1) translateY(-100vh);
-            opacity: 0;
+        .capiz-glow {
+            position: absolute;
+            width: 60vw; height: 60vw;
+            background: radial-gradient(circle, rgba(234, 230, 223, 0.15) 0%, rgba(234, 230, 223, 0) 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
             pointer-events: none;
+            mix-blend-mode: screen;
         }
 
-        /* --- PAGE 01: THE FORMAL INVITATION --- */
-        .architectural-arch {
-            width: 100%;
-            max-width: 600px;
-            padding: 4rem 2rem;
-            border: 1px solid rgba(44, 42, 40, 0.1);
-            border-top-left-radius: 200px;
-            border-top-right-radius: 200px;
+        /* --- 02. THE INVITATION --- */
+        #invitation {
+            padding: var(--section-pad);
+            background-color: var(--warm-ivory);
+        }
+        .invitation-panel {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 5rem 3rem;
+            border: 1px solid rgba(197, 160, 89, 0.4);
             position: relative;
+            background: var(--capiz-pearl);
+            box-shadow: inset 0 0 40px rgba(255,255,255,0.5), 0 20px 40px rgba(0,0,0,0.03);
+        }
+        .invitation-panel::before {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px dashed rgba(197, 160, 89, 0.3); /* Embroidery hint */
         }
 
-        /* --- PAGE 02: THE STORY (EDITORIAL SPREAD) --- */
-        .editorial-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            width: 100%;
-            max-width: 1200px;
-            text-align: left;
-            align-items: center;
+        /* --- 03 & 04. THE COUPLE & THEIR STORY --- */
+        #story {
+            padding: var(--section-pad);
+            background-color: var(--warm-ivory);
+            text-align: center;
         }
-        @media (max-width: 768px) {
-            .editorial-grid { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
-        }
-        .wood-frame {
-            padding: 1rem;
-            border: 1px solid var(--antique-gold);
-            background: var(--ivory);
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.02), 0 10px 30px rgba(0,0,0,0.05);
-        }
-        .img-placeholder {
-            width: 100%;
-            aspect-ratio: 3/4;
-            background: #E8E3DA;
+        .image-placeholder {
+            background-color: #E6E1D6;
             display: flex;
-            justify-content: center;
             align-items: center;
-            color: rgba(44,42,40,0.3);
+            justify-content: center;
+            color: rgba(44, 42, 40, 0.4);
             font-family: var(--font-sans);
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            object-fit: cover;
+            position: relative;
+        }
+        .portrait-hero {
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 3/4;
+            margin: 0 auto 3rem;
+            border-radius: 200px 200px 0 0; /* Architectural Arch */
+        }
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 4rem auto;
+        }
+        .memory-item {
+            padding: 1rem;
+            border: 1px solid var(--antique-gold);
+            background: #fff;
         }
 
-        /* --- PAGE 04: DRESS CODE (HERO MOMENT) --- */
-        #dress-code {
-            background-color: var(--aubergine);
-            color: var(--ivory);
+        /* --- 05. THE FILIPINO CELEBRATION (MOODBOARD) --- */
+        #celebration {
+            padding: 10rem 2rem;
+            background: var(--dark-ink);
+            color: var(--warm-ivory);
+            text-align: center;
         }
-        .dress-code-silhouettes {
+        .moodboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 4rem auto 0;
+        }
+        .mood-img {
+            aspect-ratio: 1;
+            background: #3A3836;
+        }
+        .mood-img:nth-child(2), .mood-img:nth-child(3) { aspect-ratio: 3/4; }
+        @media (max-width: 768px) {
+            .moodboard-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* --- 06. THE FASHION MOMENT --- */
+        #fashion {
+            padding: var(--section-pad);
+            background-color: var(--imperial-purple);
+            color: var(--capiz-pearl);
+            text-align: center;
+        }
+        .fashion-silhouettes {
             display: flex;
+            justify-content: center;
             gap: 4rem;
             margin-top: 4rem;
-            justify-content: center;
             flex-wrap: wrap;
         }
-        .silhouette-item {
+        .fashion-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 1.5rem;
         }
-        .silhouette-svg {
-            width: 120px;
-            height: 180px;
+        .fashion-svg {
+            width: 150px;
+            height: 200px;
             stroke: var(--antique-gold);
-            stroke-width: 1;
+            stroke-width: 0.5;
             fill: none;
         }
 
-        /* --- PAGE 05: ENTOURAGE (PORTRAIT WALL) --- */
-        .portrait-wall {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            width: 100%;
-            max-width: 1000px;
-            margin-top: 4rem;
+        /* --- 07. THE PEOPLE (ENTOURAGE) --- */
+        #entourage {
+            padding: var(--section-pad);
+            background: var(--warm-ivory);
+            text-align: center;
         }
-        .portrait {
+        .portrait-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 4rem auto 0;
+        }
+        .entourage-member {
             display: flex;
             flex-direction: column;
-            align-items: center;
             gap: 1rem;
         }
-        .portrait-img {
-            width: 100%;
-            aspect-ratio: 2/3;
-            background: #E8E3DA;
-            border-bottom: 2px solid var(--antique-gold);
+        .entourage-photo {
+            aspect-ratio: 3/4;
+            border: 4px solid var(--capiz-pearl);
+            outline: 1px solid var(--antique-gold);
+            outline-offset: -10px;
+            background: #E6E1D6;
+        }
+
+        /* --- 08. THE PLACE (VENUES) --- */
+        #venues {
+            padding: var(--section-pad);
+            background: var(--capiz-pearl);
+            text-align: center;
+        }
+        .venue-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1000px;
+            margin: 4rem auto 0;
+        }
+        @media (max-width: 768px) { .venue-container { grid-template-columns: 1fr; } }
+        .venue-img {
+            aspect-ratio: 4/5;
+            background: #D9D4C9;
+            border-radius: 150px 150px 0 0;
+            margin-bottom: 2rem;
+        }
+
+        /* --- 09. THE WEDDING NIGHT --- */
+        #wedding-night {
+            padding: 12rem 2rem;
+            background: linear-gradient(to bottom, var(--dark-ink), var(--ph-green));
+            color: var(--antique-gold);
+            text-align: center;
+            position: relative;
+        }
+        
+        /* --- 11. THE DETAILS (FAQ) --- */
+        #details {
+            padding: var(--section-pad);
+            background: var(--warm-ivory);
+            text-align: center;
+        }
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 4rem auto 0;
+        }
+        .faq-card {
+            padding: 3rem 2rem;
+            background: #fff;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+
+        /* --- 12. FINAL INVITATION (RSVP) --- */
+        #rsvp {
+            height: 100vh;
+            background: linear-gradient(to bottom, var(--imperial-purple), var(--ph-green));
+            color: var(--antique-gold);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .btn-rsvp {
+            display: inline-block;
+            margin-top: 3rem;
+            padding: 1.2rem 3rem;
+            background: transparent;
+            border: 1px solid var(--antique-gold);
+            color: var(--antique-gold);
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.4s ease;
+        }
+        .btn-rsvp:hover {
+            background: var(--antique-gold);
+            color: var(--ph-green);
         }
 
     </style>
 </head>
 <body>
 
-    <!-- Global Textures & Effects -->
+    <!-- Global Piña Texture Overlay -->
     <div class="pina-texture"></div>
-    <div class="capiz-transition" id="capiz-effect"></div>
 
-    <!-- THE PHYSICAL COVER -->
-    <section id="invitation-cover">
-        <div class="cover-border"></div>
-        <svg class="embroidery-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-            <!-- Corner Embroidery Motifs -->
-            <path class="embroidery-path" d="M 50 150 C 50 50, 150 50, 150 50" />
-            <path class="embroidery-path" d="M 950 150 C 950 50, 850 50, 850 50" />
-            <path class="embroidery-path" d="M 50 850 C 50 950, 150 950, 150 950" />
-            <path class="embroidery-path" d="M 950 850 C 950 950, 850 950, 850 950" />
-            <!-- Ornate center diamond -->
-            <path class="embroidery-path" d="M 500 200 L 600 500 L 500 800 L 400 500 Z" stroke-dasharray="2000" stroke-dashoffset="2000"/>
-        </svg>
-
-        <h1 class="names-display" style="z-index: 2;">ELENA & ADRIAN</h1>
-        <p class="subheading" style="margin-top: 1.5rem; z-index: 2;">January 31, 2028</p>
+    <!-- 01. THE ARRIVAL -->
+    <section id="arrival">
+        <div class="capiz-glow"></div>
+        <div class="arrival-floral-frame">
+            <!-- Stylized Botanical Frame SVG -->
+            <svg class="floral-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+                <path d="M 50,50 Q 200,80 300,50 T 500,50" />
+                <path d="M 950,50 Q 800,80 700,50 T 500,50" />
+                <path d="M 50,950 Q 200,920 300,950 T 500,950" />
+                <path d="M 950,950 Q 800,920 700,950 T 500,950" />
+                <!-- Corner details representing Sampaguita -->
+                <circle cx="80" cy="80" r="5" fill="var(--antique-gold)"/>
+                <circle cx="920" cy="80" r="5" fill="var(--antique-gold)"/>
+                <circle cx="80" cy="920" r="5" fill="var(--antique-gold)"/>
+                <circle cx="920" cy="920" r="5" fill="var(--antique-gold)"/>
+            </svg>
+        </div>
         
-        <button class="btn-open" onclick="openInvitation()">Open Invitation</button>
+        <div class="fade-up" style="z-index: 2; text-align: center;">
+            <h1 class="display-title">Elena & Adrian</h1>
+            <p class="label-sans" style="margin-top: 2rem; color: var(--capiz-pearl);">January 31, 2028</p>
+            <div style="width: 1px; height: 60px; background: var(--antique-gold); margin: 2rem auto;"></div>
+            <p class="label-sans text-gold">A Filipino Wedding Celebration</p>
+        </div>
     </section>
 
-    <!-- PAGE 01: THE INVITATION -->
-    <section class="suite-page">
-        <div class="architectural-arch">
-            <p class="subheading" style="margin-bottom: 2rem;">A Formal</p>
-            <h2 class="editorial-text gold-text" style="font-size: 2.5rem; margin-bottom: 1rem;">Filipiniana<br>Wedding Celebration</h2>
-            <p class="body-text" style="max-width: 300px; margin: 2rem auto;">
-                Joyfully inviting you to witness<br>the beginning of our next chapter,<br>rooted in heritage and love.
+    <!-- 02. THE INVITATION -->
+    <section id="invitation">
+        <div class="invitation-panel fade-up text-center">
+            <p class="label-sans text-gold" style="margin-bottom: 2rem;">With joy in our hearts</p>
+            <h2 class="display-title" style="font-size: 2.5rem; margin-bottom: 1.5rem;">Elena & Adrian</h2>
+            <p class="editorial-body">
+                invite you to witness and celebrate<br>the beginning of their marriage.
             </p>
-            <img src="your-ornamental-seal.png" alt="" style="width: 40px; margin-top: 2rem; opacity: 0.5;">
-        </div>
-    </section>
-
-    <!-- PAGE 02: THE STORY -->
-    <section class="suite-page">
-        <div class="editorial-grid">
-            <div class="story-text">
-                <p class="subheading gold-text" style="margin-bottom: 1rem;">Manila — Where it began</p>
-                <h2 style="font-size: 3rem; margin-bottom: 2rem;">It Started<br>With Coffee.</h2>
-                <p class="body-text">
-                    We met over iced coffee on an ordinary afternoon in Manila. What started as a conversation about architecture and travel turned into a journey across the world. From the streets of New York to the quiet temples of Tokyo, and the warmth of Barcelona, our story has been shaped by many cities.
-                </p>
-                <br>
-                <p class="body-text">
-                    But no matter how far we traveled, the most important chapters always brought us back home.
-                </p>
-            </div>
-            <div class="story-image">
-                <div class="wood-frame">
-                    <!-- Replace with black and white / warm-toned portrait -->
-                    <div class="img-placeholder">[ Upload Editorial Couple Portrait ]</div>
-                </div>
+            <div style="margin-top: 3rem;">
+                <p class="label-sans text-gold">Saturday, The Thirty-First of January</p>
+                <p class="label-sans text-gold" style="margin-top: 0.5rem;">Two Thousand Twenty-Eight</p>
+                <p class="label-sans text-gold" style="margin-top: 0.5rem;">Manila, Philippines</p>
             </div>
         </div>
     </section>
 
-    <!-- PAGE 03: THE LOCATIONS -->
-    <section class="suite-page">
-        <p class="subheading gold-text" style="margin-bottom: 4rem;">The Celebration</p>
-        
-        <div class="editorial-grid" style="align-items: start;">
-            <!-- Ceremony -->
-            <div style="text-align: center;">
-                <div class="wood-frame" style="margin-bottom: 2rem; border-top-left-radius: 150px; border-top-right-radius: 150px; overflow: hidden;">
-                    <div class="img-placeholder" style="aspect-ratio: 4/5;">[ Architectural Church Sketch/Photo ]</div>
-                </div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">San Sebastian Church</h3>
-                <p class="body-text">Plaza del Carmen, Quiapo, Manila<br>4:30 in the afternoon</p>
-            </div>
-
-            <!-- Reception -->
-            <div style="text-align: center; margin-top: 4rem;">
-                <div class="wood-frame" style="margin-bottom: 2rem;">
-                    <div class="img-placeholder" style="aspect-ratio: 4/5;">[ Grand Manila Hotel Interior ]</div>
-                </div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">The Manila Hotel</h3>
-                <p class="body-text">One Rizal Park, Ermita, Manila<br>6:30 in the evening</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- PAGE 04: DRESS CODE (HERO SPREAD) -->
-    <section class="suite-page" id="dress-code">
-        <p class="subheading" style="color: var(--antique-gold); margin-bottom: 2rem;">Come Dressed for the Occasion</p>
-        <h2 style="font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 1rem;">Formal Filipiniana</h2>
-        <p class="body-text" style="color: #D3C4D6;">We request the honor of your presence in formal attire.<br>Our color palette features elegant shades of purple.</p>
-        
-        <div class="dress-code-silhouettes">
-            <!-- Barong Silhouette -->
-            <div class="silhouette-item">
-                <svg class="silhouette-svg" viewBox="0 0 100 150">
-                    <path d="M20,50 Q50,60 80,50 L90,140 L10,140 Z" />
-                    <!-- Barong U-Embroidery Hint -->
-                    <path d="M35,55 Q50,110 65,55" stroke-dasharray="2,2"/>
-                    <line x1="50" y1="50" x2="50" y2="100" stroke-dasharray="2,2"/>
-                </svg>
-                <p class="subheading">Modern Barong</p>
+    <!-- 03 & 04. THE COUPLE & THEIR STORY -->
+    <section id="story">
+        <div class="fade-up">
+            <p class="label-sans text-gold" style="margin-bottom: 3rem;">The Two Who Started It All</p>
+            <div class="image-placeholder portrait-hero">
+                [ Editorial Couple Portrait ]
             </div>
             
-            <!-- Terno Silhouette -->
-            <div class="silhouette-item">
-                <svg class="silhouette-svg" viewBox="0 0 100 150">
-                    <!-- Butterfly Sleeves -->
-                    <path d="M10,40 Q25,10 35,40" />
-                    <path d="M90,40 Q75,10 65,40" />
-                    <!-- Gown -->
-                    <path d="M35,40 L65,40 L80,140 L20,140 Z" />
-                </svg>
-                <p class="subheading">Terno & Filipiniana</p>
+            <h2 style="font-size: 3rem; margin: 3rem 0 1.5rem;">It Started With Coffee.</h2>
+            <p class="editorial-body">
+                We met over iced coffee on an ordinary afternoon in Manila. What started as a conversation about architecture and travel turned into a journey across the world. From the bustling streets of New York to the quiet temples of Tokyo, and the warmth of Barcelona, our story has been shaped by many cities. 
+                <br><br>
+                But no matter how far we traveled, the most important chapters always brought us back home.
+            </p>
+        </div>
+
+        <div class="memory-grid fade-up">
+            <div class="memory-item">
+                <div class="image-placeholder" style="aspect-ratio: 1;">[ Framed Memory: NY ]</div>
+            </div>
+            <div class="memory-item">
+                <div class="image-placeholder" style="aspect-ratio: 4/5;">[ Candid: Tokyo ]</div>
+            </div>
+            <div class="memory-item">
+                <div class="image-placeholder" style="aspect-ratio: 1;">[ Archival: Barcelona ]</div>
             </div>
         </div>
     </section>
 
-    <!-- PAGE 05: ENTOURAGE (PORTRAIT WALL) -->
-    <section class="suite-page">
-        <p class="subheading gold-text">The People Beside Us</p>
-        <h2 style="font-size: 2.5rem; margin: 2rem 0 4rem 0;">Our Entourage</h2>
-        
-        <div class="portrait-wall">
-            <div class="portrait">
-                <div class="portrait-img">[ Upload B&W Portrait ]</div>
-                <h4 style="font-family: var(--font-sans); letter-spacing: 0.1em; font-weight: 400;">Sofia Reyes</h4>
-                <p class="subheading" style="font-size: 0.6rem;">Maid of Honor</p>
-            </div>
-            <div class="portrait">
-                <div class="portrait-img">[ Upload B&W Portrait ]</div>
-                <h4 style="font-family: var(--font-sans); letter-spacing: 0.1em; font-weight: 400;">Daniel Cruz</h4>
-                <p class="subheading" style="font-size: 0.6rem;">Best Man</p>
-            </div>
-            <div class="portrait">
-                <div class="portrait-img">[ Upload B&W Portrait ]</div>
-                <h4 style="font-family: var(--font-sans); letter-spacing: 0.1em; font-weight: 400;">Isabella Santos</h4>
-                <p class="subheading" style="font-size: 0.6rem;">Bridesmaid</p>
-            </div>
-            <div class="portrait">
-                <div class="portrait-img">[ Upload B&W Portrait ]</div>
-                <h4 style="font-family: var(--font-sans); letter-spacing: 0.1em; font-weight: 400;">Mateo Lim</h4>
-                <p class="subheading" style="font-size: 0.6rem;">Groomsman</p>
+    <!-- 05. THE FILIPINO CELEBRATION -->
+    <section id="celebration">
+        <div class="fade-up">
+            <h2 style="font-size: 3.5rem; margin-bottom: 1rem;">Now, We Celebrate.</h2>
+            <p class="label-sans text-gold">A Glimpse into the Evening</p>
+            
+            <div class="moodboard-grid">
+                <div class="image-placeholder mood-img">[ Capiz Details ]</div>
+                <div class="image-placeholder mood-img">[ Pearls & Gold ]</div>
+                <div class="image-placeholder mood-img">[ Architecture ]</div>
+                <div class="image-placeholder mood-img">[ Floral Tablescape ]</div>
             </div>
         </div>
     </section>
 
-    <!-- PAGE 06: RSVP (CLOSING SUITE) -->
-    <section class="suite-page">
-        <!-- Re-using cover embroidery styling for closure -->
-        <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none;" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-            <path class="embroidery-path" style="stroke: rgba(179, 146, 86, 0.3);" d="M 50 150 C 50 50, 150 50, 150 50" />
-            <path class="embroidery-path" style="stroke: rgba(179, 146, 86, 0.3);" d="M 950 150 C 950 50, 850 50, 850 50" />
-            <path class="embroidery-path" style="stroke: rgba(179, 146, 86, 0.3);" d="M 50 850 C 50 950, 150 950, 150 950" />
-            <path class="embroidery-path" style="stroke: rgba(179, 146, 86, 0.3);" d="M 950 850 C 950 950, 850 950, 850 950" />
-        </svg>
-
-        <h2 class="editorial-text" style="font-size: 3rem; margin-bottom: 2rem; z-index: 2;">Will you join us<br>for the next chapter?</h2>
-        <p class="body-text" style="z-index: 2; margin-bottom: 3rem;">Kindly respond by the first of December.</p>
-        
-        <button class="btn-open" style="margin-top: 0; z-index: 2;">RSVP Now</button>
-        
-        <p class="subheading" style="margin-top: 6rem; z-index: 2;">And this is only the beginning.</p>
+    <!-- 06. THE FASHION MOMENT -->
+    <section id="fashion">
+        <div class="fade-up">
+            <p class="label-sans text-gold" style="margin-bottom: 1rem;">Dress for the Celebration</p>
+            <h2 class="display-title" style="font-size: 3rem; margin-bottom: 2rem;">Formal Attire</h2>
+            <p class="editorial-body">We request the honor of your presence in formal attire. <br>Our color palette features elegant shades of purple.</p>
+            
+            <div class="fashion-silhouettes">
+                <!-- Barong -->
+                <div class="fashion-item">
+                    <svg class="fashion-svg" viewBox="0 0 100 150">
+                        <path d="M25,40 Q50,50 75,40 L85,130 L15,130 Z" />
+                        <!-- Embroidery Hint -->
+                        <path d="M40,45 Q50,90 60,45" stroke-dasharray="2,2"/>
+                        <line x1="50" y1="40" x2="50" y2="85" stroke-dasharray="2,2"/>
+                    </svg>
+                    <p class="label-sans text-gold">Barong Tagalog</p>
+                </div>
+                
+                <!-- Terno -->
+                <div class="fashion-item">
+                    <svg class="fashion-svg" viewBox="0 0 100 150">
+                        <!-- Butterfly Sleeves -->
+                        <path d="M15,35 Q30,10 40,35" />
+                        <path d="M85,35 Q70,10 60,35" />
+                        <!-- Dress -->
+                        <path d="M40,35 L60,35 L75,140 L25,140 Z" />
+                    </svg>
+                    <p class="label-sans text-gold">Terno & Filipiniana</p>
+                </div>
+                
+                <!-- Formal Eveningwear -->
+                <div class="fashion-item">
+                    <svg class="fashion-svg" viewBox="0 0 100 150">
+                        <path d="M30,30 L70,30 L80,140 L20,140 Z" />
+                        <path d="M30,30 L50,60 L70,30" />
+                    </svg>
+                    <p class="label-sans text-gold">Formal Eveningwear</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- INTERACTION SCRIPTS -->
+    <!-- 07. THE PEOPLE -->
+    <section id="entourage">
+        <div class="fade-up">
+            <p class="label-sans text-gold" style="margin-bottom: 1rem;">The People We Love</p>
+            <h2 style="font-size: 3rem;">Our Entourage</h2>
+            
+            <div class="portrait-gallery">
+                <div class="entourage-member">
+                    <div class="image-placeholder entourage-photo">[ Formal Portrait ]</div>
+                    <h3 style="font-size: 1.5rem; margin-top: 1rem;">Sofia Reyes</h3>
+                    <p class="label-sans">Maid of Honor</p>
+                </div>
+                <div class="entourage-member">
+                    <div class="image-placeholder entourage-photo">[ Formal Portrait ]</div>
+                    <h3 style="font-size: 1.5rem; margin-top: 1rem;">Daniel Cruz</h3>
+                    <p class="label-sans">Best Man</p>
+                </div>
+                <div class="entourage-member">
+                    <div class="image-placeholder entourage-photo">[ Formal Portrait ]</div>
+                    <h3 style="font-size: 1.5rem; margin-top: 1rem;">Isabella Santos</h3>
+                    <p class="label-sans">Bridesmaid</p>
+                </div>
+                <div class="entourage-member">
+                    <div class="image-placeholder entourage-photo">[ Formal Portrait ]</div>
+                    <h3 style="font-size: 1.5rem; margin-top: 1rem;">Mateo Lim</h3>
+                    <p class="label-sans">Groomsman</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 08. THE PLACE -->
+    <section id="venues">
+        <div class="fade-up">
+            <p class="label-sans text-gold" style="margin-bottom: 1rem;">Where We Gather</p>
+            <h2 style="font-size: 3rem;">The Venues</h2>
+            
+            <div class="venue-container">
+                <div>
+                    <div class="image-placeholder venue-img">[ Architecutral Sketch: Church ]</div>
+                    <p class="label-sans text-gold" style="margin-bottom: 1rem;">The Ceremony</p>
+                    <h3 style="font-size: 2rem; margin-bottom: 1rem;">San Sebastian Church</h3>
+                    <p class="editorial-body" style="font-size: 1rem;">Plaza del Carmen, Quiapo, Manila<br>4:30 in the afternoon</p>
+                </div>
+                <div>
+                    <div class="image-placeholder venue-img">[ Evening Photo: Hotel ]</div>
+                    <p class="label-sans text-gold" style="margin-bottom: 1rem;">The Reception</p>
+                    <h3 style="font-size: 2rem; margin-bottom: 1rem;">The Manila Hotel</h3>
+                    <p class="editorial-body" style="font-size: 1rem;">One Rizal Park, Ermita, Manila<br>6:30 in the evening</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 09. THE WEDDING NIGHT -->
+    <section id="wedding-night">
+        <div class="fade-up">
+            <h2 class="display-title" style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.4;">
+                One Night.<br>
+                One Celebration.<br>
+                One New Chapter.
+            </h2>
+        </div>
+    </section>
+
+    <!-- 10. THE MOMENTS -->
+    <section id="story" style="padding-top: 8rem;">
+        <div class="fade-up">
+            <p class="label-sans text-gold" style="margin-bottom: 1rem;">A Photo Journal</p>
+            <h2 style="font-size: 3rem; margin-bottom: 3rem;">A Few of Our Favorite Moments</h2>
+            
+            <!-- Simplified gallery representation -->
+            <div class="image-placeholder" style="width: 100%; max-width: 1000px; aspect-ratio: 16/9; margin: 0 auto;">
+                [ Full Bleed Editorial Photo Spread ]
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. THE DETAILS -->
+    <section id="details">
+        <div class="fade-up">
+            <p class="label-sans text-gold" style="margin-bottom: 1rem;">Essential Information</p>
+            <h2 style="font-size: 3rem;">A Few Things to Know</h2>
+            
+            <div class="faq-grid">
+                <div class="faq-card">
+                    <h4 style="font-size: 1.3rem; margin-bottom: 1rem;">Plus Ones</h4>
+                    <p class="editorial-body" style="font-size: 1rem;">Due to the intimacy of our venue, we are only able to accommodate guests formally named on your invitation.</p>
+                </div>
+                <div class="faq-card">
+                    <h4 style="font-size: 1.3rem; margin-bottom: 1rem;">Gifts</h4>
+                    <p class="editorial-body" style="font-size: 1rem;">Your presence is the greatest gift. Should you wish to honor us with a present, a monetary gift to start our new life would be warmly appreciated.</p>
+                </div>
+                <div class="faq-card">
+                    <h4 style="font-size: 1.3rem; margin-bottom: 1rem;">Unplugged Ceremony</h4>
+                    <p class="editorial-body" style="font-size: 1rem;">We kindly ask that you keep your phones put away during the ceremony so we can all be fully present in the moment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. FINAL INVITATION (RSVP) -->
+    <section id="rsvp">
+        <div class="capiz-glow" style="opacity: 0.5;"></div>
+        <div class="arrival-floral-frame" style="transform: scale(0.95);">
+             <!-- Repeating the floral SVG to bookend the experience -->
+             <svg class="floral-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+                <path d="M 50,50 Q 200,80 300,50 T 500,50" />
+                <path d="M 950,50 Q 800,80 700,50 T 500,50" />
+                <path d="M 50,950 Q 200,920 300,950 T 500,950" />
+                <path d="M 950,950 Q 800,920 700,950 T 500,950" />
+            </svg>
+        </div>
+        
+        <div class="fade-up text-center" style="z-index: 2;">
+            <h2 style="font-size: 3rem; margin-bottom: 1rem;">We'd Love to Celebrate With You</h2>
+            <p class="editorial-body" style="color: var(--capiz-pearl);">Please let us know if you can join us by December 1st.</p>
+            
+            <a href="#" class="btn-rsvp">RSVP Now</a>
+            
+            <div style="margin-top: 6rem;">
+                <p class="label-sans" style="color: var(--capiz-pearl);">See you in Filipiniana</p>
+                <h3 style="font-size: 2rem; margin-top: 1rem;">Elena & Adrian</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTION SCRIPT -->
     <script>
-        // 1. OPENING THE INVITATION
-        function openInvitation() {
-            document.body.classList.add('invitation-open');
-            document.body.style.overflow = 'auto'; // Unlock scroll
-            
-            // Trigger Capiz effect upon opening
-            setTimeout(() => {
-                triggerCapiz();
-            }, 1000);
-        }
-
-        // 2. CAPIZ TRANSITION EFFECT & FADE INS
-        const capiz = document.getElementById('capiz-effect');
-        let capizTimeout;
-
-        function triggerCapiz() {
-            capiz.classList.add('active');
-            clearTimeout(capizTimeout);
-            capizTimeout = setTimeout(() => {
-                capiz.classList.remove('active');
-            }, 800); // Effect duration
-        }
-
+        // Simple Intersection Observer for Fade-Up Animations
         const observerOptions = {
             root: null,
-            rootMargin: '-20% 0px -20% 0px',
-            threshold: 0.1
+            rootMargin: '0px',
+            threshold: 0.15
         };
 
-        const observer = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.classList.contains('visible')) {
-                    // Show Capiz transition flash when scrolling to a new section
-                    triggerCapiz();
-                    
-                    // Delay the actual content reveal slightly to sync with Capiz clearing
-                    setTimeout(() => {
-                        entry.target.classList.add('visible');
-                    }, 400);
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Run once
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.suite-page').forEach(page => {
-            observer.observe(page);
+        document.querySelectorAll('.fade-up').forEach(element => {
+            observer.observe(element);
         });
     </script>
 </body>
