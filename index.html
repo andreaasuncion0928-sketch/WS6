@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elena & Adrian | A Filipiniana Celebration</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
+
+        :root {
+            --ivory: #F9F6F0;
+            --pina-base: #F0EAE1;
+            --dark-ink: #2C2A28;
+            --antique-gold: #B39256;
+            --aubergine: #3A1F3E;
+            --amethyst: #6F4A75;
+            
+            --font-display: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+            
+            --spacing-suite: 12vw;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--ivory);
+            color: var(--dark-ink);
+            font-family: var(--font-display);
+            overflow: hidden; /* Locked until invitation opens */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- THE PIÑA TEXTURE --- */
+        .pina-texture {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: multiply;
+        }
+
+        /* --- THE CAPIZ TRANSITION EFFECT --- */
+        .capiz-transition {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(240,235,225,0.7) 100%);
+            backdrop-filter: blur(15px) contrast(1.1) brightness(1.2);
+            z-index: 9000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .capiz-transition.active {
+            opacity: 1;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 { font-weight: 300; letter-spacing: 0.05em; line-height: 1.2; text-transform: uppercase; }
+        .names-display { font-size: clamp(3rem, 6vw, 6rem); letter-spacing: 0.1em; }
+        .subheading { font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; }
+        .editorial-text { font-size: 1.5rem; line-height: 1.6; font-style: italic; }
+        .body-text { font-family: var(--font-sans); font-size: 0.85rem; line-height: 2; font-weight: 300; }
+        
+        .gold-text { color: var(--antique-gold); }
+
+        /* --- LAYOUT: SUITE PAGES --- */
+        .suite-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: var(--spacing-suite);
+            position: relative;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .suite-page.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- HERO: THE PHYSICAL COVER --- */
+        #invitation-cover {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--pina-base);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 2s ease;
+        }
+        
+        .cover-border {
+            position: absolute;
+            top: 4vw; left: 4vw; right: 4vw; bottom: 4vw;
+            border: 1px solid rgba(179, 146, 86, 0.2);
+        }
+
+        /* SVG Embroidery Animation */
+        .embroidery-svg {
+            position: absolute;
+            width: 100%; height: 100%;
+            top: 0; left: 0;
+            pointer-events: none;
+        }
+        .embroidery-path {
+            fill: none;
+            stroke: var(--antique-gold);
+            stroke-width: 1;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawEmbroidery 4s ease forwards 0.5s;
+        }
+        @keyframes drawEmbroidery { to { stroke-dashoffset: 0; } }
+
+        .btn-open {
+            margin-top: 4rem;
+            padding: 1rem 3rem;
+            background: transparent;
+            border: 1px solid var(--antique-gold);
+            color: var(--antique-gold);
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-open:hover {
+            background: var(--antique-gold);
+            color: var(--ivory);
+        }
+
+        /* Cover Unfold Animation */
+        .invitation-open #invitation-cover {
+            transform: scale(1.1) translateY(-100vh);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* --- PAGE 01: THE FORMAL INVITATION --- */
+        .architectural-arch {
+            width: 100%;
+            max-width: 600px;
+            padding: 4rem 2rem;
+            border: 1px solid rgba(44, 42, 40, 0.1);
+            border-top-left-radius: 200px;
+            border-top-right-radius: 200px;
+            position: relative;
+        }
+
+        /* --- PAGE 02: THE STORY (EDITORIAL SPREAD) --- */
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            width: 100%;
+            max-width: 1200px;
+            text-align: left;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .editorial-grid { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+        }
+        .wood-frame {
+            padding: 1rem;
+            border: 1px solid var(--antique-gold);
+            background: var(--ivory);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.02), 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .img-placeholder {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: #E8E3DA;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(44,42,40,0.3);
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            object-fit: cover;
+        }
+
+        /* --- PAGE 04: DRESS CODE (HERO MOMENT) --- */
+        #dress-code {
+            background-color: var(--aubergine);
+            color: var(--ivory);
+        }
+        .dress-code-silhouettes {
+            display: flex;
+            gap: 4rem;
+            margin-top: 4rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .silhouette-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .silhouette-svg {
+            width: 120px;
+            height: 180px;
+            stroke: var(--antique-gold);
+            stroke-width: 1;
+            fill: none;
+        }
+
+        /* --- PAGE 05: ENTOURAGE (PORTRAIT WALL) --- */
+        .portrait-wall {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 4rem;
+        }
+        .portrait {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        .portrait-img {
+            width: 100%;
+            aspect-ratio: 2/3;
+            background: #E8E3DA;
+            border-bottom: 2px solid var(--antique-gold);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Global Textures & Effects -->
+    <div class="pina-texture"></div>
+    <div class="capiz-transition" id="capiz-effect"></div>
+
+    <!-- THE PHYSICAL COVER -->
+    <section id="invitation-cover">
+        <div class="cover-border"></div>
+        <svg class="embroidery-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+            <!-- Corner Embroidery Motifs -->
+            <path class="embroidery-path" d="M 50 150 C 50 50, 150 50, 150 50" />
+            <path class="embroidery-path" d="M 950 150 C 950 50, 850 50, 850 50" />
+            <path class="embroidery-path" d="M 50 850 C 50 950, 150 950, 150 950" />
+            <path class="embroidery-path" d="M 950 850 C 950 950, 850 950, 850 950" />
+            <!-- Ornate center diamond -->
+            <path class="embroidery-path" d="M 500 200 L 600 500 L 500 800 L 400 500 Z" stroke-dasharray="2000" stroke-dashoffset="2000"/>
+        </svg>
+
+        <h1 class="names-display" style="z-index: 2;">ELENA & ADRIAN</h1>
+        <p class="subheading" style="margin-top: 1.5rem; z-index: 2;">January 31, 2028</p>
+        
+        <button class="btn-open" onclick="openInvitation()">Open Invitation</button>
+    </section>
+
+    <!-- PAGE 01: THE INVITATION -->
+    <section class="suite-page">
+        <div class="architectural-arch">
+            <p class="subheading" style="margin-bottom: 2rem;">A Formal</p>
+            <h2 class="editorial-text gold-text" style="font-size: 2.5rem; margin-bottom: 1rem;">Filipiniana<br>Wedding Celebration</h2>
+            <p class="body-text" style="max-width: 300px; margin: 2rem auto;">
+                Joyfully inviting you to witness<br>the beginning of our next chapter,<br>rooted in heritage and love.
+            </p>
+            <img src="your-ornamental-seal.png" alt="" style="width: 40px; margin-top: 2rem; opacity: 0.5;">
+        </div>
+    </section>
+
+    <!-- PAGE 02: THE STORY -->
+    <section class="suite-page">
+        <div class="editorial-grid">
+            <div class="story-text">
+                <p class="subheading gold-text" style="margin-bottom: 1rem;">Manila — Where it began</p>
+                <h2 style="font-size: 3rem; margin-bottom: 2rem;">It Started<br>With Coffee.</h2>
+                <p class="body-text">
+                    We met over iced coffee on an ordinary afternoon in Manila. What started as a conversation about architecture and travel turned into a journey across the world. From the streets of New York to the quiet temples of Tokyo, and the warmth of Barcelona, our story has been shaped by many cities.
+                </p>
+                <br>
+                <p class="body-text">
+                    But no matter how far we traveled, the most important chapters always brought us back home.
+                </p>
+            </div>
+            <div class="story-image">
+                <div class="wood-frame">
+                    <!-- Replace with black and white / warm-toned portrait -->
+                    <div class="img-placeholder">[ Upload Editorial Couple Portrait ]</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 03: THE LOCATIONS -->
+    <section class="suite-page">
+        <p class="subheading gold-text" style="margin-bottom: 4rem;">The Celebration</p>
+        
+        <div class="editorial-grid" style="align-items: start;">
+            <!-- Ceremony -->
+            <div style="text-align: center;">
+                <div class="wood-frame" style="margin-bottom: 2rem; border-top-left-radius: 150px; border-top-right-radius: 150px; overflow: hidden;">
+                    <div class="img-placeholder" style="aspect-ratio: 4/5;">[ Architectural Church Sketch/Photo ]</div>
+                </div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">San Sebastian Church</h3>
+                <p class="body-text">Plaza del Carmen, Quiapo, Manila<br>4:30 in the afternoon</p>
+            </div>
+
+            <!-- Reception -->
+            <div style="text-align: center; margin-top: 4rem;">
+                <div class="wood-frame" style="margin-bottom: 2rem;">
+                    <div class="img-placeholder" style="aspect-ratio: 4/5;">[ Grand Manila Hotel Interior ]</div>
+                </div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">The Manila Hotel</h3>
+                <p class="body-text">One Rizal Park, Ermita, Manila<br>6:30 in the evening</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 04: DRESS CODE (HERO SPREAD) -->
+    <section class="suite-page" id="dress-code">
+        <p class="subheading" style="color: var(--antique-gold); margin-bottom: 2rem;">Come Dressed for the Occasion</p>
+        <h2 style="font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 1rem;">Formal Filipiniana</h2>
+        <p class="body-text" style="color: #D3C4D6;">We request the honor of your presence in formal attire.<br>Our color palette features elegant shades of purple.</p>
+        
+        <div class="dress-code-silhouettes">
+            <!-- Barong Silhouette -->
+            <div class="silhouette-item">
+                <svg class="silhouette-svg" viewBox="0 0 100 150">
+                    <path d="M20,50 Q50,60 80,50 L90,140 L10,140 Z" />
+                    <!-- Barong U-Embroidery Hint -->
+                    <path d="M35,55 Q50,110 65,55" stroke-dasharray="2,2"/>
+                    <line x1="50" y1="50" x2="50" y2="100" stroke-dasharray="2,2"/>
+                </svg>
+                <p class="subheading">Modern Barong</p>
+            </div>
+            
+            <!-- Terno Silhouette -->
+            <div class="silhouette-item">
+                <svg class="silhouette-svg" viewBox="0 0 100 150">
+                    <!-- Butterfly Sleeves -->
+                    <path d="M10,40 Q25,10 35,40" />
+                    <path d="M90,40 Q75,10 65,40" />
+                    <!-- Gown -->
+                    <path d="M35,40 L65,40 L80,140 L20,140 Z" />
+                </svg>
+                <p class="subheading">Terno & Filipiniana</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 05: ENTOURAGE (PORTRAIT WALL) -->
+    <section class="suite-page">
+        <p class="subheading gold-text">The People Beside Us</p>
+        <h2 style="font-size: 2.5rem; margin: 2rem 0 4rem 0;">Our Entourage</h2>
+        
+        <div class="portrait-wall">
+            <div class="portrait">
+                <div class="portrait-img">[ Upload B&W Portrait ]</div>
+                <h4 style="font-family: var(--font-sans); letter-spacing: 0.1em; font-weight: 400;">Sofia Reyes</h4>
+                <p class="subheading" style="font-size: 0.6rem;">Maid of Honor</p>
+            </div>
+            <div class="portrait">
+                <div class="portrait-img">[ Upload B&W Portrait ]</div>
+                <h4 style="font-family: var(--font-sans); letter-spacing: 0.1em; font-weight: 400;">Daniel Cruz</h4>
+                <p class="subheading" style="font-size: 0.6rem;">Best Man</p>
+            </div>
+            <div class="portrait">
+                <div class="portrait-img">[ Upload B&W Portrait ]</div>
+                <h4 style="font-family: var(--font-sans); letter-spacing: 0.1em; font-weight: 400;">Isabella Santos</h4>
+                <p class="subheading" style="font-size: 0.6rem;">Bridesmaid</p>
+            </div>
+            <div class="portrait">
+                <div class="portrait-img">[ Upload B&W Portrait ]</div>
+                <h4 style="font-family: var(--font-sans); letter-spacing: 0.1em; font-weight: 400;">Mateo Lim</h4>
+                <p class="subheading" style="font-size: 0.6rem;">Groomsman</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 06: RSVP (CLOSING SUITE) -->
+    <section class="suite-page">
+        <!-- Re-using cover embroidery styling for closure -->
+        <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none;" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+            <path class="embroidery-path" style="stroke: rgba(179, 146, 86, 0.3);" d="M 50 150 C 50 50, 150 50, 150 50" />
+            <path class="embroidery-path" style="stroke: rgba(179, 146, 86, 0.3);" d="M 950 150 C 950 50, 850 50, 850 50" />
+            <path class="embroidery-path" style="stroke: rgba(179, 146, 86, 0.3);" d="M 50 850 C 50 950, 150 950, 150 950" />
+            <path class="embroidery-path" style="stroke: rgba(179, 146, 86, 0.3);" d="M 950 850 C 950 950, 850 950, 850 950" />
+        </svg>
+
+        <h2 class="editorial-text" style="font-size: 3rem; margin-bottom: 2rem; z-index: 2;">Will you join us<br>for the next chapter?</h2>
+        <p class="body-text" style="z-index: 2; margin-bottom: 3rem;">Kindly respond by the first of December.</p>
+        
+        <button class="btn-open" style="margin-top: 0; z-index: 2;">RSVP Now</button>
+        
+        <p class="subheading" style="margin-top: 6rem; z-index: 2;">And this is only the beginning.</p>
+    </section>
+
+    <!-- INTERACTION SCRIPTS -->
+    <script>
+        // 1. OPENING THE INVITATION
+        function openInvitation() {
+            document.body.classList.add('invitation-open');
+            document.body.style.overflow = 'auto'; // Unlock scroll
+            
+            // Trigger Capiz effect upon opening
+            setTimeout(() => {
+                triggerCapiz();
+            }, 1000);
+        }
+
+        // 2. CAPIZ TRANSITION EFFECT & FADE INS
+        const capiz = document.getElementById('capiz-effect');
+        let capizTimeout;
+
+        function triggerCapiz() {
+            capiz.classList.add('active');
+            clearTimeout(capizTimeout);
+            capizTimeout = setTimeout(() => {
+                capiz.classList.remove('active');
+            }, 800); // Effect duration
+        }
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -20% 0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('visible')) {
+                    // Show Capiz transition flash when scrolling to a new section
+                    triggerCapiz();
+                    
+                    // Delay the actual content reveal slightly to sync with Capiz clearing
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, 400);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.suite-page').forEach(page => {
+            observer.observe(page);
+        });
+    </script>
+</body>
+</html>
