@@ -18,19 +18,19 @@
             --sampaguita-white: #F9F6F0;
             --evening-blue: #152238;
             --night-sky: #0A111F;
-            --foliage-green: #2D4026;
             
             --font-display: 'Cormorant Garamond', serif;
             --font-sans: 'Montserrat', sans-serif;
             
             --section-pad: 8rem 2rem;
+            --overlay-dark: rgba(26, 17, 9, 0.75); /* Universal tint to unify images */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--sampaguita-white);
-            color: var(--wood-dark);
+            background-color: var(--wood-dark);
+            color: var(--capiz-glow);
             font-family: var(--font-display);
             overflow: hidden; /* Locked until door opens */
             -webkit-font-smoothing: antialiased;
@@ -47,7 +47,7 @@
             text-transform: uppercase;
         }
         .display-title { font-size: clamp(3rem, 6vw, 6rem); }
-        .editorial-body { font-size: 1.2rem; line-height: 1.8; max-width: 600px; margin: 0 auto; }
+        .editorial-body { font-size: 1.2rem; line-height: 1.8; max-width: 600px; margin: 0 auto; color: var(--capiz-dim); }
         
         .fade-up {
             opacity: 0; transform: translateY(40px);
@@ -56,49 +56,68 @@
         .fade-up.visible { opacity: 1; transform: translateY(0); }
 
         .img-placeholder {
-            background-color: rgba(0,0,0,0.05);
+            background-color: rgba(255,255,255,0.1);
             display: flex; align-items: center; justify-content: center;
-            color: rgba(0,0,0,0.3); font-family: var(--font-sans); font-size: 0.7rem;
+            color: rgba(255,255,255,0.7); font-family: var(--font-sans); font-size: 0.7rem;
             letter-spacing: 0.2em; text-transform: uppercase; text-align: center; padding: 1rem;
-            border: 1px dashed rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        /* --- PARALLAX IMAGE SECTIONS --- */
+        .room-section {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Creates the walk-through parallax effect */
+            z-index: 1;
+        }
+        .room-section::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--overlay-dark);
+            z-index: -1;
         }
 
         /* --- 01. THE OLD HOUSE (FRONT DOOR) --- */
         #door-wrapper {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             perspective: 1200px; z-index: 9999;
-            background: var(--wood-dark);
+            background: #000;
             display: flex;
         }
         .door {
             width: 50%; height: 100%;
-            background: linear-gradient(to bottom, var(--wood-warm), var(--wood-dark));
+            background-image: url('https://images.unsplash.com/photo-1510695039233-01cd84e56eb6?auto=format&fit=crop&q=80'); /* Wood texture */
+            background-size: cover; background-position: center;
             border: 2px solid #1a1109;
             position: relative;
-            transition: transform 2s cubic-bezier(0.64, 0.04, 0.35, 1);
+            transition: transform 2.5s cubic-bezier(0.64, 0.04, 0.35, 1);
             display: flex; align-items: center; justify-content: center;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
             cursor: pointer;
         }
-        .door-left { transform-origin: left; border-right: 1px solid #111; }
-        .door-right { transform-origin: right; border-left: 1px solid #111; }
-        
-        /* Capiz window panels on doors */
-        .door-panel {
-            width: 60%; height: 70%;
-            background: rgba(255, 249, 230, 0.1);
-            border: 10px solid var(--wood-dark);
-            display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr);
-            gap: 2px; background-color: var(--wood-dark);
+        .door::after { /* Darkens the wood slightly */
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(46, 31, 17, 0.4); pointer-events: none;
         }
-        .door-panel div { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(2px); }
+        .door-left { transform-origin: left; border-right: 2px solid #0a0603; background-position: left center; }
+        .door-right { transform-origin: right; border-left: 2px solid #0a0603; background-position: right center; }
+        
+        .door-panel {
+            width: 60%; height: 70%; z-index: 2;
+            background: rgba(255, 249, 230, 0.1);
+            border: 15px solid var(--wood-dark);
+            display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr);
+            gap: 4px; background-color: var(--wood-dark); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .door-panel div { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(4px); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
 
         .door-text {
-            position: absolute; top: 50%; left: 50%;
+            position: absolute; top: 50%; left: 50%; z-index: 3;
             transform: translate(-50%, -50%);
-            color: var(--afternoon-sun); font-size: 2rem; pointer-events: none;
+            color: var(--afternoon-sun); font-size: 2.5rem; pointer-events: none;
             transition: opacity 0.5s ease; width: 200vw; text-align: center;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            text-shadow: 0 4px 20px rgba(0,0,0,0.9);
         }
         .door-right .door-text { margin-left: -100vw; }
 
@@ -108,40 +127,39 @@
         #door-wrapper.open .door-text { opacity: 0; }
         #door-wrapper.open { pointer-events: none; background: transparent; transition: background 2s; }
 
-        /* --- 01b. THE INVITATION (BEHIND THE DOOR) --- */
+        /* --- 01b. THE INVITATION --- */
         #invitation {
             min-height: 100vh;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: linear-gradient(rgba(249,246,240,0.9), rgba(249,246,240,0.9)), url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.04"/%3E%3C/svg%3E');
-            text-align: center; padding: 2rem;
+            background-color: var(--sampaguita-white);
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.04"/%3E%3C/svg%3E');
+            color: var(--wood-dark);
+            text-align: center; padding: 2rem; position: relative; z-index: 0;
         }
 
         /* --- 02. THE FRONT YARD (STORY) --- */
         #front-yard {
-            padding: var(--section-pad);
-            background: var(--capiz-dim);
-            position: relative;
+            background-image: url('https://images.unsplash.com/photo-1585320806297-9794b3e4ce11?auto=format&fit=crop&q=80'); /* Tropical garden */
+            padding: var(--section-pad); text-align: center;
         }
-        .yard-story { max-width: 800px; margin: 0 auto; text-align: center; }
         .framed-memories {
             display: flex; gap: 2rem; justify-content: center; margin-top: 4rem; flex-wrap: wrap;
         }
         .wooden-frame {
-            padding: 1rem; background: #fff;
-            border: 8px solid var(--wood-warm); box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            padding: 1rem; background: var(--sampaguita-white); color: var(--wood-dark);
+            border: 8px solid var(--wood-warm); box-shadow: 5px 10px 20px rgba(0,0,0,0.5);
             width: 250px; aspect-ratio: 3/4; transform: rotate(-2deg);
         }
+        .wooden-frame .img-placeholder { background: rgba(0,0,0,0.05); color: var(--wood-warm); border: 1px dashed rgba(0,0,0,0.2); }
         .wooden-frame:nth-child(2) { transform: rotate(1deg) translateY(20px); }
         .wooden-frame:nth-child(3) { transform: rotate(-1deg); }
 
         /* --- 03. THE FOYER (NAVIGATION) --- */
         #foyer {
-            padding: 6rem 2rem; background: var(--wood-dark); color: var(--capiz-glow);
-            text-align: center; border-top: 1px solid rgba(255,255,255,0.1);
+            background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80'); /* Elegant entryway */
+            padding: 6rem 2rem; text-align: center; border-top: 2px solid rgba(255,255,255,0.1);
         }
-        .house-nav {
-            display: flex; justify-content: center; gap: 3rem; margin-top: 3rem; flex-wrap: wrap;
-        }
+        .house-nav { display: flex; justify-content: center; gap: 3rem; margin-top: 3rem; flex-wrap: wrap; }
         .house-nav a {
             color: var(--capiz-dim); text-decoration: none; font-family: var(--font-sans);
             font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
@@ -151,145 +169,141 @@
 
         /* --- 04. THE SALA (ENTOURAGE) --- */
         #sala {
-            padding: var(--section-pad); background: var(--sampaguita-white);
-            background-image: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.02) 100%);
+            background-image: url('https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&q=80'); /* Vintage living room */
+            padding: var(--section-pad);
         }
         .console-table {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem; max-width: 1000px; margin: 4rem auto 0;
-            border-bottom: 15px solid var(--wood-warm); padding-bottom: 1rem;
-            align-items: end;
+            border-bottom: 15px solid var(--wood-warm); padding-bottom: 1rem; align-items: end;
         }
         .antique-portrait {
-            background: #fff; padding: 10px; border: 4px solid var(--wood-dark);
-            text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background: var(--capiz-glow); color: var(--wood-dark); padding: 10px; 
+            border: 4px solid var(--wood-dark); text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .antique-portrait .img-placeholder { aspect-ratio: 3/4; margin-bottom: 1rem; }
+        .antique-portrait .img-placeholder { aspect-ratio: 3/4; margin-bottom: 1rem; background: rgba(0,0,0,0.1); color: var(--wood-dark); border: none; }
 
-        /* --- 05. THE BEDROOM / DRESSING ROOM (ATTIRE) --- */
+        /* --- 05. THE BEDROOM (ATTIRE) --- */
         #bedroom {
-            padding: var(--section-pad); background: var(--capiz-glow); text-align: center;
+            background-image: url('https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&q=80'); /* Vintage bedroom */
+            padding: var(--section-pad); text-align: center;
         }
         .aparador-container {
             max-width: 800px; margin: 4rem auto 0; position: relative;
-            height: 500px; perspective: 1000px;
+            height: 500px; perspective: 1200px; z-index: 5;
         }
         .aparador-content {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--wood-dark); display: flex; justify-content: space-around;
+            background: rgba(15, 10, 5, 0.95); display: flex; justify-content: space-around;
             align-items: center; padding: 2rem; color: var(--capiz-glow);
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8); border: 10px solid var(--wood-dark);
         }
-        .clothing-item { text-align: center; }
-        .clothing-item .img-placeholder { width: 150px; aspect-ratio: 1/2; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); margin-bottom: 1rem; }
-        
+        .clothing-item .img-placeholder { width: 150px; aspect-ratio: 1/2; background: rgba(255,255,255,0.05); margin-bottom: 1rem; }
         .aparador-door {
             position: absolute; top: 0; width: 50%; height: 100%;
-            background: var(--wood-warm); border: 2px solid var(--wood-dark);
+            background-image: url('https://images.unsplash.com/photo-1510695039233-01cd84e56eb6?auto=format&fit=crop&q=80');
+            background-size: cover; border: 4px solid #1a1109;
             transition: transform 1.5s ease; transform-origin: left; z-index: 2;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.8), 5px 0 15px rgba(0,0,0,0.5);
         }
-        .aparador-door::after { content: 'Click to Open'; font-family: var(--font-sans); font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.5); text-transform: uppercase;}
+        .aparador-door::after { content: 'Click to Open'; font-family: var(--font-sans); font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.7); text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.8);}
         .aparador-door.right { right: 0; transform-origin: right; }
-        
         .aparador-container.open .aparador-door.left { transform: rotateY(-110deg); }
         .aparador-container.open .aparador-door.right { transform: rotateY(110deg); }
         .aparador-container.open .aparador-door::after { opacity: 0; }
 
         /* --- 06. THE VERANDA (VENUES) --- */
         #veranda {
-            padding: var(--section-pad); background: linear-gradient(to bottom, var(--capiz-dim), var(--wood-faded));
-            text-align: center;
+            background-image: url('https://images.unsplash.com/photo-1533596664406-9311c62ce7eb?auto=format&fit=crop&q=80'); /* Balcony / Architecture */
+            padding: var(--section-pad); text-align: center;
         }
-        .venue-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 4rem auto 0;
-        }
+        .venue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 4rem auto 0; }
         @media (max-width: 768px) { .venue-grid { grid-template-columns: 1fr; } }
         .venue-card {
-            background: var(--sampaguita-white); padding: 2rem; border-radius: 10px 10px 0 0;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            background: rgba(249, 246, 240, 0.95); color: var(--wood-dark);
+            padding: 2rem; border-radius: 10px 10px 0 0; box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
         }
-        .venue-card .img-placeholder { aspect-ratio: 4/3; margin-bottom: 2rem; }
+        .venue-card .img-placeholder { aspect-ratio: 4/3; margin-bottom: 2rem; background: rgba(0,0,0,0.1); border:none; color: var(--wood-warm); }
 
         /* --- 07. THE DINING ROOM (CELEBRATION) --- */
         #dining-room {
-            padding: var(--section-pad); background: var(--wood-dark); color: var(--capiz-glow);
-            text-align: center; border-top: 5px solid var(--wood-warm);
+            background-image: url('https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&q=80'); /* Rustic dining table */
+            padding: var(--section-pad); text-align: center;
         }
         .dining-table {
             width: 100%; max-width: 1200px; height: 300px; margin: 4rem auto 0;
-            background: linear-gradient(to bottom, var(--wood-warm), var(--wood-dark));
+            background: linear-gradient(to bottom, rgba(74, 54, 35, 0.9), rgba(46, 31, 17, 0.9));
             border-top: 10px solid #5a422a;
             position: relative; display: flex; justify-content: center; gap: 2rem; align-items: flex-end; padding-bottom: 2rem;
-            box-shadow: 0 -20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 -20px 50px rgba(0,0,0,0.7); backdrop-filter: blur(5px);
         }
-        .table-item { width: 200px; height: 150px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
-        .table-item:nth-child(2) { height: 200px; } /* Centerpiece */
+        .table-item { width: 200px; height: 150px; background: rgba(255,255,255,0.05); }
+        .table-item:nth-child(2) { height: 200px; }
 
         /* --- 08. THE GARDEN (FAQ) --- */
         #garden {
-            padding: var(--section-pad); background: var(--foliage-green); color: var(--capiz-glow);
-            text-align: center;
+            background-image: url('https://images.unsplash.com/photo-1558500203-079634d31be4?auto=format&fit=crop&q=80'); /* Green leaves/botanical */
+            padding: var(--section-pad); text-align: center;
         }
-        .garden-objects {
-            display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap;
-        }
+        .garden-objects { display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap; }
         .garden-object {
-            width: 250px; padding: 2rem; background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
+            width: 250px; padding: 2rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px); box-shadow: 0 15px 30px rgba(0,0,0,0.3);
         }
 
         /* --- 09. THE BACKYARD (PHOTO ALBUM) --- */
         #backyard {
-            padding: var(--section-pad); background: var(--capiz-dim); text-align: center; overflow: hidden;
+            background-image: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80'); /* Nature/trees */
+            padding: var(--section-pad); text-align: center; overflow: hidden;
         }
-        .clothesline-wrapper {
-            position: relative; max-width: 1000px; margin: 5rem auto; padding-top: 2rem;
-        }
+        .clothesline-wrapper { position: relative; max-width: 1000px; margin: 5rem auto; padding-top: 2rem; }
         .clothesline-string {
             position: absolute; top: 0; left: -10%; width: 120%; height: 50px;
-            border-top: 2px solid rgba(0,0,0,0.3); border-radius: 50%;
+            border-top: 2px solid rgba(255,255,255,0.3); border-radius: 50%;
         }
-        .clothesline-photos {
-            display: flex; justify-content: space-around; position: relative; z-index: 2;
-        }
+        .clothesline-photos { display: flex; justify-content: space-around; position: relative; z-index: 2; }
         .hanging-photo {
-            width: 200px; padding: 10px 10px 30px 10px; background: #fff; box-shadow: 2px 5px 10px rgba(0,0,0,0.2);
-            position: relative; transform-origin: top center;
+            width: 200px; padding: 10px 10px 30px 10px; background: var(--sampaguita-white); color: var(--wood-dark);
+            box-shadow: 5px 15px 30px rgba(0,0,0,0.5); position: relative; transform-origin: top center;
         }
-        .hanging-photo::before { /* Clothespin */
+        .hanging-photo::before {
             content: ''; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            width: 10px; height: 30px; background: var(--wood-warm); border-radius: 5px;
+            width: 10px; height: 30px; background: var(--wood-warm); border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
+        .hanging-photo .img-placeholder { background: rgba(0,0,0,0.1); color: var(--wood-warm); border: none; }
         .hanging-photo:nth-child(1) { transform: rotate(-3deg) translateY(10px); }
         .hanging-photo:nth-child(2) { transform: rotate(2deg) translateY(20px); }
         .hanging-photo:nth-child(3) { transform: rotate(-1deg) translateY(15px); }
 
         /* --- 10. HOUSE AT NIGHT --- */
         #house-night {
-            padding: 12rem 2rem; background: linear-gradient(to bottom, var(--evening-blue), var(--night-sky));
-            color: var(--capiz-glow); text-align: center;
+            background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80'); /* Night lanterns/architecture */
+            padding: 12rem 2rem; text-align: center;
         }
+        #house-night::before { background: rgba(10, 17, 31, 0.85); } /* Darker blue night overlay */
 
         /* --- 11. FRONT DOOR AGAIN (RSVP) --- */
         #rsvp {
-            min-height: 100vh; background: var(--night-sky); display: flex; flex-direction: column;
-            justify-content: center; align-items: center; position: relative; color: var(--capiz-glow); text-align: center;
+            background-image: url('https://images.unsplash.com/photo-1510695039233-01cd84e56eb6?auto=format&fit=crop&q=80');
+            background-size: cover; background-position: center;
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; position: relative; text-align: center;
+            z-index: 1;
         }
-        /* Open Door Frame Background */
-        #rsvp::before {
+        #rsvp::before { /* Makes it feel like the open door frame looking out */
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, var(--wood-dark) 0%, transparent 15%, transparent 85%, var(--wood-dark) 100%);
-            pointer-events: none;
+            background: linear-gradient(to right, rgba(10,6,3,0.95) 0%, rgba(10,6,3,0.7) 15%, rgba(10,6,3,0.7) 85%, rgba(10,6,3,0.95) 100%);
+            z-index: -1;
         }
         .btn-rsvp {
-            display: inline-block; margin-top: 3rem; padding: 1.2rem 3rem; background: transparent;
-            border: 1px solid var(--capiz-glow); color: var(--capiz-glow); font-family: var(--font-sans);
+            display: inline-block; margin-top: 3rem; padding: 1.2rem 3rem; background: var(--afternoon-sun);
+            border: 1px solid var(--afternoon-sun); color: var(--wood-dark); font-family: var(--font-sans);
             font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
-            transition: all 0.4s ease;
+            transition: all 0.4s ease; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-        .btn-rsvp:hover { background: var(--capiz-glow); color: var(--night-sky); }
+        .btn-rsvp:hover { background: var(--capiz-glow); color: var(--wood-dark); border-color: var(--capiz-glow); }
 
     </style>
 </head>
@@ -321,18 +335,18 @@
             <p class="label-sans" style="margin-bottom: 2rem; color: var(--wood-faded);">An Invitation</p>
             <h1 class="display-title" style="margin-bottom: 1rem;">Elena & Adrian</h1>
             <h2 style="font-size: 2rem; color: var(--afternoon-sun); margin-bottom: 2rem;">January 31, 2028</h2>
-            <p class="editorial-body">
+            <p class="editorial-body" style="color: var(--wood-dark);">
                 We joyfully invite you to witness and celebrate<br>the beginning of our marriage.
             </p>
-            <p class="label-sans" style="margin-top: 4rem;">Scroll to explore</p>
+            <p class="label-sans" style="margin-top: 4rem; color: var(--wood-faded);">Scroll to explore</p>
             <div style="width: 1px; height: 40px; background: var(--wood-faded); margin: 1rem auto 0;"></div>
         </div>
     </section>
 
     <!-- 02. THE FRONT YARD (STORY) -->
-    <section id="front-yard">
-        <div class="yard-story fade-up">
-            <p class="label-sans" style="margin-bottom: 1rem;">Where Our Story Began</p>
+    <section id="front-yard" class="room-section">
+        <div class="fade-up">
+            <p class="label-sans" style="margin-bottom: 1rem; color: var(--afternoon-sun);">Where Our Story Began</p>
             <h2 style="font-size: 3rem; margin-bottom: 2rem;">Every home has a story.<br>Ours began with coffee.</h2>
             <p class="editorial-body">
                 We met over iced coffee on an ordinary afternoon in Manila. What started as a conversation about architecture and travel turned into a journey across the world.
@@ -342,25 +356,25 @@
         
         <div class="framed-memories fade-up">
             <div class="wooden-frame">
-                <div class="img-placeholder" style="height: 100%;">[ Photo: New York ]</div>
+                <div class="img-placeholder" style="height: 100%;">[ New York ]</div>
                 <p class="label-sans" style="margin-top: 1rem; text-align: center;">New York</p>
             </div>
             <div class="wooden-frame">
-                <div class="img-placeholder" style="height: 100%;">[ Photo: Tokyo ]</div>
+                <div class="img-placeholder" style="height: 100%;">[ Tokyo ]</div>
                 <p class="label-sans" style="margin-top: 1rem; text-align: center;">Tokyo</p>
             </div>
             <div class="wooden-frame">
-                <div class="img-placeholder" style="height: 100%;">[ Photo: Barcelona ]</div>
+                <div class="img-placeholder" style="height: 100%;">[ Barcelona ]</div>
                 <p class="label-sans" style="margin-top: 1rem; text-align: center;">Barcelona</p>
             </div>
         </div>
     </section>
 
     <!-- 03. THE FOYER (NAVIGATION) -->
-    <section id="foyer">
+    <section id="foyer" class="room-section">
         <div class="fade-up">
-            <h2 style="font-size: 2.5rem;">The Foyer</h2>
-            <p class="label-sans" style="margin-top: 1rem; color: var(--wood-faded);">Step inside our celebration</p>
+            <h2 style="font-size: 2.5rem; color: var(--afternoon-sun);">The Foyer</h2>
+            <p class="label-sans" style="margin-top: 1rem; color: var(--capiz-dim);">Step inside our celebration</p>
             <div class="house-nav">
                 <a href="#sala">Sala (Entourage)</a>
                 <a href="#bedroom">Dressing Room (Attire)</a>
@@ -372,43 +386,42 @@
     </section>
 
     <!-- 04. THE SALA (ENTOURAGE) -->
-    <section id="sala">
+    <section id="sala" class="room-section">
         <div class="fade-up text-center">
-            <p class="label-sans" style="color: var(--wood-faded); margin-bottom: 1rem;">The Sala</p>
+            <p class="label-sans" style="color: var(--afternoon-sun); margin-bottom: 1rem;">The Sala</p>
             <h2 style="font-size: 3rem;">The People Who Will Stand With Us</h2>
             
             <div class="console-table">
                 <div class="antique-portrait">
                     <div class="img-placeholder">[ Portrait ]</div>
                     <h4 style="font-family: var(--font-sans); font-size: 1rem;">Sofia Reyes</h4>
-                    <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Maid of Honor</p>
+                    <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px; color: var(--wood-faded);">Maid of Honor</p>
                 </div>
                 <div class="antique-portrait" style="transform: translateY(-20px);">
                     <div class="img-placeholder">[ Portrait ]</div>
                     <h4 style="font-family: var(--font-sans); font-size: 1rem;">Daniel Cruz</h4>
-                    <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Best Man</p>
+                    <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px; color: var(--wood-faded);">Best Man</p>
                 </div>
                 <div class="antique-portrait">
                     <div class="img-placeholder">[ Portrait ]</div>
                     <h4 style="font-family: var(--font-sans); font-size: 1rem;">Isabella Santos</h4>
-                    <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Bridesmaid</p>
+                    <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px; color: var(--wood-faded);">Bridesmaid</p>
                 </div>
                 <div class="antique-portrait" style="transform: translateY(-10px);">
                     <div class="img-placeholder">[ Portrait ]</div>
                     <h4 style="font-family: var(--font-sans); font-size: 1rem;">Mateo Lim</h4>
-                    <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px;">Groomsman</p>
+                    <p class="label-sans" style="font-size: 0.6rem; margin-top: 5px; color: var(--wood-faded);">Groomsman</p>
                 </div>
             </div>
-            <p class="label-sans" style="margin-top: 2rem; color: var(--wood-faded);">[ The Antique Console ]</p>
         </div>
     </section>
 
     <!-- 05. THE BEDROOM (ATTIRE) -->
-    <section id="bedroom">
+    <section id="bedroom" class="room-section">
         <div class="fade-up">
-            <p class="label-sans" style="color: var(--wood-faded); margin-bottom: 1rem;">The Dressing Room</p>
+            <p class="label-sans" style="color: var(--afternoon-sun); margin-bottom: 1rem;">The Dressing Room</p>
             <h2 style="font-size: 3rem;">What Will We Wear?</h2>
-            <p class="editorial-body" style="margin-top: 1rem;">Formal Filipiniana in shades of purple.</p>
+            <p class="editorial-body" style="margin-top: 1rem; color: var(--capiz-glow);">Formal Filipiniana in shades of purple.</p>
             
             <div class="aparador-container" onclick="this.classList.toggle('open')">
                 <div class="aparador-content">
@@ -421,7 +434,7 @@
                         <p class="label-sans">Terno & Filipiniana</p>
                     </div>
                     <div class="clothing-item">
-                        <div class="img-placeholder">[ Gown/Suit ]</div>
+                        <div class="img-placeholder">[ Eveningwear ]</div>
                         <p class="label-sans">Formal Eveningwear</p>
                     </div>
                 </div>
@@ -432,47 +445,47 @@
     </section>
 
     <!-- 06. THE VERANDA (VENUES) -->
-    <section id="veranda">
+    <section id="veranda" class="room-section">
         <div class="fade-up">
-            <p class="label-sans" style="color: var(--wood-dark); margin-bottom: 1rem;">The Veranda</p>
+            <p class="label-sans" style="color: var(--afternoon-sun); margin-bottom: 1rem;">The Veranda</p>
             <h2 style="font-size: 3rem;">Where We Gather</h2>
             
             <div class="venue-grid">
                 <div class="venue-card">
-                    <div class="img-placeholder">[ View of Church from Veranda ]</div>
+                    <div class="img-placeholder">[ San Sebastian Church ]</div>
                     <p class="label-sans" style="color: var(--afternoon-sun); margin-bottom: 1rem;">The Ceremony</p>
-                    <h3 style="font-size: 2rem; margin-bottom: 1rem;">San Sebastian Church</h3>
-                    <p class="editorial-body" style="font-size: 1rem;">Plaza del Carmen, Quiapo, Manila<br>4:30 in the afternoon</p>
+                    <h3 style="font-size: 2rem; margin-bottom: 1rem; color: var(--wood-dark);">San Sebastian Church</h3>
+                    <p class="editorial-body" style="font-size: 1rem; color: var(--wood-warm);">Plaza del Carmen, Quiapo, Manila<br>4:30 in the afternoon</p>
                 </div>
                 <div class="venue-card">
-                    <div class="img-placeholder">[ View of Evening Hotel ]</div>
+                    <div class="img-placeholder">[ The Manila Hotel ]</div>
                     <p class="label-sans" style="color: var(--afternoon-sun); margin-bottom: 1rem;">The Reception</p>
-                    <h3 style="font-size: 2rem; margin-bottom: 1rem;">The Manila Hotel</h3>
-                    <p class="editorial-body" style="font-size: 1rem;">One Rizal Park, Ermita, Manila<br>6:30 in the evening</p>
+                    <h3 style="font-size: 2rem; margin-bottom: 1rem; color: var(--wood-dark);">The Manila Hotel</h3>
+                    <p class="editorial-body" style="font-size: 1rem; color: var(--wood-warm);">One Rizal Park, Ermita, Manila<br>6:30 in the evening</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 07. THE DINING ROOM (CELEBRATION) -->
-    <section id="dining-room">
+    <section id="dining-room" class="room-section">
         <div class="fade-up">
-            <p class="label-sans" style="color: var(--capiz-dim); margin-bottom: 1rem;">The Dining Room</p>
+            <p class="label-sans" style="color: var(--afternoon-sun); margin-bottom: 1rem;">The Dining Room</p>
             <h2 style="font-size: 3.5rem; margin-bottom: 1rem;">The table is set.</h2>
-            <p class="editorial-body">Experience the warmth, the textures, and the heart of a Filipino celebration.</p>
+            <p class="editorial-body" style="color: var(--capiz-glow);">Experience the warmth, the textures, and the heart of a Filipino celebration.</p>
             
             <div class="dining-table">
-                <div class="table-item img-placeholder" style="color: rgba(255,255,255,0.5);">[ Woven Placemats ]</div>
-                <div class="table-item img-placeholder" style="color: rgba(255,255,255,0.5);">[ Capiz & Florals ]</div>
-                <div class="table-item img-placeholder" style="color: rgba(255,255,255,0.5);">[ Heirloom Glassware ]</div>
+                <div class="table-item img-placeholder">[ Woven Placemats ]</div>
+                <div class="table-item img-placeholder">[ Capiz & Florals ]</div>
+                <div class="table-item img-placeholder">[ Heirloom Glassware ]</div>
             </div>
         </div>
     </section>
 
     <!-- 08. THE GARDEN (FAQ) -->
-    <section id="garden">
+    <section id="garden" class="room-section">
         <div class="fade-up">
-            <p class="label-sans" style="color: var(--capiz-dim); margin-bottom: 1rem;">The Garden</p>
+            <p class="label-sans" style="color: var(--afternoon-sun); margin-bottom: 1rem;">The Garden</p>
             <h2 style="font-size: 3rem;">A Few Things to Know</h2>
             
             <div class="garden-objects">
@@ -496,22 +509,22 @@
     </section>
 
     <!-- 09. THE BACKYARD (PHOTO ALBUM) -->
-    <section id="backyard">
+    <section id="backyard" class="room-section">
         <div class="fade-up">
-            <p class="label-sans" style="color: var(--wood-faded); margin-bottom: 1rem;">The Backyard</p>
+            <p class="label-sans" style="color: var(--afternoon-sun); margin-bottom: 1rem;">The Backyard</p>
             <h2 style="font-size: 3rem;">The Moments Between</h2>
             
             <div class="clothesline-wrapper">
                 <div class="clothesline-string"></div>
                 <div class="clothesline-photos">
                     <div class="hanging-photo">
-                        <div class="img-placeholder" style="aspect-ratio: 1; background: #E8DECC;">[ Photo ]</div>
+                        <div class="img-placeholder" style="aspect-ratio: 1;">[ Photo ]</div>
                     </div>
                     <div class="hanging-photo">
-                        <div class="img-placeholder" style="aspect-ratio: 1; background: #E8DECC;">[ Photo ]</div>
+                        <div class="img-placeholder" style="aspect-ratio: 1;">[ Photo ]</div>
                     </div>
                     <div class="hanging-photo">
-                        <div class="img-placeholder" style="aspect-ratio: 1; background: #E8DECC;">[ Photo ]</div>
+                        <div class="img-placeholder" style="aspect-ratio: 1;">[ Photo ]</div>
                     </div>
                 </div>
             </div>
@@ -519,7 +532,7 @@
     </section>
 
     <!-- 10. HOUSE AT NIGHT -->
-    <section id="house-night">
+    <section id="house-night" class="room-section">
         <div class="fade-up">
             <h2 class="display-title" style="line-height: 1.4;">
                 One Night.<br>
@@ -531,7 +544,7 @@
 
     <!-- 11. FRONT DOOR AGAIN (RSVP) -->
     <section id="rsvp">
-        <div class="fade-up text-center" style="z-index: 2;">
+        <div class="fade-up text-center">
             <p class="label-sans" style="color: var(--afternoon-sun); margin-bottom: 1rem;">The Front Door is Open</p>
             <h2 style="font-size: 3rem; margin-bottom: 1rem;">We'd Love to Celebrate With You</h2>
             <p class="editorial-body">Please let us know if you can join us by December 1st.</p>
@@ -553,10 +566,10 @@
                 wrapper.classList.add('open');
                 document.body.style.overflow = 'auto'; // Unlock scrolling
                 
-                // Optional: Scroll down slightly after opening to hint at the page content
+                // Scroll down slightly after opening to hint at the page content
                 setTimeout(() => {
                     window.scrollBy({ top: window.innerHeight * 0.1, behavior: 'smooth' });
-                }, 1500);
+                }, 1800);
             }
         }
 
