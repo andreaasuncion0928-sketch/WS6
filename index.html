@@ -20,8 +20,6 @@
             --font-sans: 'Montserrat', sans-serif;
             
             --section-pad: 10rem 2rem;
-            --overlay-dark: rgba(14, 9, 5, 0.92); 
-            --overlay-vignette: radial-gradient(circle at center, transparent 0%, rgba(8, 5, 2, 0.98) 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -67,49 +65,47 @@
         }
         .img-container svg {
             width: 70%; height: 70%; stroke: var(--afternoon-sun); fill: none; stroke-width: 1.5;
-            opacity: 0.7;
+            opacity: 0.9;
         }
 
         /* --- PARALLAX BACKGROUND SECTIONS --- */
         .room-section {
-            position: relative; background-size: cover; background-position: center;
-            background-attachment: fixed; z-index: 1;
+            position: relative; 
+            background-size: cover; 
+            background-position: center;
+            background-attachment: fixed; 
+            z-index: 1;
             background-color: var(--wood-dark);
-        }
-        .room-section::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--overlay-dark); z-index: -1;
-        }
-        .room-section::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--overlay-vignette); z-index: -1; pointer-events: none;
+            /* Vignette Effect directly on the container instead of a pseudo-element to prevent hiding the background */
+            box-shadow: inset 0 0 200px 50px rgba(10, 5, 2, 0.95);
         }
 
         /* --- GENERATED BACKGROUND SKETCHES (SVG DATA URIs) --- */
+        /* Increased opacity to 0.25 and stroke-width to 2 so they glow properly */
         
         /* 1. Exterior Old House (Bahay na Bato) */
         .bg-exterior {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='800' viewBox='0 0 1000 800'%3E%3Cg stroke='%23D4A35A' stroke-width='1' fill='none' opacity='0.15'%3E%3Cpath d='M 100 400 L 500 200 L 900 400 Z'/%3E%3Crect x='150' y='400' width='700' height='150'/%3E%3Crect x='200' y='550' width='600' height='250'/%3E%3Cpath d='M 150 450 L 850 450 M 150 500 L 850 500 M 350 400 L 350 550 M 650 400 L 650 550'/%3E%3Cpath d='M 250 550 L 250 800 M 750 550 L 750 800 M 450 550 L 450 800 M 550 550 L 550 800'/%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='800' viewBox='0 0 1000 800'%3E%3Cg stroke='%23D4A35A' stroke-width='2' fill='none' opacity='0.25'%3E%3Cpath d='M 100 400 L 500 200 L 900 400 Z'/%3E%3Crect x='150' y='400' width='700' height='150'/%3E%3Crect x='200' y='550' width='600' height='250'/%3E%3Cpath d='M 150 450 L 850 450 M 150 500 L 850 500 M 350 400 L 350 550 M 650 400 L 650 550'/%3E%3Cpath d='M 250 550 L 250 800 M 750 550 L 750 800 M 450 550 L 450 800 M 550 550 L 550 800'/%3E%3C/g%3E%3C/svg%3E");
         }
 
         /* 2. Capiz Window / Front Yard Grid */
         .bg-capiz {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg stroke='%23D4A35A' stroke-width='0.5' fill='none' opacity='0.08'%3E%3Crect x='0' y='0' width='40' height='40'/%3E%3Crect x='40' y='0' width='40' height='40'/%3E%3Crect x='0' y='40' width='40' height='40'/%3E%3Crect x='40' y='40' width='40' height='40'/%3E%3Cpath d='M 0 20 L 80 20 M 0 60 L 80 60 M 20 0 L 20 80 M 60 0 L 60 80'/%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg stroke='%23D4A35A' stroke-width='1.5' fill='none' opacity='0.25'%3E%3Crect x='0' y='0' width='40' height='40'/%3E%3Crect x='40' y='0' width='40' height='40'/%3E%3Crect x='0' y='40' width='40' height='40'/%3E%3Crect x='40' y='40' width='40' height='40'/%3E%3Cpath d='M 0 20 L 80 20 M 0 60 L 80 60 M 20 0 L 20 80 M 60 0 L 60 80'/%3E%3C/g%3E%3C/svg%3E");
         }
 
         /* 3. Grand Foyer / Doors */
         .bg-foyer {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='800' viewBox='0 0 1000 800'%3E%3Cg stroke='%23D4A35A' stroke-width='1' fill='none' opacity='0.1'%3E%3Cpath d='M 300 800 L 300 250 Q 500 100 700 250 L 700 800'/%3E%3Cpath d='M 350 800 L 350 300 Q 500 180 650 300 L 650 800'/%3E%3Cline x1='500' y1='200' x2='500' y2='800'/%3E%3Crect x='380' y='400' width='90' height='150'/%3E%3Crect x='530' y='400' width='90' height='150'/%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='800' viewBox='0 0 1000 800'%3E%3Cg stroke='%23D4A35A' stroke-width='2' fill='none' opacity='0.25'%3E%3Cpath d='M 300 800 L 300 250 Q 500 100 700 250 L 700 800'/%3E%3Cpath d='M 350 800 L 350 300 Q 500 180 650 300 L 650 800'/%3E%3Cline x1='500' y1='200' x2='500' y2='800'/%3E%3Crect x='380' y='400' width='90' height='150'/%3E%3Crect x='530' y='400' width='90' height='150'/%3E%3C/g%3E%3C/svg%3E");
         }
 
         /* 4. Tropical Leaves / Garden */
         .bg-garden {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cg stroke='%23D4A35A' stroke-width='1' fill='none' opacity='0.08'%3E%3Cpath d='M 0 400 Q 150 200 350 50 Q 250 150 200 400 Z'/%3E%3Cpath d='M 0 400 Q 150 200 350 50'/%3E%3Cpath d='M 100 300 Q 200 250 250 150'/%3E%3Cpath d='M 50 350 Q 100 300 150 200'/%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cg stroke='%23D4A35A' stroke-width='2' fill='none' opacity='0.2'%3E%3Cpath d='M 0 400 Q 150 200 350 50 Q 250 150 200 400 Z'/%3E%3Cpath d='M 0 400 Q 150 200 350 50'/%3E%3Cpath d='M 100 300 Q 200 250 250 150'/%3E%3Cpath d='M 50 350 Q 100 300 150 200'/%3E%3C/g%3E%3C/svg%3E");
         }
 
         /* 5. Dining/Veranda Arches */
         .bg-arches {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='400' viewBox='0 0 200 400'%3E%3Cg stroke='%23D4A35A' stroke-width='1' fill='none' opacity='0.1'%3E%3Cpath d='M 20 400 L 20 150 Q 100 50 180 150 L 180 400'/%3E%3Cline x1='100' y1='100' x2='100' y2='400'/%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='400' viewBox='0 0 200 400'%3E%3Cg stroke='%23D4A35A' stroke-width='2' fill='none' opacity='0.25'%3E%3Cpath d='M 20 400 L 20 150 Q 100 50 180 150 L 180 400'/%3E%3Cline x1='100' y1='100' x2='100' y2='400'/%3E%3C/g%3E%3C/svg%3E");
         }
 
         /* --- 01. THE ENTRY SCREEN --- */
@@ -118,10 +114,6 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 9000; text-align: center;
             transition: transform 3s cubic-bezier(0.5, 0, 0.2, 1), opacity 3s ease;
-        }
-        #entry-screen::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(14,9,5,0.7), rgba(14,9,5,0.95)); pointer-events: none; z-index: -1;
         }
         .entry-content { z-index: 2; }
         .btn-entry {
@@ -223,20 +215,18 @@
             width: 8px; height: 25px; background: var(--wood-warm); border-radius: 4px;
         }
         .hanging-photo .img-container { background: rgba(0,0,0,0.05); border: 1px dashed rgba(0,0,0,0.2); aspect-ratio: 1; }
-        .hanging-photo .img-container svg { stroke: var(--wood-warm); opacity: 0.5; }
+        .hanging-photo .img-container svg { stroke: var(--wood-warm); opacity: 0.7; }
         .hanging-photo:nth-child(1) { transform: rotate(-3deg) translateY(10px); }
         .hanging-photo:nth-child(2) { transform: rotate(2deg) translateY(20px); }
         .hanging-photo:nth-child(3) { transform: rotate(-1deg) translateY(15px); }
 
         /* --- 10. CLOSING NIGHT --- */
         #night { padding: 15rem 2rem; text-align: center; }
-        #night::before { background: rgba(8, 6, 4, 0.95); } 
-
+        
         /* --- 11. RSVP --- */
         #rsvp {
             min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
-        #rsvp::before { background: rgba(6, 4, 2, 0.97); }
         .btn-rsvp {
             display: inline-block; margin-top: 3rem; padding: 1.2rem 3rem; background: var(--afternoon-sun);
             color: var(--wood-dark); font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.2em;
