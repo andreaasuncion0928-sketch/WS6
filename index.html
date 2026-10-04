@@ -51,7 +51,7 @@
             pointer-events: none; z-index: 9999; mix-blend-mode: multiply;
         }
 
-        /* --- GLOBAL VIDEO BACKGROUND (For Pages 3 to End) --- */
+        /* --- GLOBAL VIDEO BACKGROUND (For Pages 4 to End) --- */
         #global-video-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;
         }
@@ -124,21 +124,21 @@
             scroll-behavior: smooth;
             opacity: 0; pointer-events: none;
             transition: opacity 1.5s ease 0.5s;
-            z-index: 5; /* Stays above video background */
-            /* Hide scrollbar for clean look */
+            z-index: 5; 
             -ms-overflow-style: none; scrollbar-width: none;
         }
         #invitation-stationery::-webkit-scrollbar { display: none; }
         #invitation-stationery.visible { opacity: 1; pointer-events: auto; }
 
         .page {
-            height: 100vh; /* Exactly 1 viewport height */
+            height: 100vh; 
             height: 100dvh;
             padding: var(--section-pad); 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             position: relative; text-align: center; width: 100%;
-            scroll-snap-align: start; /* Snap precisely to the top of each page */
+            scroll-snap-align: start; 
             scroll-snap-stop: always;
+            overflow: hidden;
         }
 
         /* --- DARK SECTION UTILITIES --- */
@@ -152,19 +152,22 @@
         /* --- 03. VENUE CARDS (Page 3 Update) --- */
         .cards-container {
             display: flex; gap: 2rem; justify-content: center; align-items: stretch;
-            margin-top: 2rem; width: 100%; max-width: 900px;
+            margin: 2rem auto 0; width: 100%; max-width: 900px;
         }
         .venue-card {
-            background: rgba(249, 247, 242, 0.95);
+            background: rgba(249, 247, 242, 0.65); /* Less opacity */
+            backdrop-filter: blur(8px); /* Frost effect */
+            -webkit-backdrop-filter: blur(8px);
             padding: 2rem 1.5rem; border-radius: 6px; flex: 1;
             display: flex; flex-direction: column; align-items: center;
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             color: var(--ink-charcoal);
+            border: 1px solid rgba(249, 247, 242, 0.4);
         }
-        .venue-sketch { width: 100px; height: 100px; object-fit: contain; margin-bottom: 1rem; opacity: 0.85; }
+        .venue-sketch { width: 100px; height: 100px; object-fit: contain; margin-bottom: 1rem; opacity: 0.9; }
         .venue-card .editorial-italic { color: var(--ink-charcoal); font-size: 1.2rem; margin-bottom: 0.5rem; }
-        .venue-card h3 { color: var(--ink-charcoal); font-size: 1.5rem; margin-bottom: 0.5rem; }
-        .venue-card .body-text { color: var(--ink-brown); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.4; }
+        .venue-card h3 { color: var(--ink-charcoal); font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 600; }
+        .venue-card .body-text { color: var(--ink-charcoal); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.4; font-weight: 500; }
         .btn-direction {
             margin-top: auto; padding: 0.8rem 1.5rem;
             background: var(--muted-gold); color: #fff;
@@ -192,7 +195,7 @@
         .qr-placeholder { width: 100%; aspect-ratio: 1; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.15); margin-bottom: 1rem; }
         .img-label { font-family: var(--font-sans); font-size: 0.7rem; color: rgba(0,0,0,0.3); letter-spacing: 0.1em; text-transform: uppercase;}
 
-        /* --- MOBILE ADJUSTMENTS FOR COMPACT SCROLL --- */
+        /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 768px) {
             .cards-container { flex-direction: column; gap: 1rem; margin-top: 1rem; }
             .venue-card { padding: 1.2rem; }
@@ -202,7 +205,6 @@
             .entourage-gallery { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2rem; }
             .info-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             
-            /* Squeeze margins for small screens to ensure no overflow */
             .title-medium { margin-bottom: 0.5rem !important; }
             .editorial-italic { margin-bottom: 0.5rem !important; }
         }
@@ -213,7 +215,7 @@
     <!-- Paper Grain Texture Overlay -->
     <div class="paper-grain"></div>
 
-    <!-- Global Video Background (Behind pages 3-8) -->
+    <!-- Global Video Background (Behind pages 4-8) -->
     <div id="global-video-bg">
         <video autoplay loop muted playsinline>
             <source src="background.mp4" type="video/mp4">
@@ -235,13 +237,13 @@
         </div>
     </div>
 
-    <!-- STATIONERY WRAPPER (This handles the page-by-page snap scrolling) -->
+    <!-- STATIONERY WRAPPER -->
     <main id="invitation-stationery">
 
-        <!-- 02. ANG KWENTO NAMIN (Image Background - 20% Opacity) -->
+        <!-- 02. ANG KWENTO NAMIN (Image Background - 10% Opacity) -->
         <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
-            <!-- Image Background set to 20% opacity for better readability -->
-            <img class="image-bg" src="2nd page.png" alt="Story Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; z-index: 0;">
+            <!-- Image Background set to 10% opacity -->
+            <img class="image-bg" src="2nd page.png" alt="Story Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.1; z-index: 0;">
             
             <div class="content-layer reveal">
                 <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Kwento Namin</h2>
@@ -253,22 +255,23 @@
                 <p class="body-text" style="margin-bottom: 1rem;">
                     Ang akala naming saglit na pagkikita ay nauwi sa walang-katapusang kwentuhan—tawanan tungkol sa mga sablay na byahe, at pagbabahagi ng mga paboritong kanta.
                 </p>
-                <p class="body-text">
+                <p class="body-text" style="margin-bottom: 3rem;">
                     Nang magpaalam kami nang gabing iyon, may kakaibang kaba at saya. Pareho naming naramdaman na ito na ang simula ng isang napakagandang kwento.
                 </p>
-                
-                <div style="margin: 2rem 0;">
-                    <h3 class="title-medium" style="font-size: 2rem;">2015</h3>
-                    <p class="editorial-italic" style="margin-top: 0.5rem; font-size: 1.2rem;">Dito nagsimula ang “tayo.”</p>
-                </div>
                 
                 <h3 class="title-medium" style="font-size: 1.8rem;">At ngayon, ikakasal na kami!</h3>
             </div>
         </section>
 
-        <!-- 03. ANG ARAW NA HINIHINTAY NAMIN (With Detail Cards) -->
-        <section class="page dark-section" id="wedding">
-            <div class="content-layer reveal" style="width: 100%;">
+        <!-- 03. ANG ARAW NA HINIHINTAY NAMIN (With Detail Cards & Specific 3rd Page Background) -->
+        <section class="page dark-section" id="wedding" style="background-color: var(--ink-charcoal);">
+            
+            <!-- Specific Image Background for Page 3 (Visible on mobile/desktop perfectly) -->
+            <img class="image-bg" src="3rd page.jpeg" alt="Venue Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0;">
+            <!-- Dimming overlay to ensure text/cards contrast well -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.4); z-index: 0;"></div>
+
+            <div class="content-layer reveal" style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                 <h2 class="title-medium" style="margin-bottom: 0.5rem;">Ang Araw Na Hinihintay Namin</h2>
                 <p class="subtitle" style="margin-bottom: 0;">31 Enero 2028</p>
                 
@@ -434,7 +437,7 @@
             const revealElements = document.querySelectorAll('.reveal');
             
             const revealOptions = {
-                threshold: 0.25, // Trigger when 25% of element is in view
+                threshold: 0.25, 
                 rootMargin: "0px"
             };
             
@@ -442,10 +445,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        // Optional: remove observer if you want it to animate only once
-                        // observer.unobserve(entry.target); 
                     } else {
-                        // Re-hide element when scrolling away for re-triggering animations on snap
                         entry.target.classList.remove('active');
                     }
                 });
