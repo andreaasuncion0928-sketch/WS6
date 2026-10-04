@@ -28,18 +28,20 @@
             --font-sans: 'DM Sans', sans-serif;
             
             /* Spacing */
-            --section-pad: 10rem 5vw;
+            --section-pad: 2rem 5vw; /* Tightened to fit in 1 viewport */
         }
 
         /* --- RESET & BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        body {
-            background-color: transparent; /* Changed to transparent to let the video show */
+        body, html {
+            background-color: var(--ink-charcoal);
             color: var(--ink-charcoal);
             font-family: var(--font-display);
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Stop native body scroll to allow controlled snap scrolling */
         }
 
         /* Fine Paper Grain Texture */
@@ -51,23 +53,23 @@
 
         /* --- GLOBAL VIDEO BACKGROUND (For Pages 3 to End) --- */
         #global-video-bg {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;
         }
         #global-video-bg video {
             width: 100%; height: 100%; object-fit: cover;
         }
         #global-video-bg .video-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(42, 38, 35, 0.65); /* Dimming overlay for readability */
+            background: rgba(42, 38, 35, 0.65); /* Dimming overlay */
         }
 
         /* --- TYPOGRAPHY --- */
         h1, h2, h3, h4, h5 { font-family: var(--font-display); font-weight: 400; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.05em; }
-        .title-large { font-size: clamp(2.5rem, 6vw, 5rem); }
-        .title-medium { font-size: clamp(2rem, 4vw, 3.5rem); }
+        .title-large { font-size: clamp(2rem, 6vw, 4.5rem); }
+        .title-medium { font-size: clamp(1.8rem, 4vw, 3rem); }
         .subtitle { font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted-gold); }
-        .body-text { font-family: var(--font-sans); font-size: 1.05rem; line-height: 1.8; font-weight: 300; max-width: 600px; margin: 0 auto; color: var(--ink-brown); }
-        .editorial-italic { font-family: var(--font-display); font-style: italic; font-size: 1.8rem; text-transform: none; color: var(--ink-charcoal); }
+        .body-text { font-family: var(--font-sans); font-size: clamp(0.85rem, 2vw, 1rem); line-height: 1.6; font-weight: 300; max-width: 600px; margin: 0 auto; color: var(--ink-brown); }
+        .editorial-italic { font-family: var(--font-display); font-style: italic; font-size: clamp(1.4rem, 3vw, 1.8rem); text-transform: none; color: var(--ink-charcoal); }
         
         /* --- ANIMATIONS --- */
         .reveal {
@@ -80,7 +82,7 @@
         /* --- 01. THE OPENING --- */
         #entrance {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: var(--paper-ivory); /* Keeps entrance opaque over video */
+            background-color: var(--paper-ivory);
             z-index: 9000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center;
@@ -99,8 +101,8 @@
         }
         
         .entrance-content {
-            position: relative; z-index: 2; padding: 4rem;
-            background: rgba(249, 247, 242, 0.8); backdrop-filter: blur(15px);
+            position: relative; z-index: 2; padding: 3rem 2rem;
+            background: rgba(249, 247, 242, 0.85); backdrop-filter: blur(15px);
             border: 1px solid rgba(42,38,35,0.05); max-width: 600px; width: 90%;
         }
         
@@ -112,61 +114,98 @@
         }
         .btn-open:hover { opacity: 0.6; }
         
-        #entrance.opened { opacity: 0; pointer-events: none; }
+        #entrance.opened { opacity: 0; pointer-events: none; transform: scale(1.02); }
 
-        /* --- STATIONERY WRAPPER --- */
-        #invitation-stationery { opacity: 0; transition: opacity 1.5s ease 0.5s; }
-        #invitation-stationery.visible { opacity: 1; }
+        /* --- STATIONERY WRAPPER (Scroll Snap Container) --- */
+        #invitation-stationery { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            overflow-y: auto; overflow-x: hidden;
+            scroll-snap-type: y mandatory; /* Forces one page per scroll */
+            scroll-behavior: smooth;
+            opacity: 0; pointer-events: none;
+            transition: opacity 1.5s ease 0.5s;
+            z-index: 5; /* Stays above video background */
+            /* Hide scrollbar for clean look */
+            -ms-overflow-style: none; scrollbar-width: none;
+        }
+        #invitation-stationery::-webkit-scrollbar { display: none; }
+        #invitation-stationery.visible { opacity: 1; pointer-events: auto; }
 
         .page {
-            min-height: 100vh; padding: var(--section-pad); display: flex; align-items: center; justify-content: center;
+            height: 100vh; /* Exactly 1 viewport height */
+            height: 100dvh;
+            padding: var(--section-pad); 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
             position: relative; text-align: center; width: 100%;
+            scroll-snap-align: start; /* Snap precisely to the top of each page */
+            scroll-snap-stop: always;
         }
 
-        /* --- DARK SECTION UTILITIES (For Image & Video Backgrounds) --- */
-        .dark-section {
-            color: var(--paper-ivory);
-            border-bottom: none;
-        }
+        /* --- DARK SECTION UTILITIES --- */
+        .dark-section { color: var(--paper-ivory); }
         .dark-section .editorial-italic { color: var(--paper-ivory); }
         .dark-section .body-text { color: rgba(249, 247, 242, 0.9); }
         .dark-section .subtitle { color: var(--muted-gold); }
         .dark-section h1, .dark-section h2, .dark-section h3, .dark-section h4 { color: var(--paper-ivory); }
-        
-        /* Overrides for specific dark section elements */
-        .dark-section .entourage-group h4 { color: var(--muted-gold); }
-        .dark-section .closing-footer { color: var(--muted-gold); }
+        .dark-section .entourage-group h4, .dark-section .closing-footer { color: var(--muted-gold); }
 
-        /* --- 03. ANG ARAW NA HINIHINTAY NAMIN --- */
-        .horizontal-line { width: 1px; height: 80px; background: var(--muted-gold); margin: 4rem auto; opacity: 0.4; }
-
-        /* --- 04. ANG MGA TAONG KASAMA NAMIN --- */
-        .entourage-gallery { display: flex; flex-direction: column; gap: 4rem; justify-content: center; max-width: 900px; margin: 4rem auto 0; }
-        .entourage-group { display: flex; flex-direction: column; align-items: center; }
-        .entourage-group h4 { font-family: var(--font-sans); font-size: 0.7rem; letter-spacing: 0.3em; margin-top: 1rem; }
-        .entourage-names { font-size: 1.5rem; line-height: 2; }
-
-        /* --- 06. BAGO TAYO MAGDIWANG (Details) --- */
-        .info-grid { max-width: 700px; margin: 4rem auto 0; display: flex; flex-direction: column; gap: 4rem; }
-        
-        .color-palette { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
-        .color-swatch { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
-        .color-circle { width: 40px; height: 40px; border-radius: 50%; }
-        .color-name { font-family: var(--font-sans); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; }
-
-        /* --- 07. SANA MAKASAMA NAMIN KAYO (RSVP) --- */
-        .qr-stationery {
-            width: 250px; padding: 2rem; background: #fff; margin: 0 auto; position: relative; z-index: 2;
-            border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 15px 40px rgba(0,0,0,0.04);
-            color: var(--ink-charcoal); /* Force dark text for QR card */
+        /* --- 03. VENUE CARDS (Page 3 Update) --- */
+        .cards-container {
+            display: flex; gap: 2rem; justify-content: center; align-items: stretch;
+            margin-top: 2rem; width: 100%; max-width: 900px;
         }
-        .qr-placeholder { width: 100%; aspect-ratio: 1; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.1); margin-bottom: 1rem; }
+        .venue-card {
+            background: rgba(249, 247, 242, 0.95);
+            padding: 2rem 1.5rem; border-radius: 6px; flex: 1;
+            display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            color: var(--ink-charcoal);
+        }
+        .venue-sketch { width: 100px; height: 100px; object-fit: contain; margin-bottom: 1rem; opacity: 0.85; }
+        .venue-card .editorial-italic { color: var(--ink-charcoal); font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .venue-card h3 { color: var(--ink-charcoal); font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .venue-card .body-text { color: var(--ink-brown); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.4; }
+        .btn-direction {
+            margin-top: auto; padding: 0.8rem 1.5rem;
+            background: var(--muted-gold); color: #fff;
+            text-decoration: none; text-transform: uppercase; font-family: var(--font-sans);
+            font-size: 0.65rem; letter-spacing: 0.2em; border-radius: 3px; transition: opacity 0.3s;
+        }
+        .btn-direction:hover { opacity: 0.8; }
 
-        /* --- 08. THE LAST PAGE --- */
-        #closing { padding: 15rem 5vw; }
-        .closing-footer { margin-top: 6rem; font-family: var(--font-sans); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; }
+        /* --- COMPACT GRIDS TO FIT 100VH --- */
+        /* Entourage */
+        .entourage-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; width: 100%; max-width: 800px; margin: 1.5rem auto 0; }
+        .entourage-group h4 { font-family: var(--font-sans); font-size: 0.65rem; letter-spacing: 0.3em; margin-top: 0.5rem; }
+        .entourage-names { font-size: 1.3rem; line-height: 1.5; }
+        
+        /* Details Grid */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2rem; max-width: 800px; margin: 1.5rem auto 0; text-align: center; }
+        
+        .color-palette { display: flex; gap: 0.8rem; justify-content: center; margin-top: 1rem; }
+        .color-swatch { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+        .color-circle { width: 30px; height: 30px; border-radius: 50%; }
+        .color-name { font-family: var(--font-sans); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; }
 
+        /* RSVP */
+        .qr-stationery { width: 220px; padding: 1.5rem; background: #fff; margin: 0 auto; position: relative; border-radius: 4px; }
+        .qr-placeholder { width: 100%; aspect-ratio: 1; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.15); margin-bottom: 1rem; }
         .img-label { font-family: var(--font-sans); font-size: 0.7rem; color: rgba(0,0,0,0.3); letter-spacing: 0.1em; text-transform: uppercase;}
+
+        /* --- MOBILE ADJUSTMENTS FOR COMPACT SCROLL --- */
+        @media (max-width: 768px) {
+            .cards-container { flex-direction: column; gap: 1rem; margin-top: 1rem; }
+            .venue-card { padding: 1.2rem; }
+            .venue-sketch { width: 70px; height: 70px; margin-bottom: 0.5rem; }
+            .venue-card .body-text { margin-bottom: 1rem; }
+            
+            .entourage-gallery { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2rem; }
+            .info-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            
+            /* Squeeze margins for small screens to ensure no overflow */
+            .title-medium { margin-bottom: 0.5rem !important; }
+            .editorial-italic { margin-bottom: 0.5rem !important; }
+        }
     </style>
 </head>
 <body>
@@ -174,7 +213,7 @@
     <!-- Paper Grain Texture Overlay -->
     <div class="paper-grain"></div>
 
-    <!-- Global Video Background (Will appear securely behind transparent pages 3-8) -->
+    <!-- Global Video Background (Behind pages 3-8) -->
     <div id="global-video-bg">
         <video autoplay loop muted playsinline>
             <source src="background.mp4" type="video/mp4">
@@ -196,52 +235,64 @@
         </div>
     </div>
 
-    <!-- STATIONERY WRAPPER -->
+    <!-- STATIONERY WRAPPER (This handles the page-by-page snap scrolling) -->
     <main id="invitation-stationery">
 
-        <!-- 02. ANG KWENTO NAMIN (Image Background - 30% Opacity) -->
+        <!-- 02. ANG KWENTO NAMIN (Image Background - 20% Opacity) -->
         <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
-            <!-- Image Background set to 30% opacity to dim it -->
-            <img class="image-bg" src="2nd page.png" alt="Story Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; z-index: 0;">
+            <!-- Image Background set to 20% opacity for better readability -->
+            <img class="image-bg" src="2nd page.png" alt="Story Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; z-index: 0;">
             
             <div class="content-layer reveal">
-                <h2 class="title-medium" style="margin-bottom: 2rem;">Ang Kwento Namin</h2>
-                <h3 class="editorial-italic" style="margin-bottom: 3rem;">Nagsimula sa kape.</h3>
+                <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Kwento Namin</h2>
+                <h3 class="editorial-italic" style="margin-bottom: 1.5rem;">Nagsimula sa kape.</h3>
                 
-                <p class="body-text" style="margin-bottom: 1.5rem;">
+                <p class="body-text" style="margin-bottom: 1rem;">
                     Sino ang mag-aakala na ang isang simpleng kape sa isang ordinaryong hapon sa Maynila ang magiging simula ng lahat?
                 </p>
-                <p class="body-text" style="margin-bottom: 1.5rem;">
+                <p class="body-text" style="margin-bottom: 1rem;">
                     Ang akala naming saglit na pagkikita ay nauwi sa walang-katapusang kwentuhan—tawanan tungkol sa mga sablay na byahe, at pagbabahagi ng mga paboritong kanta.
                 </p>
                 <p class="body-text">
                     Nang magpaalam kami nang gabing iyon, may kakaibang kaba at saya. Pareho naming naramdaman na ito na ang simula ng isang napakagandang kwento.
                 </p>
                 
-                <div style="margin: 5rem 0;">
-                    <h3 class="title-medium" style="font-size: 2.5rem;">2015</h3>
-                    <p class="editorial-italic" style="margin-top: 1rem; font-size: 1.2rem;">Dito nagsimula ang “tayo.”</p>
+                <div style="margin: 2rem 0;">
+                    <h3 class="title-medium" style="font-size: 2rem;">2015</h3>
+                    <p class="editorial-italic" style="margin-top: 0.5rem; font-size: 1.2rem;">Dito nagsimula ang “tayo.”</p>
                 </div>
                 
-                <h3 class="title-medium" style="font-size: 2rem;">At ngayon, ikakasal na kami!</h3>
+                <h3 class="title-medium" style="font-size: 1.8rem;">At ngayon, ikakasal na kami!</h3>
             </div>
         </section>
 
-        <!-- 03. ANG ARAW NA HINIHINTAY NAMIN (Global Video Background active hereafter) -->
+        <!-- 03. ANG ARAW NA HINIHINTAY NAMIN (With Detail Cards) -->
         <section class="page dark-section" id="wedding">
             <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 4rem;">Ang Araw Na Hinihintay Namin</h2>
-                <p class="subtitle" style="margin-bottom: 2rem;">31 Enero 2028</p>
+                <h2 class="title-medium" style="margin-bottom: 0.5rem;">Ang Araw Na Hinihintay Namin</h2>
+                <p class="subtitle" style="margin-bottom: 0;">31 Enero 2028</p>
                 
-                <p class="editorial-italic" style="margin-bottom: 1rem;">Seremonya</p>
-                <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem;">San Sebastian Church</h3>
-                <p class="body-text">Plaza del Carmen, Quiapo, Manila<br>4:30 PM</p>
-                
-                <div class="horizontal-line"></div>
+                <div class="cards-container">
+                    <!-- Ceremony Card -->
+                    <div class="venue-card">
+                        <!-- Replace src with your sketch image -->
+                        <img src="church-sketch.png" alt="Church Sketch" class="venue-sketch">
+                        <p class="editorial-italic">Seremonya</p>
+                        <h3>San Sebastian Church</h3>
+                        <p class="body-text">Plaza del Carmen, Quiapo, Manila<br>4:30 PM</p>
+                        <a href="https://maps.google.com" target="_blank" class="btn-direction">Get Directions</a>
+                    </div>
 
-                <p class="editorial-italic" style="margin-bottom: 1rem;">Reception</p>
-                <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem;">The Manila Hotel</h3>
-                <p class="body-text">One Rizal Park, Ermita, Manila<br>6:30 PM</p>
+                    <!-- Reception Card -->
+                    <div class="venue-card">
+                        <!-- Replace src with your sketch image -->
+                        <img src="hotel-sketch.png" alt="Hotel Sketch" class="venue-sketch">
+                        <p class="editorial-italic">Reception</p>
+                        <h3>The Manila Hotel</h3>
+                        <p class="body-text">One Rizal Park, Ermita, Manila<br>6:30 PM</p>
+                        <a href="https://maps.google.com" target="_blank" class="btn-direction">Get Directions</a>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -249,7 +300,7 @@
         <section class="page dark-section" id="entourage">
             <div class="content-layer reveal" style="width: 100%;">
                 <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Mga Taong Kasama Namin</h2>
-                <p class="body-text" style="max-width: 500px; margin: 0 auto 3rem; font-style: italic;">
+                <p class="body-text" style="max-width: 500px; margin: 0 auto; font-style: italic;">
                     Hindi magiging ganito ang kwento namin kung wala ang mga taong kasama namin sa bawat bahagi nito.
                 </p>
 
@@ -258,17 +309,14 @@
                         <p class="entourage-names">Sofia Reyes</p>
                         <h4>Maid of Honor</h4>
                     </div>
-                    
                     <div class="entourage-group">
                         <p class="entourage-names">Daniel Cruz</p>
                         <h4>Best Man</h4>
                     </div>
-                    
-                    <div class="entourage-group" style="margin-top: 2rem;">
+                    <div class="entourage-group">
                         <p class="entourage-names">Clara · Nina · Bea · Isabelle</p>
                         <h4>Bridesmaids</h4>
                     </div>
-                    
                     <div class="entourage-group">
                         <p class="entourage-names">Marco · Ethan · James · Rafael</p>
                         <h4>Groomsmen</h4>
@@ -290,19 +338,15 @@
         <!-- 06. BAGO TAYO MAGDIWANG (Details) -->
         <section class="page dark-section" id="details">
             <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 1rem;">Bago Tayo Magdiwang</h2>
+                <h2 class="title-medium" style="margin-bottom: 1.5rem;">Bago Tayo Magdiwang</h2>
                 
                 <div class="info-grid">
                     <!-- Dress Code -->
                     <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.5rem;">Ano ang isusuot?</p>
-                        <h4 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Formal Attire</h4>
-                        <p class="subtitle" style="color: var(--lilac); margin-bottom: 2rem;">Shades of Purple</p>
-
-                        <p class="body-text">
-                            Suotin ang inyong best formal look sa shades of purple—from deep plum at royal violet hanggang soft lavender at mauve.
-                        </p>
-                        
+                        <p class="editorial-italic" style="margin-bottom: 0.2rem;">Ano ang isusuot?</p>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 0.2rem;">Formal Attire</h4>
+                        <p class="subtitle" style="color: var(--lilac); margin-bottom: 1rem;">Shades of Purple</p>
+                        <p class="body-text">Suotin ang inyong best formal look sa shades of purple.</p>
                         <div class="color-palette">
                             <div class="color-swatch"><div class="color-circle" style="background: var(--plum);"></div><span class="color-name">Plum</span></div>
                             <div class="color-swatch"><div class="color-circle" style="background: var(--violet);"></div><span class="color-name">Violet</span></div>
@@ -314,20 +358,20 @@
 
                     <!-- Plus One -->
                     <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.5rem;">May Plus One Ba?</p>
+                        <p class="editorial-italic" style="margin-bottom: 0.2rem;">May Plus One Ba?</p>
                         <p class="body-text">Dahil limitado ang capacity ng venue, ang mga guests na nakapangalan sa invitation lamang ang maaari naming ma-accommodate. Salamat sa pag-unawa!</p>
                     </div>
 
                     <!-- Gifts -->
                     <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.5rem;">May Regalo Ba?</p>
-                        <p class="body-text">Pinakamalaking regalo na sa amin ang makasama kayo sa araw na ito. Pero kung nais ninyo kaming bigyan ng regalo, masayang tatanggapin ang monetary contribution para sa bagong chapter ng buhay namin.</p>
+                        <p class="editorial-italic" style="margin-bottom: 0.2rem;">May Regalo Ba?</p>
+                        <p class="body-text">Masayang tatanggapin ang monetary contribution para sa bagong chapter ng buhay namin.</p>
                     </div>
 
                     <!-- Unplugged -->
                     <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.5rem;">Sandali Lang, Walang Phones Muna</p>
-                        <p class="body-text">Pakiusap lang namin na itabi muna ang phones at cameras habang nasa ceremony. May professional photographers kaming kasama para makuha ang bawat moment, kaya gusto naming makapag-relax kayo at maging present kasama namin.</p>
+                        <p class="editorial-italic" style="margin-bottom: 0.2rem;">Walang Phones Muna</p>
+                        <p class="body-text">Pakiusap na itabi ang phones habang nasa ceremony upang maging present kasama namin. May professional photographers kami para kumuha ng moments.</p>
                     </div>
                 </div>
             </div>
@@ -336,7 +380,7 @@
         <!-- 07. SANA MAKASAMA NAMIN KAYO (RSVP) -->
         <section class="page dark-section" id="rsvp">
             <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 4rem;">Sasama Kayo?</h2>
+                <h2 class="title-medium" style="margin-bottom: 2rem;">Sasama Kayo?</h2>
                 
                 <div class="qr-stationery">
                     <div class="qr-placeholder">
@@ -345,7 +389,7 @@
                     <p class="subtitle" style="color: var(--ink-charcoal);">Scan to confirm</p>
                 </div>
                 
-                <h3 class="editorial-italic" style="font-size: 2rem; margin: 4rem 0 1rem;">Sana makasama namin kayo.</h3>
+                <h3 class="editorial-italic" style="font-size: 1.8rem; margin: 2rem 0 0.5rem;">Sana makasama namin kayo.</h3>
                 <p class="body-text">
                     Kung makakasama kayo sa araw na ito, i-scan ang QR code para makumpirma ang inyong attendance.
                 </p>
@@ -359,7 +403,7 @@
                 <p class="editorial-italic" style="font-size: 1.5rem; margin-bottom: 1rem;">At dito pa lang nagsisimula ang bagong chapter.</p>
                 <p class="subtitle">31 Enero 2028 · Manila</p>
                 
-                <p class="body-text" style="margin-top: 4rem;">Maraming salamat sa pagiging bahagi ng kwento namin.</p>
+                <p class="body-text" style="margin-top: 3rem;">Maraming salamat sa pagiging bahagi ng kwento namin.</p>
                 
                 <div class="closing-footer">
                     StoryInvites<br><span style="text-transform: none; font-style: italic; opacity: 0.6; display: inline-block; margin-top: 5px; color: var(--paper-ivory);">Your story. Your style. Your invitation.</span>
@@ -378,7 +422,7 @@
             // Fade out the entrance
             entrance.classList.add('opened');
             
-            // Fade in the stationery content
+            // Fade in the stationery content and allow scroll
             setTimeout(() => {
                 stationery.classList.add('visible');
                 initScrollObserver(); 
@@ -390,15 +434,19 @@
             const revealElements = document.querySelectorAll('.reveal');
             
             const revealOptions = {
-                threshold: 0.15,
-                rootMargin: "0px 0px -50px 0px"
+                threshold: 0.25, // Trigger when 25% of element is in view
+                rootMargin: "0px"
             };
             
             const revealOnScroll = new IntersectionObserver(function(entries, observer) {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        observer.unobserve(entry.target); 
+                        // Optional: remove observer if you want it to animate only once
+                        // observer.unobserve(entry.target); 
+                    } else {
+                        // Re-hide element when scrolling away for re-triggering animations on snap
+                        entry.target.classList.remove('active');
                     }
                 });
             }, revealOptions);
