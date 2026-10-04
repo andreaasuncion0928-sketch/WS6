@@ -51,7 +51,7 @@
             pointer-events: none; z-index: 9999; mix-blend-mode: multiply;
         }
 
-        /* --- GLOBAL VIDEO BACKGROUND (For Pages 6 to End) --- */
+        /* --- GLOBAL VIDEO BACKGROUND (For Pages 8 & 9) --- */
         #global-video-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;
         }
@@ -187,7 +187,7 @@
             z-index: 1;
         }
 
-        /* --- 03. RISING PETALS ANIMATION (Moved to 2nd Page) --- */
+        /* --- 03. RISING PETALS ANIMATION (Moved back to 3rd Page, slower & subtle) --- */
         .petals-container {
             position: absolute;
             top: 0;
@@ -201,62 +201,58 @@
         .petal {
             position: absolute;
             bottom: -50px; 
-            background-color: rgba(249, 247, 242, 0.4); 
+            background-color: rgba(249, 247, 242, 0.25); /* Subtle opacity */
             border-radius: 50% 0 50% 50%; 
-            opacity: 0.6;
+            opacity: 0;
             animation: rise linear infinite;
         }
         
-        /* Default/Mobile Petals */
+        /* Slowed down animations */
         @keyframes rise {
             0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
             100% { transform: translateY(-110vh) rotate(360deg) scale(1); opacity: 0; }
         }
-        .petal:nth-child(1) { left: 10%; width: 15px; height: 15px; animation-duration: 12s; animation-delay: 0s; }
-        .petal:nth-child(2) { left: 30%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
-        .petal:nth-child(3) { left: 50%; width: 10px; height: 10px; animation-duration: 15s; animation-delay: 4s; }
-        .petal:nth-child(4) { left: 70%; width: 18px; height: 18px; animation-duration: 20s; animation-delay: 1s; }
-        .petal:nth-child(5) { left: 90%; width: 12px; height: 12px; animation-duration: 14s; animation-delay: 5s; }
-        .petal:nth-child(6) { left: 20%; width: 16px; height: 16px; animation-duration: 17s; animation-delay: 7s; }
+        .petal:nth-child(1) { left: 15%; width: 15px; height: 15px; animation-duration: 22s; animation-delay: 0s; }
+        .petal:nth-child(2) { left: 35%; width: 20px; height: 20px; animation-duration: 28s; animation-delay: 2s; }
+        .petal:nth-child(3) { left: 55%; width: 10px; height: 10px; animation-duration: 25s; animation-delay: 6s; }
+        .petal:nth-child(4) { left: 75%; width: 18px; height: 18px; animation-duration: 30s; animation-delay: 1s; }
+        .petal:nth-child(5) { left: 85%; width: 12px; height: 12px; animation-duration: 24s; animation-delay: 5s; }
+        .petal:nth-child(6) { left: 25%; width: 16px; height: 16px; animation-duration: 27s; animation-delay: 8s; }
 
-        /* Desktop specific adjustments for Petals (Near right side, smaller) */
         @media (min-width: 769px) {
-            .petals-container {
-                left: auto;
-                right: 5%;
-                width: 30%; /* Confines them to the right side of the screen */
-            }
+            .petals-container { left: auto; right: 5%; width: 30%; }
             .petal:nth-child(1) { left: 10%; width: 10px; height: 10px; }
             .petal:nth-child(2) { left: 30%; width: 12px; height: 12px; }
             .petal:nth-child(3) { left: 50%; width: 8px;  height: 8px; }
             .petal:nth-child(4) { left: 70%; width: 11px; height: 11px; }
             .petal:nth-child(5) { left: 90%; width: 9px;  height: 9px; }
             .petal:nth-child(6) { left: 40%; width: 10px; height: 10px; }
-
-            @keyframes rise {
-                0% { transform: translateY(0) rotate(0deg) scale(0.3); opacity: 0; }
-                10% { opacity: 0.6; }
-                90% { opacity: 0.6; }
-                100% { transform: translateY(-110vh) rotate(360deg) scale(0.6); opacity: 0; }
-            }
         }
 
-        /* --- 04. VENUE CENTERED LAYOUT --- */
+        /* --- 04. VENUE CENTERED LAYOUT WITH GLASS PANELS --- */
         .venue-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3rem; 
+            gap: 2rem; 
             margin-top: 2rem;
             width: 100%;
         }
-        .venue-item {
+        .venue-glass-panel {
             display: flex; flex-direction: column; align-items: center; text-align: center;
+            background: rgba(249, 247, 242, 0.08); /* Minimal highlight */
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(249, 247, 242, 0.15);
+            border-radius: 8px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 450px;
         }
-        .venue-item .editorial-italic { font-size: 1.2rem; margin-bottom: 0.5rem; }
-        .venue-item .venue-name { 
+        .venue-glass-panel .editorial-italic { font-size: 1.1rem; margin-bottom: 0.5rem; color: rgba(249,247,242,0.8); }
+        .venue-glass-panel .venue-name { 
             font-family: var(--font-sans); 
             font-size: 1.5rem; 
             letter-spacing: 0.2em; 
@@ -264,7 +260,7 @@
             font-weight: 500; 
             text-transform: uppercase;
         }
-        .venue-item .body-text { font-size: 1rem; margin-bottom: 0.8rem; line-height: 1.6; }
+        .venue-glass-panel .body-text { font-size: 0.95rem; margin-bottom: 0.8rem; line-height: 1.5; color: rgba(249,247,242,0.8); }
         .btn-direction-small {
             font-family: var(--font-sans);
             font-size: 0.6rem;
@@ -281,7 +277,7 @@
             font-weight: 500;
             color: var(--muted-gold);
             letter-spacing: 0.3em;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         /* --- 05. ENTOURAGE CATEGORY BUTTONS --- */
@@ -352,19 +348,16 @@
         }
 
         /* --- COMPACT GRIDS TO FIT 100VH --- */
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2rem; max-width: 800px; margin: 1.5rem auto 0; text-align: center; }
-        .color-palette { display: flex; gap: 0.8rem; justify-content: center; margin-top: 1rem; }
-        .color-swatch { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
-        .color-circle { width: 30px; height: 30px; border-radius: 50%; }
-        .color-name { font-family: var(--font-sans); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; }
-
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 3rem; max-width: 800px; margin: 2.5rem auto 0; text-align: center; align-items: start; }
+        
         .qr-stationery { width: 220px; padding: 1.5rem; background: #fff; margin: 0 auto; position: relative; border-radius: 4px; }
         .qr-placeholder { width: 100%; aspect-ratio: 1; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.15); margin-bottom: 1rem; }
         .img-label { font-family: var(--font-sans); font-size: 0.7rem; color: rgba(0,0,0,0.3); letter-spacing: 0.1em; text-transform: uppercase;}
 
         /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 768px) {
-            .venue-wrapper { gap: 2rem; }
+            .venue-wrapper { gap: 1.5rem; }
+            .venue-glass-panel { padding: 1.5rem; }
             .gallery-container { height: 45vh; max-width: 90vw; }
             .entourage-grid-new { grid-template-columns: 1fr; gap: 1rem; }
             .info-grid { grid-template-columns: 1fr; gap: 1.5rem; }
@@ -378,7 +371,7 @@
     <!-- Paper Grain Texture Overlay -->
     <div class="paper-grain"></div>
 
-    <!-- Global Video Background (Behind pages 6-9) -->
+    <!-- Global Video Background (Behind pages 8-9) -->
     <div id="global-video-bg">
         <video autoplay loop muted playsinline>
             <source src="background.mp4" type="video/mp4">
@@ -405,19 +398,8 @@
 
         <!-- 02. GALLERY OF THE COUPLE (MGA SANDALI) -->
         <section class="page dark-section" id="gallery" style="background-color: var(--ink-charcoal);">
-            
             <img class="bg-full-visible" src="2nd page.jpeg" alt="Gallery Background" style="opacity: 0.8;">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 0;"></div>
-
-            <!-- Petals moved here, right-aligned and smaller on desktop -->
-            <div class="petals-container">
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-            </div>
 
             <div class="content-layer reveal" style="width: 100%;">
                 <h2 class="title-medium" style="margin-bottom: 0.5rem;">Mga Sandali</h2>
@@ -435,10 +417,20 @@
             </div>
         </section>
 
-        <!-- 03. ANG AMING KWENTO -->
+        <!-- 03. ANG AMING KWENTO (WITH RISING PETALS) -->
         <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
             <img class="bg-full-visible" src="3rd page.jpeg" alt="Story Background">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
+
+            <!-- Petals moved back to 3rd page -->
+            <div class="petals-container">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+            </div>
 
             <div class="content-layer reveal">
                 <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Aming Kwento</h2>
@@ -458,7 +450,7 @@
             </div>
         </section>
 
-        <!-- 04. ANG ARAW NA HINIHINTAY NAMIN (Venues) -->
+        <!-- 04. ANG ARAW NA HINIHINTAY NAMIN (Venues in Glass Panels) -->
         <section class="page dark-section" id="wedding" style="background-color: var(--ink-charcoal);">
             <img class="bg-full-visible" src="4th page.jpeg" alt="Venue Background">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
@@ -469,14 +461,16 @@
                 <p class="subtitle highlight-date">31 ENERO 2028</p>
                 
                 <div class="venue-wrapper">
-                    <div class="venue-item">
+                    <!-- Glassmorphism Panel 1 -->
+                    <div class="venue-glass-panel">
                         <p class="editorial-italic">Seremonya</p>
                         <h3 class="venue-name">San Sebastian Church</h3>
                         <p class="body-text">Plaza del Carmen, Quiapo, Manila<br>4:30 PM</p>
                         <a href="https://maps.google.com" target="_blank" class="btn-direction-small">Get Directions</a>
                     </div>
                     
-                    <div class="venue-item">
+                    <!-- Glassmorphism Panel 2 -->
+                    <div class="venue-glass-panel">
                         <p class="editorial-italic">Reception</p>
                         <h3 class="venue-name">The Manila Hotel</h3>
                         <p class="body-text">One Rizal Park, Ermita, Manila<br>6:30 PM</p>
@@ -508,46 +502,52 @@
             </div>
         </section>
 
-        <!-- 06. MGA SANDALI NAMIN (Now acting as a divider or continuation depending on flow) -->
-        <section class="page dark-section" id="moments">
+        <!-- 06. SA PILING NINYO (Dress Code) -->
+        <section class="page dark-section" id="attire" style="background-color: var(--ink-charcoal);">
+            <img class="bg-full-visible" src="6th page.jpeg" alt="Dress Code Background">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.7); z-index: 0;"></div>
+
             <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 1rem;">Mga Sandali Namin</h2>
-                <p class="body-text" style="font-style: italic;">
-                    Mga simpleng araw, maliliit na moments, at mga alaala na naging bahagi ng kwento namin.
-                </p>
+                <h2 class="title-medium" style="margin-bottom: 0.5rem;">Sa Piling Ninyo</h2>
+                <h3 class="editorial-italic" style="margin-bottom: 2rem; font-size: 1.2rem;">Kasuotan: Filipiniana</h3>
+                
+                <div class="info-grid">
+                    <div style="background: rgba(249, 247, 242, 0.05); padding: 2rem; border-radius: 8px; border: 1px solid rgba(249,247,242,0.1);">
+                        <h4 style="font-size: 1.2rem; color: var(--muted-gold); margin-bottom: 1rem;">Para sa mga Kababaihan</h4>
+                        <p class="body-text" style="color: rgba(249,247,242,0.9);">
+                            Inaanyayahan namin kayong magsuot ng Modern Filipiniana, eleganteng Terno, o Maria Clara gown. Malaya kayong pumili ng kulay na pormal at akma sa selebrasyon.
+                        </p>
+                    </div>
+                    <div style="background: rgba(249, 247, 242, 0.05); padding: 2rem; border-radius: 8px; border: 1px solid rgba(249,247,242,0.1);">
+                        <h4 style="font-size: 1.2rem; color: var(--muted-gold); margin-bottom: 1rem;">Para sa mga Kalalakihan</h4>
+                        <p class="body-text" style="color: rgba(249,247,242,0.9);">
+                            Barong Tagalog na ipinares sa maitim na slacks o pantalon at pormal na sapatos.
+                        </p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- 07. BAGO TAYO MAGDIWANG (Details) -->
-        <section class="page dark-section" id="details">
+        <!-- 07. MGA MADALAS ITANONG (FAQs) -->
+        <section class="page dark-section" id="faqs" style="background-color: var(--ink-charcoal);">
+            <img class="bg-full-visible" src="7th page.jpeg" alt="FAQs Background">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.7); z-index: 0;"></div>
+
             <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 1.5rem;">Bago Tayo Magdiwang</h2>
+                <h2 class="title-medium" style="margin-bottom: 3rem;">Mga Madalas Itanong</h2>
                 
-                <div class="info-grid">
+                <div class="info-grid" style="text-align: left; gap: 2rem;">
                     <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.2rem;">Ano ang isusuot?</p>
-                        <h4 style="font-size: 1.2rem; margin-bottom: 0.2rem;">Formal Attire</h4>
-                        <p class="subtitle" style="color: var(--lilac); margin-bottom: 1rem;">Shades of Purple</p>
-                        <p class="body-text">Suotin ang inyong best formal look sa shades of purple.</p>
-                        <div class="color-palette">
-                            <div class="color-swatch"><div class="color-circle" style="background: var(--plum);"></div><span class="color-name">Plum</span></div>
-                            <div class="color-swatch"><div class="color-circle" style="background: var(--violet);"></div><span class="color-name">Violet</span></div>
-                            <div class="color-swatch"><div class="color-circle" style="background: var(--purple);"></div><span class="color-name">Purple</span></div>
-                            <div class="color-swatch"><div class="color-circle" style="background: var(--lilac);"></div><span class="color-name">Lilac</span></div>
-                            <div class="color-swatch"><div class="color-circle" style="background: var(--mauve);"></div><span class="color-name">Mauve</span></div>
-                        </div>
+                        <p class="editorial-italic" style="margin-bottom: 0.5rem; color: var(--muted-gold);">May Plus One Ba?</p>
+                        <p class="body-text" style="color: rgba(249,247,242,0.8); margin: 0;">Dahil limitado ang capacity ng venue, ang mga guests na nakapangalan sa invitation lamang ang maaari naming ma-accommodate. Salamat sa pag-unawa!</p>
                     </div>
                     <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.2rem;">May Plus One Ba?</p>
-                        <p class="body-text">Dahil limitado ang capacity ng venue, ang mga guests na nakapangalan sa invitation lamang ang maaari naming ma-accommodate. Salamat sa pag-unawa!</p>
+                        <p class="editorial-italic" style="margin-bottom: 0.5rem; color: var(--muted-gold);">May Regalo Ba?</p>
+                        <p class="body-text" style="color: rgba(249,247,242,0.8); margin: 0;">Masayang tatanggapin ang inyong monetary contribution para sa pagsisimula ng bagong chapter ng aming buhay.</p>
                     </div>
-                    <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.2rem;">May Regalo Ba?</p>
-                        <p class="body-text">Masayang tatanggapin ang monetary contribution para sa bagong chapter ng buhay namin.</p>
-                    </div>
-                    <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.2rem;">Walang Phones Muna</p>
-                        <p class="body-text">Pakiusap na itabi ang phones habang nasa ceremony upang maging present kasama namin. May professional photographers kami para kumuha ng moments.</p>
+                    <div style="grid-column: 1 / -1;">
+                        <p class="editorial-italic" style="margin-bottom: 0.5rem; color: var(--muted-gold);">Walang Phones Muna</p>
+                        <p class="body-text" style="color: rgba(249,247,242,0.8); margin: 0; max-width: 100%;">Pakiusap na itabi ang phones habang nasa ceremony upang maging present kasama namin. May professional photographers kami para kumuha ng magagandang moments.</p>
                     </div>
                 </div>
             </div>
@@ -666,7 +666,7 @@
             document.getElementById('entourage-lightbox').classList.remove('active');
         }
 
-        // Optional: Close lightbox if user clicks the overlay background
+        // Close lightbox if user clicks the overlay background
         document.getElementById('entourage-lightbox').addEventListener('click', function(e) {
             if(e.target === this) closeLightbox();
         });
