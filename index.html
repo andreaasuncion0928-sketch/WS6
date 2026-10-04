@@ -149,7 +149,33 @@
         .dark-section h1, .dark-section h2, .dark-section h3, .dark-section h4 { color: var(--paper-ivory); }
         .dark-section .entourage-group h4, .dark-section .closing-footer { color: var(--muted-gold); }
 
-        /* --- 03. VENUE CARDS (Page 3 Update) --- */
+        /* --- 02. GALLERY SECTION UTILITIES --- */
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            max-width: 380px; 
+            height: 55vh; 
+            min-height: 350px;
+            max-height: 600px;
+            margin: 1.5rem auto 0;
+            border: 6px solid var(--paper-ivory); /* Photo frame effect */
+            border-radius: 4px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            background: #000;
+            overflow: hidden;
+        }
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out; /* Smooth crossfade transition */
+            z-index: 1;
+        }
+
+        /* --- 03. VENUE CARDS --- */
         .cards-container {
             display: flex; gap: 2rem; justify-content: center; align-items: stretch;
             margin: 2rem auto 0; width: 100%; max-width: 900px;
@@ -177,20 +203,16 @@
         .btn-direction:hover { opacity: 0.8; }
 
         /* --- COMPACT GRIDS TO FIT 100VH --- */
-        /* Entourage */
         .entourage-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; width: 100%; max-width: 800px; margin: 1.5rem auto 0; }
         .entourage-group h4 { font-family: var(--font-sans); font-size: 0.65rem; letter-spacing: 0.3em; margin-top: 0.5rem; }
         .entourage-names { font-size: 1.3rem; line-height: 1.5; }
         
-        /* Details Grid */
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2rem; max-width: 800px; margin: 1.5rem auto 0; text-align: center; }
-        
         .color-palette { display: flex; gap: 0.8rem; justify-content: center; margin-top: 1rem; }
         .color-swatch { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
         .color-circle { width: 30px; height: 30px; border-radius: 50%; }
         .color-name { font-family: var(--font-sans); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; }
 
-        /* RSVP */
         .qr-stationery { width: 220px; padding: 1.5rem; background: #fff; margin: 0 auto; position: relative; border-radius: 4px; }
         .qr-placeholder { width: 100%; aspect-ratio: 1; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.15); margin-bottom: 1rem; }
         .img-label { font-family: var(--font-sans); font-size: 0.7rem; color: rgba(0,0,0,0.3); letter-spacing: 0.1em; text-transform: uppercase;}
@@ -202,6 +224,8 @@
             .venue-sketch { width: 70px; height: 70px; margin-bottom: 0.5rem; }
             .venue-card .body-text { margin-bottom: 1rem; }
             
+            .gallery-container { height: 45vh; max-width: 90vw; }
+
             .entourage-gallery { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2rem; }
             .info-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             
@@ -240,32 +264,30 @@
     <!-- STATIONERY WRAPPER -->
     <main id="invitation-stationery">
 
-        <!-- 02. ANG KWENTO NAMIN (Image Background - 10% Opacity) -->
+        <!-- 02. GALLERY OF THE COUPLE (Image Background - 10% Opacity) -->
         <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
-            <!-- Image Background set to 10% opacity -->
-            <img class="image-bg" src="2nd page.png" alt="Story Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.1; z-index: 0;">
+            <!-- Image Background set to 10% opacity, cover and center for mobile visibility -->
+            <img class="image-bg" src="2nd page.jpeg" alt="Gallery Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0.1; z-index: 0;">
             
-            <div class="content-layer reveal">
-                <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Kwento Namin</h2>
-                <h3 class="editorial-italic" style="margin-bottom: 1.5rem;">Nagsimula sa kape.</h3>
+            <div class="content-layer reveal" style="width: 100%;">
+                <h2 class="title-medium" style="margin-bottom: 0.5rem;">Mga Alaala Namin</h2>
+                <h3 class="editorial-italic" style="margin-bottom: 1rem; font-size: 1.2rem;">Ang aming kwento sa larawan.</h3>
                 
-                <p class="body-text" style="margin-bottom: 1rem;">
-                    Sino ang mag-aakala na ang isang simpleng kape sa isang ordinaryong hapon sa Maynila ang magiging simula ng lahat?
-                </p>
-                <p class="body-text" style="margin-bottom: 1rem;">
-                    Ang akala naming saglit na pagkikita ay nauwi sa walang-katapusang kwentuhan—tawanan tungkol sa mga sablay na byahe, at pagbabahagi ng mga paboritong kanta.
-                </p>
-                <p class="body-text" style="margin-bottom: 3rem;">
-                    Nang magpaalam kami nang gabing iyon, may kakaibang kaba at saya. Pareho naming naramdaman na ito na ang simula ng isang napakagandang kwento.
-                </p>
-                
-                <h3 class="title-medium" style="font-size: 1.8rem;">At ngayon, ikakasal na kami!</h3>
+                <!-- Dynamic Photo Stacking Gallery -->
+                <div class="gallery-container">
+                    <img src="1st.jpeg" class="slide" alt="Couple Memory 1">
+                    <img src="2nd.jpeg" class="slide" alt="Couple Memory 2">
+                    <img src="3rd.jpeg" class="slide" alt="Couple Memory 3">
+                    <img src="4th.jpeg" class="slide" alt="Couple Memory 4">
+                    <img src="5th.jpeg" class="slide" alt="Couple Memory 5">
+                    <img src="6th.jpeg" class="slide" alt="Couple Memory 6">
+                    <img src="7th.jpeg" class="slide" alt="Couple Memory 7">
+                </div>
             </div>
         </section>
 
         <!-- 03. ANG ARAW NA HINIHINTAY NAMIN (With Detail Cards & Specific 3rd Page Background) -->
         <section class="page dark-section" id="wedding" style="background-color: var(--ink-charcoal);">
-            
             <!-- Specific Image Background for Page 3 (Visible on mobile/desktop perfectly) -->
             <img class="image-bg" src="3rd page.jpeg" alt="Venue Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0;">
             <!-- Dimming overlay to ensure text/cards contrast well -->
@@ -276,19 +298,14 @@
                 <p class="subtitle" style="margin-bottom: 0;">31 Enero 2028</p>
                 
                 <div class="cards-container">
-                    <!-- Ceremony Card -->
                     <div class="venue-card">
-                        <!-- Replace src with your sketch image -->
                         <img src="church-sketch.png" alt="Church Sketch" class="venue-sketch">
                         <p class="editorial-italic">Seremonya</p>
                         <h3>San Sebastian Church</h3>
                         <p class="body-text">Plaza del Carmen, Quiapo, Manila<br>4:30 PM</p>
                         <a href="https://maps.google.com" target="_blank" class="btn-direction">Get Directions</a>
                     </div>
-
-                    <!-- Reception Card -->
                     <div class="venue-card">
-                        <!-- Replace src with your sketch image -->
                         <img src="hotel-sketch.png" alt="Hotel Sketch" class="venue-sketch">
                         <p class="editorial-italic">Reception</p>
                         <h3>The Manila Hotel</h3>
@@ -344,7 +361,6 @@
                 <h2 class="title-medium" style="margin-bottom: 1.5rem;">Bago Tayo Magdiwang</h2>
                 
                 <div class="info-grid">
-                    <!-- Dress Code -->
                     <div>
                         <p class="editorial-italic" style="margin-bottom: 0.2rem;">Ano ang isusuot?</p>
                         <h4 style="font-size: 1.2rem; margin-bottom: 0.2rem;">Formal Attire</h4>
@@ -358,20 +374,14 @@
                             <div class="color-swatch"><div class="color-circle" style="background: var(--mauve);"></div><span class="color-name">Mauve</span></div>
                         </div>
                     </div>
-
-                    <!-- Plus One -->
                     <div>
                         <p class="editorial-italic" style="margin-bottom: 0.2rem;">May Plus One Ba?</p>
                         <p class="body-text">Dahil limitado ang capacity ng venue, ang mga guests na nakapangalan sa invitation lamang ang maaari naming ma-accommodate. Salamat sa pag-unawa!</p>
                     </div>
-
-                    <!-- Gifts -->
                     <div>
                         <p class="editorial-italic" style="margin-bottom: 0.2rem;">May Regalo Ba?</p>
                         <p class="body-text">Masayang tatanggapin ang monetary contribution para sa bagong chapter ng buhay namin.</p>
                     </div>
-
-                    <!-- Unplugged -->
                     <div>
                         <p class="editorial-italic" style="margin-bottom: 0.2rem;">Walang Phones Muna</p>
                         <p class="body-text">Pakiusap na itabi ang phones habang nasa ceremony upang maging present kasama namin. May professional photographers kami para kumuha ng moments.</p>
@@ -417,6 +427,39 @@
     </main>
 
     <script>
+        // --- GALLERY SCRIPT: Fades next image over current ---
+        let galleryInitialized = false;
+        function initGallery() {
+            if (galleryInitialized) return;
+            galleryInitialized = true;
+            
+            const slides = document.querySelectorAll('.slide');
+            if (slides.length === 0) return;
+            
+            let current = 0;
+            // Show the first slide immediately
+            slides[current].style.opacity = 1;
+            slides[current].style.zIndex = 2;
+
+            setInterval(() => {
+                let next = (current + 1) % slides.length;
+                
+                // Stack the next image on top of the current one
+                slides[next].style.zIndex = 3; 
+                slides[next].style.opacity = 1; // Fade it in
+
+                // After the 1-second CSS fade completes, hide the underlying old slide 
+                // and reset layering so the cycle can continue seamlessly.
+                setTimeout(() => {
+                    slides[current].style.zIndex = 1; 
+                    slides[current].style.opacity = 0; 
+                    slides[next].style.zIndex = 2; 
+                    current = next;
+                }, 1000); // 1000ms = 1 second
+                
+            }, 3500); // Wait 3.5 seconds before showing the next image
+        }
+
         // --- OPEN INVITATION INTERACTION ---
         function openInvitation() {
             const entrance = document.getElementById('entrance');
@@ -425,10 +468,11 @@
             // Fade out the entrance
             entrance.classList.add('opened');
             
-            // Fade in the stationery content and allow scroll
+            // Fade in the stationery content, allow scroll, and trigger animations
             setTimeout(() => {
                 stationery.classList.add('visible');
-                initScrollObserver(); 
+                initScrollObserver();
+                initGallery(); // Start the photo gallery slideshow
             }, 800);
         }
 
