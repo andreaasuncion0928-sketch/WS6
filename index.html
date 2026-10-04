@@ -35,25 +35,51 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body, html {
-            background-color: var(--ink-charcoal);
+            background-color: #E2DFDA; /* Outer desk/mat background for desktop view */
             color: var(--ink-charcoal);
             font-family: var(--font-display);
             -webkit-font-smoothing: antialiased;
             width: 100%;
             height: 100%;
             overflow: hidden; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Fine Paper Grain Texture */
+        /* Fine Paper Grain Texture (Covers everything) */
         .paper-grain {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.035"/%3E%3C/svg%3E');
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.04"/%3E%3C/svg%3E');
             pointer-events: none; z-index: 9999; mix-blend-mode: multiply;
         }
 
-        /* --- GLOBAL VIDEO BACKGROUND (For Pages 5 to End) --- */
+        /* --- DESKTOP CANVAS CONTAINER --- */
+        #app-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: var(--ink-charcoal);
+            overflow: hidden;
+            box-shadow: none;
+        }
+
+        /* Transform into a framed card on browsers */
+        @media (min-width: 769px) {
+            #app-container {
+                width: 90vw;
+                max-width: 1200px;
+                height: 85vh;
+                max-height: 850px;
+                box-shadow: 0 30px 60px rgba(0,0,0,0.25); /* Elegant drop shadow */
+                border-radius: 4px;
+                border: 1px solid rgba(0,0,0,0.05);
+            }
+        }
+
+        /* --- GLOBAL VIDEO BACKGROUND --- */
         #global-video-bg {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
         }
         #global-video-bg video {
             width: 100%; height: 100%; object-fit: cover;
@@ -81,7 +107,7 @@
 
         /* --- 01. THE OPENING --- */
         #entrance {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--paper-ivory);
             z-index: 9000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -118,7 +144,7 @@
 
         /* --- STATIONERY WRAPPER (Scroll Snap Container) --- */
         #invitation-stationery { 
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             overflow-y: auto; overflow-x: hidden;
             scroll-snap-type: y mandatory; 
             scroll-behavior: smooth;
@@ -131,8 +157,7 @@
         #invitation-stationery.visible { opacity: 1; pointer-events: auto; }
 
         .page {
-            height: 100vh; 
-            height: 100dvh;
+            height: 100%; /* Adapts to container height */
             padding: var(--section-pad); 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             position: relative; text-align: center; width: 100%;
@@ -149,8 +174,7 @@
         .dark-section h1, .dark-section h2, .dark-section h3, .dark-section h4 { color: var(--paper-ivory); }
         .dark-section .entourage-group h4, .dark-section .closing-footer { color: var(--muted-gold); }
 
-        /* --- FULL WIDTH/HEIGHT BACKGROUND IMAGES --- */
-        /* object-fit: cover ensures the image completely fills the screen without any gaps on the sides */
+        /* --- BACKGROUND IMAGES --- */
         .bg-full-visible {
             position: absolute; 
             top: 0; 
@@ -163,11 +187,21 @@
         }
 
         /* --- 02. GALLERY SECTION UTILITIES --- */
+        .split-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        .split-layout .text-content { text-align: center; }
+        
         .gallery-container {
             position: relative;
             width: 100%;
             max-width: 380px; 
-            height: 55vh; 
+            height: 55%; 
             min-height: 350px;
             max-height: 600px;
             margin: 1.5rem auto 0;
@@ -177,6 +211,28 @@
             background: #000;
             overflow: hidden;
         }
+
+        /* Desktop specific alignment for Page 2 */
+        @media (min-width: 769px) {
+            .split-layout {
+                flex-direction: row;
+                justify-content: space-evenly;
+                align-items: center;
+                padding: 0 5%; 
+            }
+            .split-layout .text-content {
+                flex: 1;
+                text-align: left;
+                padding-right: 2rem;
+            }
+            .split-layout .gallery-container {
+                flex: 1;
+                margin: 0;
+                max-width: 450px;
+                height: 65%;
+            }
+        }
+
         .slide {
             position: absolute;
             top: 0; left: 0;
@@ -215,7 +271,7 @@
             10% { opacity: 0.6; }
             90% { opacity: 0.6; }
             100% {
-                transform: translateY(-110vh) rotate(360deg) scale(1);
+                transform: translateY(-120%) rotate(360deg) scale(1); /* Updated to % for container adaptation */
                 opacity: 0;
             }
         }
@@ -285,12 +341,9 @@
         /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 768px) {
             .venue-wrapper { gap: 2rem; }
-            
-            .gallery-container { height: 45vh; max-width: 90vw; }
-
+            .gallery-container { height: 45%; max-width: 90vw; }
             .entourage-gallery { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2rem; }
             .info-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-            
             .title-medium { margin-bottom: 0.5rem !important; }
             .editorial-italic { margin-bottom: 0.5rem !important; }
         }
@@ -298,229 +351,237 @@
 </head>
 <body>
 
-    <!-- Paper Grain Texture Overlay -->
+    <!-- Paper Grain Texture Overlay (Covers Desktop backdrop + App) -->
     <div class="paper-grain"></div>
 
-    <!-- Global Video Background (Behind pages 5-8) -->
-    <div id="global-video-bg">
-        <video autoplay loop muted playsinline>
-            <source src="background.mp4" type="video/mp4">
-        </video>
-        <div class="video-overlay"></div>
-    </div>
-
-    <!-- 01. THE OPENING -->
-    <div id="entrance">
-        <div class="hero-image-wrapper">
-            <img src="entrance.jpeg" alt="Warm Ivory Architectural Entrance">
+    <!-- MAIN APP CONTAINER (Acts as the framed card on desktop) -->
+    <div id="app-container">
+        
+        <!-- Global Video Background (Behind pages 5-8) -->
+        <div id="global-video-bg">
+            <video autoplay loop muted playsinline>
+                <source src="background.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
         </div>
-        <div class="entrance-content">
-            <p class="editorial-italic" style="margin-bottom: 1.5rem; font-size: 2.2rem;">Ikakasal na!</p>
-            <h1 class="title-large" style="margin-bottom: 1rem;">Elena and Adrian</h1>
-            <p class="subtitle" style="color: var(--ink-charcoal); margin-bottom: 0.5rem;">imbitado ka sa munting selebrasyon</p>
-            <p class="subtitle" style="color: var(--ink-charcoal);">Enero 31, 2028</p>
-            <button class="btn-open" onclick="openInvitation()">Buksan ang imbitasyon &rarr;</button>
+
+        <!-- 01. THE OPENING -->
+        <div id="entrance">
+            <div class="hero-image-wrapper">
+                <img src="entrance.jpeg" alt="Warm Ivory Architectural Entrance">
+            </div>
+            <div class="entrance-content">
+                <p class="editorial-italic" style="margin-bottom: 1.5rem; font-size: 2.2rem;">Ikakasal na!</p>
+                <h1 class="title-large" style="margin-bottom: 1rem;">Elena and Adrian</h1>
+                <p class="subtitle" style="color: var(--ink-charcoal); margin-bottom: 0.5rem;">imbitado ka sa munting selebrasyon</p>
+                <p class="subtitle" style="color: var(--ink-charcoal);">Enero 31, 2028</p>
+                <button class="btn-open" onclick="openInvitation()">Buksan ang imbitasyon &rarr;</button>
+            </div>
         </div>
-    </div>
 
-    <!-- STATIONERY WRAPPER -->
-    <main id="invitation-stationery">
+        <!-- STATIONERY WRAPPER -->
+        <main id="invitation-stationery">
 
-        <!-- 02. GALLERY OF THE COUPLE -->
-        <section class="page dark-section" id="gallery" style="background-color: var(--ink-charcoal);">
-            <!-- Background Image fully covering the screen width and length -->
-            <img class="bg-full-visible" src="2nd page.jpeg" alt="Gallery Background" style="opacity: 0.8;">
-            
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 0;"></div>
-
-            <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 0.5rem;">Mga Alaala Namin</h2>
-                <h3 class="editorial-italic" style="margin-bottom: 1rem; font-size: 1.2rem;">Ang aming kwento sa larawan.</h3>
+            <!-- 02. GALLERY OF THE COUPLE (Split Layout on Desktop) -->
+            <section class="page dark-section" id="gallery" style="background-color: var(--ink-charcoal);">
                 
-                <div class="gallery-container">
-                    <img src="1st.jpeg" class="slide" alt="Couple Memory 1">
-                    <img src="2nd.jpeg" class="slide" alt="Couple Memory 2">
-                    <img src="3rd.jpeg" class="slide" alt="Couple Memory 3">
-                    <img src="4th.jpeg" class="slide" alt="Couple Memory 4">
-                    <img src="5th.jpeg" class="slide" alt="Couple Memory 5">
-                    <img src="6th.jpeg" class="slide" alt="Couple Memory 6">
-                    <img src="7th.jpeg" class="slide" alt="Couple Memory 7">
-                </div>
-            </div>
-        </section>
+                <!-- Background Image -->
+                <img class="bg-full-visible" src="2nd page.jpeg" alt="Gallery Background" style="opacity: 0.8;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 0;"></div>
 
-        <!-- 03. ANG AMING KWENTO -->
-        <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
-            
-            <div class="petals-container">
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-            </div>
-
-            <!-- Background Image fully covering the screen width and length -->
-            <img class="bg-full-visible" src="3rd page.jpeg" alt="Story Background">
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
-
-            <div class="content-layer reveal">
-                <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Aming Kwento</h2>
-                <h3 class="editorial-italic" style="margin-bottom: 1.5rem;">Nagsimula sa kape.</h3>
-                
-                <p class="body-text" style="margin-bottom: 1rem;">
-                    Sino ang mag-aakala na ang isang simpleng kape sa isang ordinaryong hapon sa Maynila ang magiging simula ng lahat?
-                </p>
-                <p class="body-text" style="margin-bottom: 1rem;">
-                    Ang akala naming saglit na pagkikita ay nauwi sa walang-katapusang kwentuhan—tawanan tungkol sa mga sablay na byahe, at pagbabahagi ng mga paboritong kanta.
-                </p>
-                <p class="body-text" style="margin-bottom: 3rem;">
-                    Nang magpaalam kami nang gabing iyon, may kakaibang kaba at saya. Pareho naming naramdaman na ito na ang simula ng isang napakagandang kwento.
-                </p>
-                
-                <h3 class="title-medium" style="font-size: 1.8rem;">At ngayon, ikakasal na kami!</h3>
-            </div>
-        </section>
-
-        <!-- 04. ANG ARAW NA HINIHINTAY NAMIN (Venues) -->
-        <section class="page dark-section" id="wedding" style="background-color: var(--ink-charcoal);">
-            <!-- Background Image fully covering the screen width and length -->
-            <img class="bg-full-visible" src="4th page.jpeg" alt="Venue Background">
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
-
-            <div class="content-layer reveal" style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <h2 class="title-medium" style="margin-bottom: 0.5rem;">Ang Araw Na Hinihintay Namin</h2>
-                
-                <p class="subtitle highlight-date">31 ENERO 2028</p>
-                
-                <div class="venue-wrapper">
-                    <div class="venue-item">
-                        <p class="editorial-italic">Seremonya</p>
-                        <h3 class="venue-name">San Sebastian Church</h3>
-                        <p class="body-text">Plaza del Carmen, Quiapo, Manila<br>4:30 PM</p>
-                        <a href="https://maps.google.com" target="_blank" class="btn-direction-small">Get Directions</a>
+                <div class="content-layer reveal split-layout">
+                    <!-- Text blocks (Left on Desktop) -->
+                    <div class="text-content">
+                        <h2 class="title-medium" style="margin-bottom: 0.5rem;">Mga Alaala Namin</h2>
+                        <h3 class="editorial-italic" style="margin-bottom: 1rem; font-size: 1.2rem;">Ang aming kwento sa larawan.</h3>
                     </div>
                     
-                    <div class="venue-item">
-                        <p class="editorial-italic">Reception</p>
-                        <h3 class="venue-name">The Manila Hotel</h3>
-                        <p class="body-text">One Rizal Park, Ermita, Manila<br>6:30 PM</p>
-                        <a href="https://maps.google.com" target="_blank" class="btn-direction-small">Get Directions</a>
+                    <!-- Gallery (Right on Desktop) -->
+                    <div class="gallery-container">
+                        <img src="1st.jpeg" class="slide" alt="Couple Memory 1">
+                        <img src="2nd.jpeg" class="slide" alt="Couple Memory 2">
+                        <img src="3rd.jpeg" class="slide" alt="Couple Memory 3">
+                        <img src="4th.jpeg" class="slide" alt="Couple Memory 4">
+                        <img src="5th.jpeg" class="slide" alt="Couple Memory 5">
+                        <img src="6th.jpeg" class="slide" alt="Couple Memory 6">
+                        <img src="7th.jpeg" class="slide" alt="Couple Memory 7">
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- 05. ANG MGA TAONG KASAMA NAMIN -->
-        <section class="page dark-section" id="entourage">
-            <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Mga Taong Kasama Namin</h2>
-                <p class="body-text" style="max-width: 500px; margin: 0 auto; font-style: italic;">
-                    Hindi magiging ganito ang kwento namin kung wala ang mga taong kasama namin sa bawat bahagi nito.
-                </p>
-
-                <div class="entourage-gallery">
-                    <div class="entourage-group">
-                        <p class="entourage-names">Sofia Reyes</p>
-                        <h4>Maid of Honor</h4>
-                    </div>
-                    <div class="entourage-group">
-                        <p class="entourage-names">Daniel Cruz</p>
-                        <h4>Best Man</h4>
-                    </div>
-                    <div class="entourage-group">
-                        <p class="entourage-names">Clara · Nina · Bea · Isabelle</p>
-                        <h4>Bridesmaids</h4>
-                    </div>
-                    <div class="entourage-group">
-                        <p class="entourage-names">Marco · Ethan · James · Rafael</p>
-                        <h4>Groomsmen</h4>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 06. MGA SANDALI NAMIN -->
-        <section class="page dark-section" id="moments">
-            <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 1rem;">Mga Sandali Namin</h2>
-                <p class="body-text" style="font-style: italic;">
-                    Mga simpleng araw, maliliit na moments, at mga alaala na naging bahagi ng kwento namin.
-                </p>
-            </div>
-        </section>
-
-        <!-- 07. BAGO TAYO MAGDIWANG (Details) -->
-        <section class="page dark-section" id="details">
-            <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 1.5rem;">Bago Tayo Magdiwang</h2>
+            <!-- 03. ANG AMING KWENTO -->
+            <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
                 
-                <div class="info-grid">
-                    <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.2rem;">Ano ang isusuot?</p>
-                        <h4 style="font-size: 1.2rem; margin-bottom: 0.2rem;">Formal Attire</h4>
-                        <p class="subtitle" style="color: var(--lilac); margin-bottom: 1rem;">Shades of Purple</p>
-                        <p class="body-text">Suotin ang inyong best formal look sa shades of purple.</p>
-                        <div class="color-palette">
-                            <div class="color-swatch"><div class="color-circle" style="background: var(--plum);"></div><span class="color-name">Plum</span></div>
-                            <div class="color-swatch"><div class="color-circle" style="background: var(--violet);"></div><span class="color-name">Violet</span></div>
-                            <div class="color-swatch"><div class="color-circle" style="background: var(--purple);"></div><span class="color-name">Purple</span></div>
-                            <div class="color-swatch"><div class="color-circle" style="background: var(--lilac);"></div><span class="color-name">Lilac</span></div>
-                            <div class="color-swatch"><div class="color-circle" style="background: var(--mauve);"></div><span class="color-name">Mauve</span></div>
+                <div class="petals-container">
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                </div>
+
+                <!-- Background Image -->
+                <img class="bg-full-visible" src="3rd page.jpeg" alt="Story Background">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
+
+                <div class="content-layer reveal">
+                    <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Aming Kwento</h2>
+                    <h3 class="editorial-italic" style="margin-bottom: 1.5rem;">Nagsimula sa kape.</h3>
+                    
+                    <p class="body-text" style="margin-bottom: 1rem;">
+                        Sino ang mag-aakala na ang isang simpleng kape sa isang ordinaryong hapon sa Maynila ang magiging simula ng lahat?
+                    </p>
+                    <p class="body-text" style="margin-bottom: 1rem;">
+                        Ang akala naming saglit na pagkikita ay nauwi sa walang-katapusang kwentuhan—tawanan tungkol sa mga sablay na byahe, at pagbabahagi ng mga paboritong kanta.
+                    </p>
+                    <p class="body-text" style="margin-bottom: 3rem;">
+                        Nang magpaalam kami nang gabing iyon, may kakaibang kaba at saya. Pareho naming naramdaman na ito na ang simula ng isang napakagandang kwento.
+                    </p>
+                    
+                    <h3 class="title-medium" style="font-size: 1.8rem;">At ngayon, ikakasal na kami!</h3>
+                </div>
+            </section>
+
+            <!-- 04. ANG ARAW NA HINIHINTAY NAMIN (Venues) -->
+            <section class="page dark-section" id="wedding" style="background-color: var(--ink-charcoal);">
+                <!-- Background Image -->
+                <img class="bg-full-visible" src="4th page.jpeg" alt="Venue Background">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
+
+                <div class="content-layer reveal" style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <h2 class="title-medium" style="margin-bottom: 0.5rem;">Ang Araw Na Hinihintay Namin</h2>
+                    
+                    <p class="subtitle highlight-date">31 ENERO 2028</p>
+                    
+                    <div class="venue-wrapper">
+                        <div class="venue-item">
+                            <p class="editorial-italic">Seremonya</p>
+                            <h3 class="venue-name">San Sebastian Church</h3>
+                            <p class="body-text">Plaza del Carmen, Quiapo, Manila<br>4:30 PM</p>
+                            <a href="https://maps.google.com" target="_blank" class="btn-direction-small">Get Directions</a>
+                        </div>
+                        
+                        <div class="venue-item">
+                            <p class="editorial-italic">Reception</p>
+                            <h3 class="venue-name">The Manila Hotel</h3>
+                            <p class="body-text">One Rizal Park, Ermita, Manila<br>6:30 PM</p>
+                            <a href="https://maps.google.com" target="_blank" class="btn-direction-small">Get Directions</a>
                         </div>
                     </div>
-                    <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.2rem;">May Plus One Ba?</p>
-                        <p class="body-text">Dahil limitado ang capacity ng venue, ang mga guests na nakapangalan sa invitation lamang ang maaari naming ma-accommodate. Salamat sa pag-unawa!</p>
-                    </div>
-                    <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.2rem;">May Regalo Ba?</p>
-                        <p class="body-text">Masayang tatanggapin ang monetary contribution para sa bagong chapter ng buhay namin.</p>
-                    </div>
-                    <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.2rem;">Walang Phones Muna</p>
-                        <p class="body-text">Pakiusap na itabi ang phones habang nasa ceremony upang maging present kasama namin. May professional photographers kami para kumuha ng moments.</p>
+                </div>
+            </section>
+
+            <!-- 05. ANG MGA TAONG KASAMA NAMIN -->
+            <section class="page dark-section" id="entourage">
+                <div class="content-layer reveal" style="width: 100%;">
+                    <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Mga Taong Kasama Namin</h2>
+                    <p class="body-text" style="max-width: 500px; margin: 0 auto; font-style: italic;">
+                        Hindi magiging ganito ang kwento namin kung wala ang mga taong kasama namin sa bawat bahagi nito.
+                    </p>
+
+                    <div class="entourage-gallery">
+                        <div class="entourage-group">
+                            <p class="entourage-names">Sofia Reyes</p>
+                            <h4>Maid of Honor</h4>
+                        </div>
+                        <div class="entourage-group">
+                            <p class="entourage-names">Daniel Cruz</p>
+                            <h4>Best Man</h4>
+                        </div>
+                        <div class="entourage-group">
+                            <p class="entourage-names">Clara · Nina · Bea · Isabelle</p>
+                            <h4>Bridesmaids</h4>
+                        </div>
+                        <div class="entourage-group">
+                            <p class="entourage-names">Marco · Ethan · James · Rafael</p>
+                            <h4>Groomsmen</h4>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- 08. SANA MAKASAMA NAMIN KAYO (RSVP) -->
-        <section class="page dark-section" id="rsvp">
-            <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 2rem;">Sasama Kayo?</h2>
-                
-                <div class="qr-stationery">
-                    <div class="qr-placeholder">
-                        <span class="img-label">[ QR CODE ]</span>
+            <!-- 06. MGA SANDALI NAMIN -->
+            <section class="page dark-section" id="moments">
+                <div class="content-layer reveal" style="width: 100%;">
+                    <h2 class="title-medium" style="margin-bottom: 1rem;">Mga Sandali Namin</h2>
+                    <p class="body-text" style="font-style: italic;">
+                        Mga simpleng araw, maliliit na moments, at mga alaala na naging bahagi ng kwento namin.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 07. BAGO TAYO MAGDIWANG (Details) -->
+            <section class="page dark-section" id="details">
+                <div class="content-layer reveal" style="width: 100%;">
+                    <h2 class="title-medium" style="margin-bottom: 1.5rem;">Bago Tayo Magdiwang</h2>
+                    
+                    <div class="info-grid">
+                        <div>
+                            <p class="editorial-italic" style="margin-bottom: 0.2rem;">Ano ang isusuot?</p>
+                            <h4 style="font-size: 1.2rem; margin-bottom: 0.2rem;">Formal Attire</h4>
+                            <p class="subtitle" style="color: var(--lilac); margin-bottom: 1rem;">Shades of Purple</p>
+                            <p class="body-text">Suotin ang inyong best formal look sa shades of purple.</p>
+                            <div class="color-palette">
+                                <div class="color-swatch"><div class="color-circle" style="background: var(--plum);"></div><span class="color-name">Plum</span></div>
+                                <div class="color-swatch"><div class="color-circle" style="background: var(--violet);"></div><span class="color-name">Violet</span></div>
+                                <div class="color-swatch"><div class="color-circle" style="background: var(--purple);"></div><span class="color-name">Purple</span></div>
+                                <div class="color-swatch"><div class="color-circle" style="background: var(--lilac);"></div><span class="color-name">Lilac</span></div>
+                                <div class="color-swatch"><div class="color-circle" style="background: var(--mauve);"></div><span class="color-name">Mauve</span></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="editorial-italic" style="margin-bottom: 0.2rem;">May Plus One Ba?</p>
+                            <p class="body-text">Dahil limitado ang capacity ng venue, ang mga guests na nakapangalan sa invitation lamang ang maaari naming ma-accommodate. Salamat sa pag-unawa!</p>
+                        </div>
+                        <div>
+                            <p class="editorial-italic" style="margin-bottom: 0.2rem;">May Regalo Ba?</p>
+                            <p class="body-text">Masayang tatanggapin ang monetary contribution para sa bagong chapter ng buhay namin.</p>
+                        </div>
+                        <div>
+                            <p class="editorial-italic" style="margin-bottom: 0.2rem;">Walang Phones Muna</p>
+                            <p class="body-text">Pakiusap na itabi ang phones habang nasa ceremony upang maging present kasama namin. May professional photographers kami para kumuha ng moments.</p>
+                        </div>
                     </div>
-                    <p class="subtitle" style="color: var(--ink-charcoal);">Scan to confirm</p>
                 </div>
-                
-                <h3 class="editorial-italic" style="font-size: 1.8rem; margin: 2rem 0 0.5rem;">Sana makasama namin kayo.</h3>
-                <p class="body-text">
-                    Kung makakasama kayo sa araw na ito, i-scan ang QR code para makumpirma ang inyong attendance.
-                </p>
-            </div>
-        </section>
+            </section>
 
-        <!-- 09. THE LAST PAGE (Closing) -->
-        <section class="page dark-section" id="closing">
-            <div class="content-layer reveal" style="width: 100%;">
-                <h1 class="title-large" style="margin-bottom: 1rem;">Elena & Adrian</h1>
-                <p class="editorial-italic" style="font-size: 1.5rem; margin-bottom: 1rem;">At dito pa lang nagsisimula ang bagong chapter.</p>
-                <p class="subtitle">31 Enero 2028 · Manila</p>
-                
-                <p class="body-text" style="margin-top: 3rem;">Maraming salamat sa pagiging bahagi ng kwento namin.</p>
-                
-                <div class="closing-footer">
-                    StoryInvites<br><span style="text-transform: none; font-style: italic; opacity: 0.6; display: inline-block; margin-top: 5px; color: var(--paper-ivory);">Your story. Your style. Your invitation.</span>
+            <!-- 08. SANA MAKASAMA NAMIN KAYO (RSVP) -->
+            <section class="page dark-section" id="rsvp">
+                <div class="content-layer reveal" style="width: 100%;">
+                    <h2 class="title-medium" style="margin-bottom: 2rem;">Sasama Kayo?</h2>
+                    
+                    <div class="qr-stationery">
+                        <div class="qr-placeholder">
+                            <span class="img-label">[ QR CODE ]</span>
+                        </div>
+                        <p class="subtitle" style="color: var(--ink-charcoal);">Scan to confirm</p>
+                    </div>
+                    
+                    <h3 class="editorial-italic" style="font-size: 1.8rem; margin: 2rem 0 0.5rem;">Sana makasama namin kayo.</h3>
+                    <p class="body-text">
+                        Kung makakasama kayo sa araw na ito, i-scan ang QR code para makumpirma ang inyong attendance.
+                    </p>
                 </div>
-            </div>
-        </section>
+            </section>
 
-    </main>
+            <!-- 09. THE LAST PAGE (Closing) -->
+            <section class="page dark-section" id="closing">
+                <div class="content-layer reveal" style="width: 100%;">
+                    <h1 class="title-large" style="margin-bottom: 1rem;">Elena & Adrian</h1>
+                    <p class="editorial-italic" style="font-size: 1.5rem; margin-bottom: 1rem;">At dito pa lang nagsisimula ang bagong chapter.</p>
+                    <p class="subtitle">31 Enero 2028 · Manila</p>
+                    
+                    <p class="body-text" style="margin-top: 3rem;">Maraming salamat sa pagiging bahagi ng kwento namin.</p>
+                    
+                    <div class="closing-footer">
+                        StoryInvites<br><span style="text-transform: none; font-style: italic; opacity: 0.6; display: inline-block; margin-top: 5px; color: var(--paper-ivory);">Your story. Your style. Your invitation.</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div> <!-- END APP CONTAINER -->
 
     <script>
         // --- GALLERY SCRIPT: Fades next image over current ---
