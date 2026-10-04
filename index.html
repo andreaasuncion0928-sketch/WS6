@@ -112,11 +112,11 @@
             border-bottom: 1px solid rgba(42,38,35,0.05);
         }
 
-        /* --- 02. ANG KWENTO NAMIN (Video Background) --- */
-        #story {
+        /* --- VIDEO BACKGROUND UTILITIES (For Pages 02 & 03) --- */
+        .video-section {
             position: relative;
             overflow: hidden;
-            color: var(--paper-ivory); /* Light text to stand out against video */
+            color: var(--paper-ivory);
             border-bottom: none;
         }
         
@@ -127,13 +127,15 @@
         
         .video-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(42, 38, 35, 0.65); /* Dark tint for text readability */
+            background: rgba(42, 38, 35, 0.50); /* 50% Overlay */
             z-index: 1;
         }
 
-        #story .content-layer { max-width: 700px; margin: 0 auto; z-index: 2; }
-        #story .editorial-italic { color: var(--paper-ivory); }
-        #story .body-text { color: rgba(249, 247, 242, 0.9); }
+        /* Video Section Text Overrides */
+        .video-section .content-layer { max-width: 700px; margin: 0 auto; z-index: 2; }
+        .video-section .editorial-italic { color: var(--paper-ivory); }
+        .video-section .body-text { color: rgba(249, 247, 242, 0.9); }
+        .video-section .subtitle { color: var(--muted-gold); }
 
         /* --- 03. ANG ARAW NA HINIHINTAY NAMIN --- */
         .horizontal-line { width: 1px; height: 80px; background: var(--muted-gold); margin: 4rem auto; opacity: 0.4; }
@@ -189,8 +191,8 @@
     <main id="invitation-stationery">
 
         <!-- 02. ANG KWENTO NAMIN (Video Background) -->
-        <section class="page" id="story">
-            <!-- Video Background -->
+        <section class="page video-section" id="story">
+            <!-- Video Background 1 -->
             <video class="video-bg" autoplay loop muted playsinline>
                 <source src="background.mp4" type="video/mp4">
             </video>
@@ -201,13 +203,13 @@
                 <h3 class="editorial-italic" style="margin-bottom: 3rem;">Nagsimula sa kape.</h3>
                 
                 <p class="body-text" style="margin-bottom: 1.5rem;">
-                    Hindi namin akalain na ang simpleng kape sa isang ordinaryong hapon sa Manila ang magiging simula ng lahat.
+                    Sino ang mag-aakala na ang isang simpleng kape sa isang ordinaryong hapon sa Maynila ang magiging simula ng lahat?
                 </p>
                 <p class="body-text" style="margin-bottom: 1.5rem;">
-                    Ang dapat sanang quick catch-up ay nauwi sa ilang oras na kwentuhan—mula sa mga pinakanakakatawang travel mistakes hanggang sa mga paboritong album.
+                    Ang akala naming saglit na pagkikita ay nauwi sa walang-katapusang kwentuhan—tawanan tungkol sa mga sablay na byahe, at pagbabahagi ng mga paboritong kanta.
                 </p>
                 <p class="body-text">
-                    Pagkaalis namin sa coffee shop, parang pareho naming alam na may nagsimula.
+                    Nang magpaalam kami nang gabing iyon, may kakaibang kaba at saya. Pareho naming naramdaman na ito na ang simula ng isang napakagandang kwento.
                 </p>
                 
                 <div style="margin: 5rem 0;">
@@ -215,15 +217,21 @@
                     <p class="editorial-italic" style="margin-top: 1rem; font-size: 1.2rem;">Dito nagsimula ang “tayo.”</p>
                 </div>
                 
-                <h3 class="title-medium" style="font-size: 2rem;">At ngayon, ikakasal na kami.</h3>
+                <h3 class="title-medium" style="font-size: 2rem;">At ngayon, ikakasal na kami!</h3>
             </div>
         </section>
 
-        <!-- 03. ANG ARAW NA HINIHINTAY NAMIN -->
-        <section class="page" id="wedding">
+        <!-- 03. ANG ARAW NA HINIHINTAY NAMIN (Video Background) -->
+        <section class="page video-section" id="wedding">
+            <!-- Video Background 2 (Update src to your actual 2nd video filename) -->
+            <video class="video-bg" autoplay loop muted playsinline>
+                <source src="background2.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+
             <div class="content-layer reveal" style="width: 100%;">
                 <h2 class="title-medium" style="margin-bottom: 4rem;">Ang Araw Na Hinihintay Namin</h2>
-                <p class="subtitle" style="margin-bottom: 2rem; color: var(--ink-charcoal);">31 Enero 2028</p>
+                <p class="subtitle" style="margin-bottom: 2rem; color: var(--muted-gold);">31 Enero 2028</p>
                 
                 <p class="editorial-italic" style="margin-bottom: 1rem;">Seremonya</p>
                 <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem;">San Sebastian Church</h3>
