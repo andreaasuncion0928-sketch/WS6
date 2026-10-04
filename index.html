@@ -161,7 +161,7 @@
             z-index: 0;
         }
 
-        /* --- GLASS PANEL UTILITY (For Story & Venues) --- */
+        /* --- GLASS PANEL UTILITY --- */
         .glass-panel {
             background: rgba(249, 247, 242, 0.08); 
             backdrop-filter: blur(6px);
@@ -198,7 +198,7 @@
             z-index: 1;
         }
 
-        /* --- 03 & 05. RISING PETALS ANIMATION --- */
+        /* --- 03 & 05. RISING PETALS ANIMATIONS --- */
         .petals-container {
             position: absolute;
             top: 0;
@@ -218,35 +218,26 @@
             animation: rise linear infinite;
         }
         
-        /* Slowed down animations */
         @keyframes rise {
             0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
-            10% { opacity: 0.4; }
-            90% { opacity: 0.4; }
+            10% { opacity: 0.35; }
+            90% { opacity: 0.35; }
             100% { transform: translateY(-110vh) rotate(360deg) scale(1); opacity: 0; }
         }
         
-        /* Default 6 petals (Used in 3rd Page) */
-        .petal:nth-child(1) { left: 15%; width: 15px; height: 15px; animation-duration: 22s; animation-delay: 0s; }
-        .petal:nth-child(2) { left: 35%; width: 20px; height: 20px; animation-duration: 28s; animation-delay: 2s; }
-        .petal:nth-child(3) { left: 55%; width: 10px; height: 10px; animation-duration: 25s; animation-delay: 6s; }
-        .petal:nth-child(4) { left: 75%; width: 18px; height: 18px; animation-duration: 30s; animation-delay: 1s; }
-        .petal:nth-child(5) { left: 85%; width: 12px; height: 12px; animation-duration: 24s; animation-delay: 5s; }
-        .petal:nth-child(6) { left: 25%; width: 16px; height: 16px; animation-duration: 27s; animation-delay: 8s; }
-
-        @media (min-width: 769px) {
-            /* Restrict 3rd page petals to the right on desktop */
-            .petals-container:not(.petals-full) { left: auto; right: 5%; width: 30%; }
-            .petals-container:not(.petals-full) .petal:nth-child(1) { left: 10%; width: 10px; height: 10px; }
-            .petals-container:not(.petals-full) .petal:nth-child(2) { left: 30%; width: 12px; height: 12px; }
-            .petals-container:not(.petals-full) .petal:nth-child(3) { left: 50%; width: 8px;  height: 8px; }
-            .petals-container:not(.petals-full) .petal:nth-child(4) { left: 70%; width: 11px; height: 11px; }
-            .petals-container:not(.petals-full) .petal:nth-child(5) { left: 90%; width: 9px;  height: 9px; }
-            .petals-container:not(.petals-full) .petal:nth-child(6) { left: 40%; width: 10px; height: 10px; }
-        }
+        /* Petals strictly on the left and right sides (Used in 3rd Page) */
+        .petals-sides .petal:nth-child(1) { left: 5%;  animation-duration: 25s; animation-delay: 1s; width: 12px; height: 12px; }
+        .petals-sides .petal:nth-child(2) { left: 12%; animation-duration: 28s; animation-delay: 5s; width: 18px; height: 18px; }
+        .petals-sides .petal:nth-child(3) { left: 20%; animation-duration: 22s; animation-delay: 2s; width: 10px; height: 10px; }
+        .petals-sides .petal:nth-child(4) { left: 8%;  animation-duration: 26s; animation-delay: 8s; width: 15px; height: 15px; }
+        .petals-sides .petal:nth-child(5) { left: 15%; animation-duration: 30s; animation-delay: 4s; width: 14px; height: 14px; }
+        .petals-sides .petal:nth-child(6) { left: 85%; animation-duration: 24s; animation-delay: 3s; width: 16px; height: 16px; }
+        .petals-sides .petal:nth-child(7) { left: 92%; animation-duration: 29s; animation-delay: 7s; width: 12px; height: 12px; }
+        .petals-sides .petal:nth-child(8) { left: 80%; animation-duration: 21s; animation-delay: 1s; width: 20px; height: 20px; }
+        .petals-sides .petal:nth-child(9) { left: 95%; animation-duration: 27s; animation-delay: 6s; width: 14px; height: 14px; }
+        .petals-sides .petal:nth-child(10){ left: 88%; animation-duration: 31s; animation-delay: 9s; width: 11px; height: 11px; }
 
         /* Full Width High Frequency Petals (Used in 5th Page) */
-        .petals-full { width: 100% !important; left: 0 !important; right: auto !important; }
         .petals-full .petal:nth-child(1) { left: 8%; width: 14px; height: 14px; animation-duration: 22s; animation-delay: 0s; }
         .petals-full .petal:nth-child(2) { left: 22%; width: 19px; height: 19px; animation-duration: 26s; animation-delay: 3s; }
         .petals-full .petal:nth-child(3) { left: 35%; width: 11px; height: 11px; animation-duration: 20s; animation-delay: 7s; }
@@ -406,7 +397,7 @@
 
         .attire-role { 
             font-family: var(--font-display); 
-            font-size: 1.2rem; 
+            font-size: 1.4rem; 
             letter-spacing: 0.1em; 
             text-transform: uppercase; 
             margin-bottom: 0.8rem; 
@@ -461,10 +452,9 @@
         /* --- COMPACT GRIDS TO FIT 100VH --- */
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 3rem; max-width: 800px; margin: 2.5rem auto 0; text-align: center; align-items: start; }
         
-        .qr-stationery { width: 220px; padding: 1.5rem; background: #fff; margin: 0 auto; position: relative; border-radius: 4px; }
-        .qr-placeholder { width: 100%; aspect-ratio: 1; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.15); margin-bottom: 1rem; }
-        .img-label { font-family: var(--font-sans); font-size: 0.7rem; color: rgba(0,0,0,0.3); letter-spacing: 0.1em; text-transform: uppercase;}
-
+        .qr-stationery { width: 220px; padding: 1rem; background: #fff; margin: 0 auto; position: relative; border-radius: 4px; }
+        .qr-placeholder { width: 100%; aspect-ratio: 1; background: transparent; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; }
+        
         /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 768px) {
             .venue-wrapper { gap: 1.5rem; }
@@ -537,13 +527,17 @@
             </div>
         </section>
 
-        <!-- 03. ANG AMING KWENTO (WITH RISING PETALS & GLASS PANEL) -->
+        <!-- 03. ANG AMING KWENTO (WITH SIDES PETALS & GLASS PANEL) -->
         <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
             <img class="bg-full-visible" src="3rd page.jpeg" alt="Story Background">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.7); z-index: 0;"></div>
 
-            <!-- Petals layered behind the text/panel -->
-            <div class="petals-container">
+            <!-- Petals strictly on left and right sides to avoid disturbing the text panel -->
+            <div class="petals-container petals-sides">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
                 <div class="petal"></div>
                 <div class="petal"></div>
                 <div class="petal"></div>
@@ -650,34 +644,26 @@
                 <p class="subtitle" style="margin-bottom: 2rem;">(Mahigpit na Pormal)</p>
 
                 <div class="attire-layout">
-                    <!-- Left Column -->
+                    <!-- Left Column (Kababaihan only) -->
                     <div class="attire-col left-col">
-                        <h4 class="attire-role">Mga Ninong at Ninang</h4>
+                        <h4 class="attire-role">Mga Kababaihan</h4>
                         <div class="attire-desc">
-                            <p>Filipiniana</p>
-                            <p class="editorial-italic small-italic">para sa mga ninang</p>
-                        </div>
-                        <div class="attire-desc">
-                            <p>Tradisyonal na barong at<br>itim na slacks</p>
-                            <p class="editorial-italic small-italic">para sa mga ninong</p>
+                            <p>Modern Filipiniana o</p>
+                            <p>pormal na puff dress</p>
                         </div>
                     </div>
 
-                    <!-- Center Column -->
+                    <!-- Center Column (Updated Sketch Placeholder to dress.png) -->
                     <div class="attire-col center-col">
                         <img src="dress.png" alt="Barong and Filipiniana" class="attire-sketch">
                     </div>
 
-                    <!-- Right Column -->
+                    <!-- Right Column (Kalalakihan only) -->
                     <div class="attire-col right-col">
-                        <h4 class="attire-role">Mga Bisita</h4>
+                        <h4 class="attire-role">Mga Kalalakihan</h4>
                         <div class="attire-desc">
-                            <p>Filipiniana o puff dress</p>
-                            <p class="editorial-italic small-italic">para sa mga kababaihan</p>
-                        </div>
-                        <div class="attire-desc">
-                            <p>Tradisyonal na barong<br>o polo</p>
-                            <p class="editorial-italic small-italic">para sa mga kalalakihan</p>
+                            <p>Tradisyonal na barong</p>
+                            <p>o pormal na suit/polo</p>
                         </div>
                     </div>
                 </div>
@@ -700,26 +686,26 @@
             </div>
         </section>
 
-        <!-- 07. MGA MADALAS ITANONG (FAQs) -->
+        <!-- 07. MGA MUNTING PAALALA (FAQs) -->
         <section class="page dark-section" id="faqs" style="background-color: var(--ink-charcoal);">
             <img class="bg-full-visible" src="7th page.jpeg" alt="FAQs Background">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.7); z-index: 0;"></div>
 
             <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 3rem;">Mga Madalas Itanong</h2>
+                <h2 class="title-medium" style="margin-bottom: 3rem;">Mga Munting Paalala</h2>
                 
                 <div class="info-grid" style="text-align: left; gap: 2rem;">
                     <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.5rem; color: var(--muted-gold);">May Plus One Ba?</p>
-                        <p class="body-text" style="color: rgba(249,247,242,0.8); margin: 0;">Dahil limitado ang capacity ng venue, ang mga guests na nakapangalan sa invitation lamang ang maaari naming ma-accommodate. Salamat sa pag-unawa!</p>
+                        <p class="editorial-italic" style="margin-bottom: 0.5rem; color: var(--muted-gold);">Tungkol sa mga Kasama</p>
+                        <p class="body-text" style="color: rgba(249,247,242,0.8); margin: 0;">Lubos naming ikagagalak na makasama ang lahat, ngunit dahil sa limitadong espasyo ng aming venue, ang mga panauhing nakapangalan lamang sa imbitasyon ang aming inaasahan. Maraming salamat sa inyong pag-unawa.</p>
                     </div>
                     <div>
-                        <p class="editorial-italic" style="margin-bottom: 0.5rem; color: var(--muted-gold);">May Regalo Ba?</p>
-                        <p class="body-text" style="color: rgba(249,247,242,0.8); margin: 0;">Masayang tatanggapin ang inyong monetary contribution para sa pagsisimula ng bagong chapter ng aming buhay.</p>
+                        <p class="editorial-italic" style="margin-bottom: 0.5rem; color: var(--muted-gold);">Tungkol sa Regalo</p>
+                        <p class="body-text" style="color: rgba(249,247,242,0.8); margin: 0;">Ang inyong presensya ay ang pinakamagandang regalo para sa amin. Subalit, kung nais ninyo kaming handugan, malugod naming tatanggapin ang anumang tulong pinansyal para sa pagsisimula ng aming pamilya.</p>
                     </div>
                     <div style="grid-column: 1 / -1;">
-                        <p class="editorial-italic" style="margin-bottom: 0.5rem; color: var(--muted-gold);">Walang Phones Muna</p>
-                        <p class="body-text" style="color: rgba(249,247,242,0.8); margin: 0; max-width: 100%;">Pakiusap na itabi ang phones habang nasa ceremony upang maging present kasama namin. May professional photographers kami para kumuha ng magagandang moments.</p>
+                        <p class="editorial-italic" style="margin-bottom: 0.5rem; color: var(--muted-gold);">Isang "Unplugged" na Seremonya</p>
+                        <p class="body-text" style="color: rgba(249,247,242,0.8); margin: 0; max-width: 100%;">Nais naming lubos ninyong ma-enjoy ang ating seremonya. Mangyaring itabi muna ang inyong mga mobile phones at cameras, at hayaan ang aming mga propesyonal na potograpo na kumuha ng mga natatanging sandaling ito.</p>
                     </div>
                 </div>
             </div>
@@ -728,18 +714,18 @@
         <!-- 08. SANA MAKASAMA NAMIN KAYO (RSVP) -->
         <section class="page dark-section" id="rsvp">
             <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 2rem;">Sasama Kayo?</h2>
+                <h2 class="title-medium" style="margin-bottom: 2rem;">Sana Makasama Namin Kayo</h2>
                 
                 <div class="qr-stationery">
                     <div class="qr-placeholder">
-                        <span class="img-label">[ QR CODE ]</span>
+                        <img src="sampleQR.png" alt="RSVP QR Code" style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
-                    <p class="subtitle" style="color: var(--ink-charcoal);">Scan to confirm</p>
+                    <p class="subtitle" style="color: var(--ink-charcoal);">I-scan upang mag-RSVP</p>
                 </div>
                 
-                <h3 class="editorial-italic" style="font-size: 1.8rem; margin: 2rem 0 0.5rem;">Sana makasama namin kayo.</h3>
+                <h3 class="editorial-italic" style="font-size: 1.8rem; margin: 2rem 0 0.5rem;">Inaasahan namin ang inyong pagdalo.</h3>
                 <p class="body-text">
-                    Kung makakasama kayo sa araw na ito, i-scan ang QR code para makumpirma ang inyong attendance.
+                    Mangyaring i-scan ang QR code sa itaas upang makumpirma ang inyong pagdalo sa aming espesyal na araw.
                 </p>
             </div>
         </section>
