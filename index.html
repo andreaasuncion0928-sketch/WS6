@@ -496,7 +496,7 @@
         </div>
         <div class="entrance-content">
             <p class="editorial-italic" style="margin-bottom: 1.5rem; font-size: 2.2rem;">Ikakasal na!</p>
-            <h1 class="title-large" style="margin-bottom: 1rem;">Elena and Adrian</h1>
+            <h1 class="title-large" style="margin-bottom: 1rem;">Elena & Adrian</h1>
             <p class="subtitle" style="color: var(--ink-charcoal); margin-bottom: 0.5rem;">imbitado ka sa munting selebrasyon</p>
             <p class="subtitle" style="color: var(--ink-charcoal);">Enero 31, 2028</p>
             <button class="btn-open" onclick="openInvitation()">Buksan ang imbitasyon &rarr;</button>
@@ -759,6 +759,10 @@
     </div>
 
     <script>
+        // --- AUDIO SETUP ---
+        const backgroundMusic = new Audio('song.mp3');
+        backgroundMusic.loop = true;
+
         // --- GALLERY SCRIPT: Fades next image over current ---
         let galleryInitialized = false;
         function initGallery() {
@@ -828,6 +832,10 @@
             const entrance = document.getElementById('entrance');
             const stationery = document.getElementById('invitation-stationery');
             
+            // Start the song and skip the long intro
+            backgroundMusic.currentTime = 12; 
+            backgroundMusic.play().catch(err => console.log("Audio playback failed:", err));
+
             entrance.classList.add('opened');
             
             setTimeout(() => {
