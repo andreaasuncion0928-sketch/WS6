@@ -3,298 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elena & Adrian | Ang Paglalakbay</title>
+    <title>The House That Holds A Story | Andrea & [Name]</title>
     <style>
-        /* FONTS: Cinzel (Old Manila Elegance), Pinyon Script (Handwritten Heirloom), Montserrat (Modern Clarity) */
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Pinyon+Script&family=Montserrat:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400&family=La+Belle+Aurore&display=swap');
 
         :root {
-            /* Filipino Heritage Palette */
-            --nipa-dark: #17120F;
-            --nipa-warm: #2C2018;
-            --ilustrado-gold: #C9A66B;
-            --sampaguita: #F7F4EB;
-            --capiz-translucent: rgba(247, 244, 235, 0.08);
-            --capiz-border: rgba(201, 166, 107, 0.3);
+            /* Color Palette - Filipino Heirloom */
+            --aged-ivory: #ECE6D5;
+            --narra-brown: #4A3320;
+            --deep-cacao: #1C130D;
+            --capiz-pearl: #E8E4D9;
+            --muted-terracotta: #8B5A43;
+            --faded-ink: #332B25;
             
-            --font-display: 'Cinzel', serif;
-            --font-script: 'Pinyon Script', cursive;
-            --font-sans: 'Montserrat', sans-serif;
+            /* Typography System */
+            --font-primary: 'Cormorant Garamond', serif; /* Editorial, historical */
+            --font-functional: 'DM Sans', sans-serif;    /* Clean, understated */
+            --font-handwriting: 'La Belle Aurore', cursive; /* Human touch */
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* Make it feel like an app/object */
+        }
 
         body {
-            background-color: var(--nipa-dark);
-            color: var(--sampaguita);
-            overflow: hidden; /* We manage scrolling internally */
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* --- THE PIÑA FABRIC TEXTURE --- */
-        .pina-texture {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.04"/%3E%3C/svg%3E');
-            pointer-events: none; z-index: 9999; mix-blend-mode: overlay;
-        }
-
-        /* --- HORIZONTAL JOURNEY TRACK --- */
-        .journey-container {
-            display: flex;
-            width: 100vw;
+            background-color: var(--deep-cacao);
+            color: var(--aged-ivory);
+            font-family: var(--font-primary);
+            overflow: hidden; /* No scrolling allowed. Discovery is interaction-based. */
             height: 100vh;
-            overflow-x: auto;
-            overflow-y: hidden;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            /* Hide scrollbar for seamless cinematic feel */
-            scrollbar-width: none; 
-            -ms-overflow-style: none;
+            width: 100vw;
         }
-        .journey-container::-webkit-scrollbar { display: none; }
 
-        /* The continuous connecting thread */
-        .gintong-sinulid {
-            position: absolute;
-            top: 50%; left: 0;
-            width: 800vw; /* Spans across all panels */
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, var(--ilustrado-gold) 5%, var(--ilustrado-gold) 95%, transparent 100%);
-            opacity: 0.3;
-            z-index: 0;
+        /* --- SENSORY TEXTURES --- */
+        .film-grain {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.06"/%3E%3C/svg%3E');
             pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
         }
 
-        /* --- INDIVIDUAL PANELS --- */
-        .panel {
-            flex: 0 0 100vw;
-            width: 100vw;
-            height: 100vh;
-            scroll-snap-align: center;
+        /* --- CINEMATIC STAGE MANAGEMENT --- */
+        .scene {
+            position: absolute;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1), transform 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.98);
+        }
+
+        .scene.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        .scene.past {
+            opacity: 0;
+            transform: scale(1.05); /* Moves "past" the camera */
+        }
+
+        /* --- TYPOGRAPHY CLASSES --- */
+        h1, h2, h3 { font-weight: 400; line-height: 1.2; }
+        .text-editorial { font-size: clamp(2rem, 5vw, 4rem); letter-spacing: 0.02em; }
+        .text-handwriting { font-family: var(--font-handwriting); font-size: 2rem; color: var(--muted-terracotta); }
+        .text-functional { font-family: var(--font-functional); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; }
+        .text-body { font-size: 1.2rem; line-height: 1.8; color: var(--faded-ink); }
+
+        /* --- PHYSICAL OBJECTS --- */
+        .interaction-hint {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-functional);
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            animation: pulse 3s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+
+        /* 01. THE FRONT DOOR */
+        #scene-door {
+            background: radial-gradient(circle at center, #2A1C12 0%, var(--deep-cacao) 100%);
+        }
+        .brass-handle {
+            width: 60px; height: 160px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 30px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .brass-handle:hover { border-color: rgba(212, 175, 55, 0.6); box-shadow: inset 0 0 20px rgba(212,175,55,0.1); }
+        .brass-handle::after {
+            content: ''; width: 20px; height: 20px; background: rgba(212, 175, 55, 0.4); border-radius: 50%;
+        }
+
+        /* 02. THE SALA (How it began) */
+        #scene-sala {
+            background: #2C2018; /* Wood table color */
+            color: var(--aged-ivory);
+        }
+        .photo-album {
+            width: 320px; height: 400px;
+            background: var(--aged-ivory);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
             position: relative;
-            padding: 4rem;
-            z-index: 1;
+            cursor: pointer;
+            transition: transform 1s ease;
+            transform: rotate(-2deg);
         }
-
-        /* --- TYPOGRAPHY --- */
-        h1, h2, h3 { font-family: var(--font-display); font-weight: 400; letter-spacing: 0.05em; }
-        .script-text { font-family: var(--font-script); font-size: 3.5rem; color: var(--ilustrado-gold); line-height: 1; }
-        .body-text { font-family: var(--font-sans); font-size: 0.9rem; font-weight: 300; line-height: 2; letter-spacing: 0.05em; text-align: center; max-width: 500px; }
-        .label { font-family: var(--font-sans); font-size: 0.7rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--ilustrado-gold); }
-
-        /* --- THE CAPIZ PANES (Glassmorphism UI) --- */
-        .capiz-pane {
-            background: var(--capiz-translucent);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--capiz-border);
-            padding: 4rem;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
-            text-align: center;
-            position: relative;
+        .photo-album:hover { transform: rotate(0deg) scale(1.02); }
+        .photo-album::before {
+            content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
         }
-        
-        /* Ornamental Filipino corner details */
-        .capiz-pane::before, .capiz-pane::after {
-            content: ''; position: absolute; width: 20px; height: 20px; border: 1px solid var(--ilustrado-gold); opacity: 0.5;
-        }
-        .capiz-pane::before { top: 15px; left: 15px; border-right: none; border-bottom: none; }
-        .capiz-pane::after { bottom: 15px; right: 15px; border-left: none; border-top: none; }
-
-        /* --- SPECIFIC PANEL STYLES --- */
-        
-        /* 1. Cover */
-        .cover-title { font-size: clamp(3rem, 6vw, 6rem); text-transform: uppercase; margin: 1rem 0; }
-        
-        /* 2. Story Grid */
-        .story-grid { display: flex; gap: 3rem; align-items: center; justify-content: center; width: 100%; max-width: 1000px; }
-        .polaroid { 
-            background: var(--sampaguita); padding: 10px 10px 40px 10px; color: var(--nipa-dark); 
-            box-shadow: 5px 15px 30px rgba(0,0,0,0.6); transform: rotate(-3deg);
-        }
-        .polaroid:nth-child(even) { transform: rotate(2deg) translateY(20px); }
-        .polaroid-img { width: 200px; height: 200px; background: #ddd; border: 1px solid #ccc; display: flex; justify-content: center; align-items: center; font-family: var(--font-sans); font-size: 0.7rem; letter-spacing: 0.1em; }
-
-        /* 3. Venue Art */
-        .venue-art {
-            width: 150px; height: 200px; margin: 0 auto 2rem;
-            border: 1px solid var(--ilustrado-gold);
+        .album-photo {
+            position: absolute; top: 30px; left: 30px; right: 30px; height: 200px;
+            background: #D5CDC4; /* Sepia placeholder */
             display: flex; justify-content: center; align-items: center;
-            background: rgba(201, 166, 107, 0.05); border-radius: 100px 100px 0 0;
+            overflow: hidden;
         }
+        /* SVG Placeholder for nostalgic photo */
+        .album-photo svg { width: 50%; opacity: 0.3; stroke: var(--narra-brown); fill: none; }
+        .album-text { position: absolute; bottom: 40px; left: 30px; right: 30px; text-align: center; color: var(--faded-ink); }
 
-        /* 4. Attire Sketches */
-        .attire-container { display: flex; gap: 4rem; justify-content: center; margin-top: 3rem; }
-        .attire-item { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
-        .attire-svg { width: 120px; height: 180px; stroke: var(--ilustrado-gold); fill: none; stroke-width: 1; }
-
-        /* Custom Scroll Indicator */
-        .scroll-hint {
-            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
-            display: flex; align-items: center; gap: 1rem; z-index: 10;
-            opacity: 0.6; animation: pulse 2s infinite; pointer-events: none;
+        /* 03. THE DINING ROOM (The People) */
+        #scene-dining {
+            background: #3A281E;
         }
-        .scroll-line { width: 40px; height: 1px; background: var(--ilustrado-gold); }
-        @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+        .table-setting {
+            display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; max-width: 800px;
+        }
+        .place-card {
+            background: var(--capiz-pearl);
+            padding: 1.5rem 2rem;
+            box-shadow: 2px 10px 20px rgba(0,0,0,0.4);
+            transform: rotate(-1deg);
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+        .place-card:nth-child(even) { transform: rotate(2deg); }
+        .place-card:hover { transform: translateY(-10px) scale(1.05); z-index: 10; }
+
+        /* 04. THE VERANDA (The Life Ahead) */
+        #scene-veranda {
+            background: radial-gradient(circle at center, #4A3320 0%, var(--deep-cacao) 100%);
+        }
+        .capiz-window {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+            width: 300px; height: 500px;
+            background: var(--narra-brown);
+            padding: 10px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            cursor: pointer;
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .capiz-pane {
+            background: rgba(232, 228, 217, 0.3);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: background 0.5s ease;
+        }
+        .capiz-window:hover .capiz-pane { background: rgba(232, 228, 217, 0.5); }
+        .window-open { transform: scale(1.2) translateY(-20px); opacity: 0; pointer-events: none; }
+
+        /* 05. THE GARDEN (The Reveal & RSVP) */
+        #scene-garden {
+            background: var(--aged-ivory); /* Flooded with warm light */
+            color: var(--deep-cacao);
+        }
+        .envelope {
+            width: 400px; height: 250px;
+            background: #E0D9C8;
+            position: relative;
+            margin-top: 4rem;
+            cursor: pointer;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            transition: all 1s ease;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .envelope-flap {
+            position: absolute; top: 0; left: 0; width: 100%; height: 50%;
+            background: #D5CEBD;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top;
+            transition: transform 1s ease;
+            z-index: 3;
+        }
+        .wedding-card {
+            position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px;
+            background: var(--capiz-pearl);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; transform: translateY(20px);
+            transition: all 1s ease 0.5s;
+            z-index: 2;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .envelope.open { height: 500px; background: transparent; box-shadow: none; cursor: default; }
+        .envelope.open .envelope-flap { transform: rotateX(180deg); opacity: 0; }
+        .envelope.open .wedding-card { opacity: 1; transform: translateY(0); box-shadow: 0 20px 40px rgba(0,0,0,0.15); height: 100%; position: relative; }
+
+        .btn-rsvp {
+            margin-top: 2rem; padding: 1rem 3rem;
+            background: transparent; border: 1px solid var(--narra-brown);
+            color: var(--narra-brown); font-family: var(--font-functional); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+            cursor: pointer; transition: all 0.3s ease; text-decoration: none;
+        }
+        .btn-rsvp:hover { background: var(--narra-brown); color: var(--aged-ivory); }
 
     </style>
 </head>
 <body>
 
-    <div class="pina-texture"></div>
+    <!-- Cinematic Grain Overlay -->
+    <div class="film-grain"></div>
 
-    <div class="scroll-hint">
-        <span class="label">Swipe or Scroll</span>
-        <div class="scroll-line"></div>
-    </div>
+    <!-- Hidden Audio Elements (Simulated Ambient Sound) -->
+    <!-- Note: Browsers require interaction before playing audio, so this plays on the first door click -->
+    <audio id="sfx-door" src="data:audio/mp3;base64,//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" preload="auto"></audio>
 
-    <div class="journey-container" id="track">
+    <!-- 01. THE FRONT DOOR -->
+    <div id="scene-door" class="scene active">
+        <p class="text-functional" style="color: rgba(255,255,255,0.4); margin-bottom: 3rem;">The House That Holds A Story</p>
         
-        <div class="gintong-sinulid"></div>
-
-        <!-- PANEL 1: THE COVER -->
-        <section class="panel">
-            <div class="capiz-pane">
-                <p class="label">Ang Paglalakbay</p>
-                <h1 class="cover-title">Elena & Adrian</h1>
-                <p class="script-text">January 31, 2028</p>
-                <p class="body-text" style="margin-top: 2rem;">
-                    We invite you to step into our story<br>and celebrate our next chapter.
-                </p>
-            </div>
-        </section>
-
-        <!-- PANEL 2: THE STORY -->
-        <section class="panel">
-            <div style="text-align: center; max-width: 700px; z-index: 2;">
-                <p class="script-text" style="font-size: 4rem; margin-bottom: 1rem;">It started with coffee.</p>
-                <p class="body-text">
-                    We met over iced coffee on an ordinary afternoon in Manila. What started as a conversation about architecture and travel turned into a journey across the world.
-                </p>
-            </div>
-        </section>
-
-        <!-- PANEL 3: THE TRAVELS -->
-        <section class="panel">
-            <div class="story-grid">
-                <div class="polaroid">
-                    <div class="polaroid-img">[ Image: New York ]</div>
-                    <p class="label" style="color: var(--nipa-dark); margin-top: 15px; text-align: center;">New York</p>
-                </div>
-                <div class="polaroid">
-                    <div class="polaroid-img">[ Image: Tokyo ]</div>
-                    <p class="label" style="color: var(--nipa-dark); margin-top: 15px; text-align: center;">Tokyo</p>
-                </div>
-                <div class="polaroid">
-                    <div class="polaroid-img">[ Image: Barcelona ]</div>
-                    <p class="label" style="color: var(--nipa-dark); margin-top: 15px; text-align: center;">Barcelona</p>
-                </div>
-            </div>
-            <p class="body-text" style="position: absolute; bottom: 15%; max-width: 600px;">
-                But no matter how far we traveled, the most important chapters always brought us back home.
-            </p>
-        </section>
-
-        <!-- PANEL 4: THE PEOPLE -->
-        <section class="panel">
-            <div class="capiz-pane" style="width: 800px; padding: 3rem;">
-                <p class="script-text" style="margin-bottom: 2rem;">The People Beside Us</p>
-                <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 2rem;">
-                    <div>
-                        <h3 style="font-size: 1.2rem;">Sofia Reyes</h3>
-                        <p class="label" style="margin-top: 0.5rem;">Maid of Honor</p>
-                    </div>
-                    <div>
-                        <h3 style="font-size: 1.2rem;">Daniel Cruz</h3>
-                        <p class="label" style="margin-top: 0.5rem;">Best Man</p>
-                    </div>
-                    <div>
-                        <h3 style="font-size: 1.2rem;">Isabella Santos</h3>
-                        <p class="label" style="margin-top: 0.5rem;">Bridesmaid</p>
-                    </div>
-                    <div>
-                        <h3 style="font-size: 1.2rem;">Mateo Lim</h3>
-                        <p class="label" style="margin-top: 0.5rem;">Groomsman</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PANEL 5: THE VENUES -->
-        <section class="panel">
-            <div class="story-grid" style="align-items: flex-start;">
-                <div style="text-align: center;">
-                    <div class="venue-art">
-                        <!-- Abstract Arch SVG -->
-                        <svg viewBox="0 0 100 100" style="width: 50%; stroke: var(--ilustrado-gold); fill: none;"><path d="M20,100 L20,50 C20,20 80,20 80,50 L80,100 M40,100 L40,70 L60,70 L60,100"/></svg>
-                    </div>
-                    <p class="script-text" style="font-size: 2.5rem; margin-bottom: 0.5rem;">The Ceremony</p>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">San Sebastian Church</h3>
-                    <p class="body-text">Quiapo, Manila<br>4:30 in the afternoon</p>
-                </div>
-                <div style="text-align: center;">
-                    <div class="venue-art">
-                        <svg viewBox="0 0 100 100" style="width: 50%; stroke: var(--ilustrado-gold); fill: none;"><path d="M10,100 L10,40 L90,40 L90,100 M30,40 L30,20 L70,20 L70,40 M40,60 L60,60 M40,80 L60,80"/></svg>
-                    </div>
-                    <p class="script-text" style="font-size: 2.5rem; margin-bottom: 0.5rem;">The Reception</p>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">The Manila Hotel</h3>
-                    <p class="body-text">Ermita, Manila<br>6:30 in the evening</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- PANEL 6: THE ATTIRE -->
-        <section class="panel">
-            <div style="text-align: center; z-index: 2;">
-                <p class="label">Dress Code</p>
-                <p class="script-text" style="font-size: 3rem; margin: 1rem 0;">Formal Filipiniana</p>
-                <p class="body-text">We request the honor of your presence in formal attire.<br>Our palette features elegant shades of purple.</p>
-                
-                <div class="attire-container">
-                    <div class="attire-item">
-                        <svg class="attire-svg" viewBox="0 0 100 150">
-                            <path d="M25,30 L75,30 L85,120 L15,120 Z M40,30 L40,80 C40,90 60,90 60,80 L60,30" stroke-dasharray="2,2"/>
-                        </svg>
-                        <p class="label">Barong Tagalog</p>
-                    </div>
-                    <div class="attire-item">
-                        <svg class="attire-svg" viewBox="0 0 100 150">
-                            <path d="M25,40 C10,10 40,20 40,40 M75,40 C90,10 60,20 60,40 M35,40 L65,40 L80,130 L20,130 Z"/>
-                        </svg>
-                        <p class="label">Terno & Gowns</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PANEL 7: RSVP -->
-        <section class="panel">
-            <div class="capiz-pane">
-                <p class="script-text" style="margin-bottom: 1rem;">Join Our Next Chapter</p>
-                <p class="body-text" style="margin-bottom: 3rem;">Kindly let us know if you will be celebrating with us<br>by the first of December.</p>
-                
-                <a href="#" style="display: inline-block; padding: 1rem 3rem; background: var(--ilustrado-gold); color: var(--nipa-dark); text-decoration: none; font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;">
-                    RSVP Now
-                </a>
-            </div>
-        </section>
-
+        <div class="brass-handle" onclick="advanceScene('scene-door', 'scene-sala')"></div>
+        
+        <p class="text-editorial" style="margin-top: 3rem; color: var(--aged-ivory);">Come in.</p>
+        <p class="text-handwriting" style="margin-top: 1rem;">There is a story we would like you to hear.</p>
     </div>
 
+    <!-- 02. THE SALA (How it began) -->
+    <div id="scene-sala" class="scene">
+        <p class="text-functional" style="color: rgba(255,255,255,0.3); position: absolute; top: 10%;">The Sala</p>
+        
+        <div class="photo-album" onclick="advanceScene('scene-sala', 'scene-dining')">
+            <div class="album-photo">
+                <!-- Subtle SVG representing a coffee cup / meeting -->
+                <svg viewBox="0 0 100 100">
+                    <path d="M20,70 L80,70 C80,85 20,85 20,70 Z M30,30 L30,70 M70,30 L70,70 M70,40 C85,40 85,60 70,60" stroke-width="2"/>
+                    <path d="M40,25 Q45,10 50,25 T60,25" stroke-width="1.5" stroke-dasharray="2,2"/>
+                </svg>
+            </div>
+            <div class="album-text">
+                <p class="text-handwriting" style="font-size: 1.5rem; margin-bottom: 1rem;">It started with coffee.</p>
+                <p class="text-functional" style="font-size: 0.6rem; color: rgba(0,0,0,0.5);">We met over iced coffee on an ordinary afternoon in Manila. What started as a conversation turned into a journey.</p>
+            </div>
+        </div>
+        
+        <p class="interaction-hint">Turn the page</p>
+    </div>
+
+    <!-- 03. THE DINING ROOM (The People) -->
+    <div id="scene-dining" class="scene">
+        <p class="text-functional" style="color: rgba(255,255,255,0.3); position: absolute; top: 10%;">The Dining Table</p>
+        <p class="text-editorial" style="margin-bottom: 4rem; text-align: center;">The people who shaped us.</p>
+        
+        <div class="table-setting" onclick="advanceScene('scene-dining', 'scene-veranda')">
+            <!-- Place Cards Acting as Entourage Reveal -->
+            <div class="place-card">
+                <p class="text-handwriting" style="color: var(--deep-cacao);">Sofia Reyes</p>
+                <p class="text-functional" style="color: var(--muted-terracotta); margin-top: 0.5rem; font-size: 0.5rem;">Maid of Honor</p>
+            </div>
+            <div class="place-card">
+                <p class="text-handwriting" style="color: var(--deep-cacao);">Daniel Cruz</p>
+                <p class="text-functional" style="color: var(--muted-terracotta); margin-top: 0.5rem; font-size: 0.5rem;">Best Man</p>
+            </div>
+            <div class="place-card">
+                <p class="text-handwriting" style="color: var(--deep-cacao);">Isabella Santos</p>
+                <p class="text-functional" style="color: var(--muted-terracotta); margin-top: 0.5rem; font-size: 0.5rem;">Bridesmaid</p>
+            </div>
+            <div class="place-card">
+                <p class="text-handwriting" style="color: var(--deep-cacao);">Mateo Lim</p>
+                <p class="text-functional" style="color: var(--muted-terracotta); margin-top: 0.5rem; font-size: 0.5rem;">Groomsman</p>
+            </div>
+        </div>
+
+        <p class="interaction-hint">Walk to the Veranda</p>
+    </div>
+
+    <!-- 04. THE VERANDA (The Life Ahead / Transition) -->
+    <div id="scene-veranda" class="scene">
+        <p class="text-functional" style="color: rgba(255,255,255,0.3); position: absolute; top: 10%;">The Veranda</p>
+        
+        <div class="capiz-window" onclick="openWindow(this, 'scene-veranda', 'scene-garden')">
+            <!-- Procedurally generated Capiz panes -->
+            <div class="capiz-pane"></div><div class="capiz-pane"></div><div class="capiz-pane"></div>
+            <div class="capiz-pane"></div><div class="capiz-pane"></div><div class="capiz-pane"></div>
+            <div class="capiz-pane"></div><div class="capiz-pane"></div><div class="capiz-pane"></div>
+            <div class="capiz-pane"></div><div class="capiz-pane"></div><div class="capiz-pane"></div>
+            <div class="capiz-pane"></div><div class="capiz-pane"></div><div class="capiz-pane"></div>
+        </div>
+
+        <p class="text-editorial" style="margin-top: 3rem; text-align: center;">And now, we're here.</p>
+        <p class="interaction-hint">Push open the windows</p>
+    </div>
+
+    <!-- 05. THE GARDEN (The Reveal & RSVP) -->
+    <div id="scene-garden" class="scene">
+        <h1 class="text-editorial">Andrea & [Name]</h1>
+        <p class="text-handwriting" style="margin-top: 1rem;">are getting married.</p>
+        <p class="text-functional" style="margin-top: 2rem; color: var(--muted-terracotta);">Come home to celebrate with us.</p>
+        
+        <!-- The Final Heirloom Object: The Envelope -->
+        <div class="envelope" id="final-envelope" onclick="openEnvelope(this)">
+            <div class="envelope-flap"></div>
+            <div class="wedding-card">
+                <p class="text-editorial" style="font-size: 2rem; color: var(--deep-cacao);">September 27, 2026</p>
+                
+                <div style="margin: 2rem 0; width: 1px; height: 40px; background: var(--muted-terracotta);"></div>
+                
+                <p class="text-functional" style="color: var(--deep-cacao);">Ceremony & Reception</p>
+                <p class="text-body" style="font-size: 1.2rem; margin-top: 0.5rem; color: var(--deep-cacao);">Felicidad Mansion<br>6:00 PM</p>
+                
+                <p class="text-functional" style="margin-top: 1.5rem; font-size: 0.6rem; color: rgba(0,0,0,0.5);">Dress Code: Formal Filipiniana</p>
+                
+                <a href="#" class="btn-rsvp" onclick="event.stopPropagation(); alert('RSVP Modal Opens Here');">RSVP</a>
+            </div>
+            <p class="interaction-hint" id="envelope-hint" style="bottom: -30px; color: var(--narra-brown);">Open the invitation</p>
+        </div>
+    </div>
+
+    <!-- CINEMATIC LOGIC -->
     <script>
-        // UX Enhancement: Allow users on desktop to scroll horizontally using their normal vertical mouse wheel.
-        const track = document.getElementById('track');
-        
-        track.addEventListener('wheel', (evt) => {
-            // Prevent default vertical scroll
-            evt.preventDefault();
-            // Translate vertical scroll wheel movement into horizontal scroll
-            track.scrollLeft += evt.deltaY;
-        });
+        // Advances the scene by changing CSS classes to trigger transitions
+        function advanceScene(currentId, nextId) {
+            const currentScene = document.getElementById(currentId);
+            const nextScene = document.getElementById(nextId);
+            
+            // Play fake audio on first click (simulating ambient sound)
+            if(currentId === 'scene-door') {
+                try { document.getElementById('sfx-door').play(); } catch(e) {}
+            }
+
+            // Move current scene past the camera
+            currentScene.classList.remove('active');
+            currentScene.classList.add('past');
+
+            // Bring in the next scene
+            setTimeout(() => {
+                nextScene.classList.add('active');
+            }, 1000); // Wait for the fade out to halfway complete
+        }
+
+        // Specific interaction for the Veranda windows
+        function openWindow(element, currentId, nextId) {
+            element.classList.add('window-open');
+            setTimeout(() => {
+                advanceScene(currentId, nextId);
+            }, 800);
+        }
+
+        // Specific interaction for the final envelope
+        function openEnvelope(element) {
+            if (!element.classList.contains('open')) {
+                element.classList.add('open');
+                document.getElementById('envelope-hint').style.display = 'none';
+            }
+        }
     </script>
+
 </body>
 </html>
