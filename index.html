@@ -51,7 +51,7 @@
             pointer-events: none; z-index: 9999; mix-blend-mode: multiply;
         }
 
-        /* --- GLOBAL VIDEO BACKGROUND (For Pages 4 to End) --- */
+        /* --- GLOBAL VIDEO BACKGROUND (For Pages 5 to End) --- */
         #global-video-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;
         }
@@ -175,32 +175,31 @@
             z-index: 1;
         }
 
-        /* --- 03. VENUE CARDS --- */
-        .cards-container {
-            display: flex; gap: 2rem; justify-content: center; align-items: stretch;
+        /* --- 04. VENUE INLINE GRID (No Cards) --- */
+        .venue-grid {
+            display: flex; gap: 4rem; justify-content: center; align-items: flex-start;
             margin: 2rem auto 0; width: 100%; max-width: 900px;
         }
-        .venue-card {
-            background: rgba(249, 247, 242, 0.65); /* Less opacity */
-            backdrop-filter: blur(8px); /* Frost effect */
-            -webkit-backdrop-filter: blur(8px);
-            padding: 2rem 1.5rem; border-radius: 6px; flex: 1;
-            display: flex; flex-direction: column; align-items: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            color: var(--ink-charcoal);
-            border: 1px solid rgba(249, 247, 242, 0.4);
+        .venue-item {
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            flex: 1;
         }
-        .venue-sketch { width: 100px; height: 100px; object-fit: contain; margin-bottom: 1rem; opacity: 0.9; }
-        .venue-card .editorial-italic { color: var(--ink-charcoal); font-size: 1.2rem; margin-bottom: 0.5rem; }
-        .venue-card h3 { color: var(--ink-charcoal); font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 600; }
-        .venue-card .body-text { color: var(--ink-charcoal); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.4; font-weight: 500; }
+        .venue-sketch { 
+            width: 120px; height: 120px; object-fit: contain; 
+            margin-bottom: 1rem; opacity: 0.9; 
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.3)); /* Optional shadow to help it pop */
+        }
+        .venue-item .editorial-italic { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .venue-item h3 { font-size: 1.8rem; margin-bottom: 0.5rem; font-weight: 500; }
+        .venue-item .body-text { font-size: 1rem; margin-bottom: 1.5rem; line-height: 1.6; }
         .btn-direction {
             margin-top: auto; padding: 0.8rem 1.5rem;
-            background: var(--muted-gold); color: #fff;
+            background: transparent; color: var(--muted-gold);
+            border: 1px solid var(--muted-gold);
             text-decoration: none; text-transform: uppercase; font-family: var(--font-sans);
-            font-size: 0.65rem; letter-spacing: 0.2em; border-radius: 3px; transition: opacity 0.3s;
+            font-size: 0.65rem; letter-spacing: 0.2em; border-radius: 3px; transition: all 0.3s;
         }
-        .btn-direction:hover { opacity: 0.8; }
+        .btn-direction:hover { background: var(--muted-gold); color: #fff; }
 
         /* --- COMPACT GRIDS TO FIT 100VH --- */
         .entourage-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; width: 100%; max-width: 800px; margin: 1.5rem auto 0; }
@@ -219,10 +218,9 @@
 
         /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 768px) {
-            .cards-container { flex-direction: column; gap: 1rem; margin-top: 1rem; }
-            .venue-card { padding: 1.2rem; }
-            .venue-sketch { width: 70px; height: 70px; margin-bottom: 0.5rem; }
-            .venue-card .body-text { margin-bottom: 1rem; }
+            .venue-grid { flex-direction: column; gap: 2rem; margin-top: 1rem; }
+            .venue-sketch { width: 80px; height: 80px; margin-bottom: 0.5rem; }
+            .venue-item .body-text { margin-bottom: 1rem; }
             
             .gallery-container { height: 45vh; max-width: 90vw; }
 
@@ -239,7 +237,7 @@
     <!-- Paper Grain Texture Overlay -->
     <div class="paper-grain"></div>
 
-    <!-- Global Video Background (Behind pages 4-8) -->
+    <!-- Global Video Background (Behind pages 5-8) -->
     <div id="global-video-bg">
         <video autoplay loop muted playsinline>
             <source src="background.mp4" type="video/mp4">
@@ -264,11 +262,13 @@
     <!-- STATIONERY WRAPPER -->
     <main id="invitation-stationery">
 
-        <!-- 02. GALLERY OF THE COUPLE (Image Background - 10% Opacity) -->
-        <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
-            <!-- Image Background set to 10% opacity, cover and center for mobile visibility -->
-            <img class="image-bg" src="2nd page.jpeg" alt="Gallery Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0.1; z-index: 0;">
-            
+        <!-- 02. GALLERY OF THE COUPLE (Image Background - 80% Opacity) -->
+        <section class="page dark-section" id="gallery" style="background-color: var(--ink-charcoal);">
+            <!-- Image Background set to 80% opacity, cover and center for mobile visibility -->
+            <img class="image-bg" src="2nd page.jpeg" alt="Gallery Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0.8; z-index: 0;">
+            <!-- Slight dim overlay if the image is too bright, otherwise it relies on the opacity -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 0;"></div>
+
             <div class="content-layer reveal" style="width: 100%;">
                 <h2 class="title-medium" style="margin-bottom: 0.5rem;">Mga Alaala Namin</h2>
                 <h3 class="editorial-italic" style="margin-bottom: 1rem; font-size: 1.2rem;">Ang aming kwento sa larawan.</h3>
@@ -286,26 +286,52 @@
             </div>
         </section>
 
-        <!-- 03. ANG ARAW NA HINIHINTAY NAMIN (With Detail Cards & Specific 3rd Page Background) -->
+        <!-- 03. ANG AMING KWENTO (New 3rd Page) -->
+        <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
+            <!-- Image Background for Page 3 -->
+            <img class="image-bg" src="3rd page.jpeg" alt="Story Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0;">
+            <!-- Dimming overlay to ensure text is readable against the background -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
+
+            <div class="content-layer reveal">
+                <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Aming Kwento</h2>
+                <h3 class="editorial-italic" style="margin-bottom: 1.5rem;">Nagsimula sa kape.</h3>
+                
+                <p class="body-text" style="margin-bottom: 1rem;">
+                    Sino ang mag-aakala na ang isang simpleng kape sa isang ordinaryong hapon sa Maynila ang magiging simula ng lahat?
+                </p>
+                <p class="body-text" style="margin-bottom: 1rem;">
+                    Ang akala naming saglit na pagkikita ay nauwi sa walang-katapusang kwentuhan—tawanan tungkol sa mga sablay na byahe, at pagbabahagi ng mga paboritong kanta.
+                </p>
+                <p class="body-text" style="margin-bottom: 3rem;">
+                    Nang magpaalam kami nang gabing iyon, may kakaibang kaba at saya. Pareho naming naramdaman na ito na ang simula ng isang napakagandang kwento.
+                </p>
+                
+                <h3 class="title-medium" style="font-size: 1.8rem;">At ngayon, ikakasal na kami!</h3>
+            </div>
+        </section>
+
+        <!-- 04. ANG ARAW NA HINIHINTAY NAMIN (Venues - No Cards) -->
         <section class="page dark-section" id="wedding" style="background-color: var(--ink-charcoal);">
-            <!-- Specific Image Background for Page 3 (Visible on mobile/desktop perfectly) -->
-            <img class="image-bg" src="3rd page.jpeg" alt="Venue Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0;">
-            <!-- Dimming overlay to ensure text/cards contrast well -->
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.4); z-index: 0;"></div>
+            <!-- Image Background for Page 4 -->
+            <img class="image-bg" src="4th page.jpeg" alt="Venue Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0;">
+            <!-- Dimming overlay to ensure text contrasts well -->
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
 
             <div class="content-layer reveal" style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                 <h2 class="title-medium" style="margin-bottom: 0.5rem;">Ang Araw Na Hinihintay Namin</h2>
                 <p class="subtitle" style="margin-bottom: 0;">31 Enero 2028</p>
                 
-                <div class="cards-container">
-                    <div class="venue-card">
+                <!-- Plain Layout without cards -->
+                <div class="venue-grid">
+                    <div class="venue-item">
                         <img src="church-sketch.png" alt="Church Sketch" class="venue-sketch">
                         <p class="editorial-italic">Seremonya</p>
                         <h3>San Sebastian Church</h3>
                         <p class="body-text">Plaza del Carmen, Quiapo, Manila<br>4:30 PM</p>
                         <a href="https://maps.google.com" target="_blank" class="btn-direction">Get Directions</a>
                     </div>
-                    <div class="venue-card">
+                    <div class="venue-item">
                         <img src="hotel-sketch.png" alt="Hotel Sketch" class="venue-sketch">
                         <p class="editorial-italic">Reception</p>
                         <h3>The Manila Hotel</h3>
@@ -316,7 +342,7 @@
             </div>
         </section>
 
-        <!-- 04. ANG MGA TAONG KASAMA NAMIN -->
+        <!-- 05. ANG MGA TAONG KASAMA NAMIN -->
         <section class="page dark-section" id="entourage">
             <div class="content-layer reveal" style="width: 100%;">
                 <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Mga Taong Kasama Namin</h2>
@@ -345,7 +371,7 @@
             </div>
         </section>
 
-        <!-- 05. MGA SANDALI NAMIN -->
+        <!-- 06. MGA SANDALI NAMIN -->
         <section class="page dark-section" id="moments">
             <div class="content-layer reveal" style="width: 100%;">
                 <h2 class="title-medium" style="margin-bottom: 1rem;">Mga Sandali Namin</h2>
@@ -355,7 +381,7 @@
             </div>
         </section>
 
-        <!-- 06. BAGO TAYO MAGDIWANG (Details) -->
+        <!-- 07. BAGO TAYO MAGDIWANG (Details) -->
         <section class="page dark-section" id="details">
             <div class="content-layer reveal" style="width: 100%;">
                 <h2 class="title-medium" style="margin-bottom: 1.5rem;">Bago Tayo Magdiwang</h2>
@@ -390,7 +416,7 @@
             </div>
         </section>
 
-        <!-- 07. SANA MAKASAMA NAMIN KAYO (RSVP) -->
+        <!-- 08. SANA MAKASAMA NAMIN KAYO (RSVP) -->
         <section class="page dark-section" id="rsvp">
             <div class="content-layer reveal" style="width: 100%;">
                 <h2 class="title-medium" style="margin-bottom: 2rem;">Sasama Kayo?</h2>
@@ -409,7 +435,7 @@
             </div>
         </section>
 
-        <!-- 08. THE LAST PAGE (Closing) -->
+        <!-- 09. THE LAST PAGE (Closing) -->
         <section class="page dark-section" id="closing">
             <div class="content-layer reveal" style="width: 100%;">
                 <h1 class="title-large" style="margin-bottom: 1rem;">Elena & Adrian</h1>
@@ -444,20 +470,17 @@
             setInterval(() => {
                 let next = (current + 1) % slides.length;
                 
-                // Stack the next image on top of the current one
                 slides[next].style.zIndex = 3; 
-                slides[next].style.opacity = 1; // Fade it in
+                slides[next].style.opacity = 1; 
 
-                // After the 1-second CSS fade completes, hide the underlying old slide 
-                // and reset layering so the cycle can continue seamlessly.
                 setTimeout(() => {
                     slides[current].style.zIndex = 1; 
                     slides[current].style.opacity = 0; 
                     slides[next].style.zIndex = 2; 
                     current = next;
-                }, 1000); // 1000ms = 1 second
+                }, 1000); 
                 
-            }, 3500); // Wait 3.5 seconds before showing the next image
+            }, 3500); 
         }
 
         // --- OPEN INVITATION INTERACTION ---
@@ -465,14 +488,12 @@
             const entrance = document.getElementById('entrance');
             const stationery = document.getElementById('invitation-stationery');
             
-            // Fade out the entrance
             entrance.classList.add('opened');
             
-            // Fade in the stationery content, allow scroll, and trigger animations
             setTimeout(() => {
                 stationery.classList.add('visible');
                 initScrollObserver();
-                initGallery(); // Start the photo gallery slideshow
+                initGallery(); 
             }, 800);
         }
 
