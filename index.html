@@ -35,51 +35,25 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body, html {
-            background-color: #E2DFDA; /* Outer desk/mat background for desktop view */
+            background-color: var(--ink-charcoal); /* Base background behind the cards */
             color: var(--ink-charcoal);
             font-family: var(--font-display);
             -webkit-font-smoothing: antialiased;
             width: 100%;
             height: 100%;
             overflow: hidden; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        /* Fine Paper Grain Texture (Covers everything) */
+        /* Fine Paper Grain Texture */
         .paper-grain {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.04"/%3E%3C/svg%3E');
             pointer-events: none; z-index: 9999; mix-blend-mode: multiply;
         }
 
-        /* --- DESKTOP CANVAS CONTAINER --- */
-        #app-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background-color: var(--ink-charcoal);
-            overflow: hidden;
-            box-shadow: none;
-        }
-
-        /* Transform into a framed card on browsers */
-        @media (min-width: 769px) {
-            #app-container {
-                width: 90vw;
-                max-width: 1200px;
-                height: 85vh;
-                max-height: 850px;
-                box-shadow: 0 30px 60px rgba(0,0,0,0.25); /* Elegant drop shadow */
-                border-radius: 4px;
-                border: 1px solid rgba(0,0,0,0.05);
-            }
-        }
-
-        /* --- GLOBAL VIDEO BACKGROUND --- */
+        /* --- GLOBAL VIDEO BACKGROUND (Behind everything) --- */
         #global-video-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;
         }
         #global-video-bg video {
             width: 100%; height: 100%; object-fit: cover;
@@ -103,11 +77,11 @@
             transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .content-layer { position: relative; z-index: 2; width: 100%; }
+        .content-layer { position: relative; z-index: 2; width: 100%; padding: var(--section-pad); }
 
-        /* --- 01. THE OPENING --- */
+        /* --- 01. THE OPENING (Unaffected by Card Layout) --- */
         #entrance {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: var(--paper-ivory);
             z-index: 9000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -144,7 +118,7 @@
 
         /* --- STATIONERY WRAPPER (Scroll Snap Container) --- */
         #invitation-stationery { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             overflow-y: auto; overflow-x: hidden;
             scroll-snap-type: y mandatory; 
             scroll-behavior: smooth;
@@ -156,14 +130,47 @@
         #invitation-stationery::-webkit-scrollbar { display: none; }
         #invitation-stationery.visible { opacity: 1; pointer-events: auto; }
 
+        /* --- PAGE & CARD LAYOUT --- */
         .page {
-            height: 100%; /* Adapts to container height */
-            padding: var(--section-pad); 
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            position: relative; text-align: center; width: 100%;
+            height: 100vh; 
+            height: 100dvh;
+            width: 100vw;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            position: relative; 
             scroll-snap-align: start; 
             scroll-snap-stop: always;
+        }
+
+        .page-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
+        }
+
+        /* Transform into a framed card on browsers */
+        @media (min-width: 769px) {
+            .page-card {
+                width: 90vw;
+                max-width: 1200px;
+                height: 85vh;
+                max-height: 850px;
+                border-radius: 8px;
+                box-shadow: 0 30px 60px rgba(0,0,0,0.4); 
+                background-color: transparent; 
+            }
+            /* Frosted glass effect for pages without image backgrounds to stand out from video */
+            .glass-card {
+                background: rgba(42, 38, 35, 0.4);
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(255,255,255,0.05);
+            }
         }
 
         /* --- DARK SECTION UTILITIES --- */
@@ -174,7 +181,7 @@
         .dark-section h1, .dark-section h2, .dark-section h3, .dark-section h4 { color: var(--paper-ivory); }
         .dark-section .entourage-group h4, .dark-section .closing-footer { color: var(--muted-gold); }
 
-        /* --- BACKGROUND IMAGES --- */
+        /* --- FULL WIDTH/HEIGHT BACKGROUND IMAGES --- */
         .bg-full-visible {
             position: absolute; 
             top: 0; 
@@ -184,6 +191,9 @@
             object-fit: cover; 
             object-position: center; 
             z-index: 0;
+        }
+        .card-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
         }
 
         /* --- 02. GALLERY SECTION UTILITIES --- */
@@ -201,7 +211,7 @@
             position: relative;
             width: 100%;
             max-width: 380px; 
-            height: 55%; 
+            height: 55vh; 
             min-height: 350px;
             max-height: 600px;
             margin: 1.5rem auto 0;
@@ -212,7 +222,6 @@
             overflow: hidden;
         }
 
-        /* Desktop specific alignment for Page 2 */
         @media (min-width: 769px) {
             .split-layout {
                 flex-direction: row;
@@ -229,7 +238,7 @@
                 flex: 1;
                 margin: 0;
                 max-width: 450px;
-                height: 65%;
+                height: 65vh;
             }
         }
 
@@ -264,16 +273,10 @@
             animation: rise linear infinite;
         }
         @keyframes rise {
-            0% {
-                transform: translateY(0) rotate(0deg) scale(0.5);
-                opacity: 0;
-            }
+            0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
             10% { opacity: 0.6; }
             90% { opacity: 0.6; }
-            100% {
-                transform: translateY(-120%) rotate(360deg) scale(1); /* Updated to % for container adaptation */
-                opacity: 0;
-            }
+            100% { transform: translateY(-120vh) rotate(360deg) scale(1); opacity: 0; }
         }
         .petal:nth-child(1) { left: 10%; width: 15px; height: 15px; animation-duration: 12s; animation-delay: 0s; }
         .petal:nth-child(2) { left: 30%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
@@ -341,7 +344,7 @@
         /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 768px) {
             .venue-wrapper { gap: 2rem; }
-            .gallery-container { height: 45%; max-width: 90vw; }
+            .gallery-container { height: 45vh; max-width: 90vw; }
             .entourage-gallery { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2rem; }
             .info-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .title-medium { margin-bottom: 0.5rem !important; }
@@ -353,41 +356,38 @@
 
     <!-- Paper Grain Texture Overlay (Covers Desktop backdrop + App) -->
     <div class="paper-grain"></div>
-
-    <!-- MAIN APP CONTAINER (Acts as the framed card on desktop) -->
-    <div id="app-container">
         
-        <!-- Global Video Background (Behind pages 5-8) -->
-        <div id="global-video-bg">
-            <video autoplay loop muted playsinline>
-                <source src="background.mp4" type="video/mp4">
-            </video>
-            <div class="video-overlay"></div>
+    <!-- Global Video Background (Behind pages 5-8) -->
+    <div id="global-video-bg">
+        <video autoplay loop muted playsinline>
+            <source src="background.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <!-- 01. THE OPENING (Unaffected by Card styling, stays full screen) -->
+    <div id="entrance">
+        <div class="hero-image-wrapper">
+            <img src="entrance.jpeg" alt="Warm Ivory Architectural Entrance">
         </div>
-
-        <!-- 01. THE OPENING -->
-        <div id="entrance">
-            <div class="hero-image-wrapper">
-                <img src="entrance.jpeg" alt="Warm Ivory Architectural Entrance">
-            </div>
-            <div class="entrance-content">
-                <p class="editorial-italic" style="margin-bottom: 1.5rem; font-size: 2.2rem;">Ikakasal na!</p>
-                <h1 class="title-large" style="margin-bottom: 1rem;">Elena and Adrian</h1>
-                <p class="subtitle" style="color: var(--ink-charcoal); margin-bottom: 0.5rem;">imbitado ka sa munting selebrasyon</p>
-                <p class="subtitle" style="color: var(--ink-charcoal);">Enero 31, 2028</p>
-                <button class="btn-open" onclick="openInvitation()">Buksan ang imbitasyon &rarr;</button>
-            </div>
+        <div class="entrance-content">
+            <p class="editorial-italic" style="margin-bottom: 1.5rem; font-size: 2.2rem;">Ikakasal na!</p>
+            <h1 class="title-large" style="margin-bottom: 1rem;">Elena and Adrian</h1>
+            <p class="subtitle" style="color: var(--ink-charcoal); margin-bottom: 0.5rem;">imbitado ka sa munting selebrasyon</p>
+            <p class="subtitle" style="color: var(--ink-charcoal);">Enero 31, 2028</p>
+            <button class="btn-open" onclick="openInvitation()">Buksan ang imbitasyon &rarr;</button>
         </div>
+    </div>
 
-        <!-- STATIONERY WRAPPER -->
-        <main id="invitation-stationery">
+    <!-- STATIONERY WRAPPER -->
+    <main id="invitation-stationery">
 
-            <!-- 02. GALLERY OF THE COUPLE (Split Layout on Desktop) -->
-            <section class="page dark-section" id="gallery" style="background-color: var(--ink-charcoal);">
-                
+        <!-- 02. GALLERY OF THE COUPLE (Card Layout on Desktop) -->
+        <section class="page" id="gallery">
+            <div class="page-card dark-section" style="background-color: var(--ink-charcoal);">
                 <!-- Background Image -->
                 <img class="bg-full-visible" src="2nd page.jpeg" alt="Gallery Background" style="opacity: 0.8;">
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 0;"></div>
+                <div class="card-overlay" style="background: rgba(0,0,0,0.4);"></div>
 
                 <div class="content-layer reveal split-layout">
                     <!-- Text blocks (Left on Desktop) -->
@@ -407,10 +407,12 @@
                         <img src="7th.jpeg" class="slide" alt="Couple Memory 7">
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- 03. ANG AMING KWENTO -->
-            <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
+        <!-- 03. ANG AMING KWENTO (Card Layout on Desktop) -->
+        <section class="page" id="story">
+            <div class="page-card dark-section" style="background-color: var(--ink-charcoal);">
                 
                 <div class="petals-container">
                     <div class="petal"></div>
@@ -423,9 +425,9 @@
 
                 <!-- Background Image -->
                 <img class="bg-full-visible" src="3rd page.jpeg" alt="Story Background">
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
+                <div class="card-overlay" style="background: rgba(42, 38, 35, 0.65);"></div>
 
-                <div class="content-layer reveal">
+                <div class="content-layer reveal" style="text-align: center;">
                     <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Aming Kwento</h2>
                     <h3 class="editorial-italic" style="margin-bottom: 1.5rem;">Nagsimula sa kape.</h3>
                     
@@ -441,15 +443,17 @@
                     
                     <h3 class="title-medium" style="font-size: 1.8rem;">At ngayon, ikakasal na kami!</h3>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- 04. ANG ARAW NA HINIHINTAY NAMIN (Venues) -->
-            <section class="page dark-section" id="wedding" style="background-color: var(--ink-charcoal);">
+        <!-- 04. ANG ARAW NA HINIHINTAY NAMIN (Card Layout on Desktop) -->
+        <section class="page" id="wedding">
+            <div class="page-card dark-section" style="background-color: var(--ink-charcoal);">
                 <!-- Background Image -->
                 <img class="bg-full-visible" src="4th page.jpeg" alt="Venue Background">
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
+                <div class="card-overlay" style="background: rgba(42, 38, 35, 0.65);"></div>
 
-                <div class="content-layer reveal" style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div class="content-layer reveal" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                     <h2 class="title-medium" style="margin-bottom: 0.5rem;">Ang Araw Na Hinihintay Namin</h2>
                     
                     <p class="subtitle highlight-date">31 ENERO 2028</p>
@@ -470,11 +474,13 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- 05. ANG MGA TAONG KASAMA NAMIN -->
-            <section class="page dark-section" id="entourage">
-                <div class="content-layer reveal" style="width: 100%;">
+        <!-- 05. ANG MGA TAONG KASAMA NAMIN (Glassmorphism Card over Video on Desktop) -->
+        <section class="page" id="entourage">
+            <div class="page-card glass-card dark-section">
+                <div class="content-layer reveal" style="text-align: center;">
                     <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Mga Taong Kasama Namin</h2>
                     <p class="body-text" style="max-width: 500px; margin: 0 auto; font-style: italic;">
                         Hindi magiging ganito ang kwento namin kung wala ang mga taong kasama namin sa bawat bahagi nito.
@@ -499,21 +505,25 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- 06. MGA SANDALI NAMIN -->
-            <section class="page dark-section" id="moments">
-                <div class="content-layer reveal" style="width: 100%;">
+        <!-- 06. MGA SANDALI NAMIN (Glassmorphism Card over Video on Desktop) -->
+        <section class="page" id="moments">
+            <div class="page-card glass-card dark-section">
+                <div class="content-layer reveal" style="text-align: center;">
                     <h2 class="title-medium" style="margin-bottom: 1rem;">Mga Sandali Namin</h2>
                     <p class="body-text" style="font-style: italic;">
                         Mga simpleng araw, maliliit na moments, at mga alaala na naging bahagi ng kwento namin.
                     </p>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- 07. BAGO TAYO MAGDIWANG (Details) -->
-            <section class="page dark-section" id="details">
-                <div class="content-layer reveal" style="width: 100%;">
+        <!-- 07. BAGO TAYO MAGDIWANG (Glassmorphism Card over Video on Desktop) -->
+        <section class="page" id="details">
+            <div class="page-card glass-card dark-section">
+                <div class="content-layer reveal" style="text-align: center;">
                     <h2 class="title-medium" style="margin-bottom: 1.5rem;">Bago Tayo Magdiwang</h2>
                     
                     <div class="info-grid">
@@ -544,11 +554,13 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- 08. SANA MAKASAMA NAMIN KAYO (RSVP) -->
-            <section class="page dark-section" id="rsvp">
-                <div class="content-layer reveal" style="width: 100%;">
+        <!-- 08. SANA MAKASAMA NAMIN KAYO (Glassmorphism Card over Video on Desktop) -->
+        <section class="page" id="rsvp">
+            <div class="page-card glass-card dark-section">
+                <div class="content-layer reveal" style="text-align: center;">
                     <h2 class="title-medium" style="margin-bottom: 2rem;">Sasama Kayo?</h2>
                     
                     <div class="qr-stationery">
@@ -563,11 +575,13 @@
                         Kung makakasama kayo sa araw na ito, i-scan ang QR code para makumpirma ang inyong attendance.
                     </p>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- 09. THE LAST PAGE (Closing) -->
-            <section class="page dark-section" id="closing">
-                <div class="content-layer reveal" style="width: 100%;">
+        <!-- 09. THE LAST PAGE (Closing) -->
+        <section class="page" id="closing">
+            <div class="page-card glass-card dark-section">
+                <div class="content-layer reveal" style="text-align: center;">
                     <h1 class="title-large" style="margin-bottom: 1rem;">Elena & Adrian</h1>
                     <p class="editorial-italic" style="font-size: 1.5rem; margin-bottom: 1rem;">At dito pa lang nagsisimula ang bagong chapter.</p>
                     <p class="subtitle">31 Enero 2028 · Manila</p>
@@ -578,10 +592,10 @@
                         StoryInvites<br><span style="text-transform: none; font-style: italic; opacity: 0.6; display: inline-block; margin-top: 5px; color: var(--paper-ivory);">Your story. Your style. Your invitation.</span>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-        </main>
-    </div> <!-- END APP CONTAINER -->
+    </main>
 
     <script>
         // --- GALLERY SCRIPT: Fades next image over current ---
