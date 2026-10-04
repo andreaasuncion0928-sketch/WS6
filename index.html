@@ -28,7 +28,7 @@
             --font-sans: 'DM Sans', sans-serif;
             
             /* Spacing */
-            --section-pad: 2rem 5vw; /* Tightened to fit in 1 viewport */
+            --section-pad: 2rem 5vw; 
         }
 
         /* --- RESET & BASE --- */
@@ -41,7 +41,7 @@
             -webkit-font-smoothing: antialiased;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Stop native body scroll to allow controlled snap scrolling */
+            overflow: hidden; 
         }
 
         /* Fine Paper Grain Texture */
@@ -60,7 +60,7 @@
         }
         #global-video-bg .video-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(42, 38, 35, 0.65); /* Dimming overlay */
+            background: rgba(42, 38, 35, 0.65); 
         }
 
         /* --- TYPOGRAPHY --- */
@@ -120,7 +120,7 @@
         #invitation-stationery { 
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             overflow-y: auto; overflow-x: hidden;
-            scroll-snap-type: y mandatory; /* Forces one page per scroll */
+            scroll-snap-type: y mandatory; 
             scroll-behavior: smooth;
             opacity: 0; pointer-events: none;
             transition: opacity 1.5s ease 0.5s;
@@ -150,6 +150,20 @@
         .dark-section .entourage-group h4, .dark-section .closing-footer { color: var(--muted-gold); }
 
         /* --- 02. GALLERY SECTION UTILITIES --- */
+        /* Modified background class for better alignment on page 2 */
+        .image-bg-responsive {
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%);
+            min-width: 100%; 
+            min-height: 100%;
+            /* 'cover' ensures it fills the area, but we rely on container positioning to center it better */
+            object-fit: cover; 
+            opacity: 0.8; 
+            z-index: 0;
+        }
+
         .gallery-container {
             position: relative;
             width: 100%;
@@ -158,7 +172,7 @@
             min-height: 350px;
             max-height: 600px;
             margin: 1.5rem auto 0;
-            border: 6px solid var(--paper-ivory); /* Photo frame effect */
+            border: 6px solid var(--paper-ivory); 
             border-radius: 4px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             background: #000;
@@ -171,35 +185,96 @@
             object-fit: cover;
             object-position: center;
             opacity: 0;
-            transition: opacity 1s ease-in-out; /* Smooth crossfade transition */
+            transition: opacity 1s ease-in-out; 
             z-index: 1;
         }
 
-        /* --- 04. VENUE INLINE GRID (No Cards) --- */
-        .venue-grid {
-            display: flex; gap: 4rem; justify-content: center; align-items: flex-start;
-            margin: 2rem auto 0; width: 100%; max-width: 900px;
+        /* --- 03. RISING PETALS ANIMATION --- */
+        .petals-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none; /* Let clicks pass through */
+            z-index: 1; /* Above background, below content */
+        }
+        .petal {
+            position: absolute;
+            bottom: -50px; /* Start below the screen */
+            background-color: rgba(249, 247, 242, 0.4); /* Soft ivory, semi-transparent */
+            border-radius: 50% 0 50% 50%; /* Petal shape */
+            opacity: 0.6;
+            animation: rise linear infinite;
+        }
+        @keyframes rise {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% {
+                transform: translateY(-110vh) rotate(360deg) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Generate multiple petals with different properties */
+        .petal:nth-child(1) { left: 10%; width: 15px; height: 15px; animation-duration: 12s; animation-delay: 0s; }
+        .petal:nth-child(2) { left: 30%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
+        .petal:nth-child(3) { left: 50%; width: 10px; height: 10px; animation-duration: 15s; animation-delay: 4s; }
+        .petal:nth-child(4) { left: 70%; width: 18px; height: 18px; animation-duration: 20s; animation-delay: 1s; }
+        .petal:nth-child(5) { left: 90%; width: 12px; height: 12px; animation-duration: 14s; animation-delay: 5s; }
+        .petal:nth-child(6) { left: 20%; width: 16px; height: 16px; animation-duration: 17s; animation-delay: 7s; }
+
+
+        /* --- 04. VENUE CENTERED LAYOUT (Updated) --- */
+        .venue-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem; /* Space between Church and Reception blocks */
+            margin-top: 2rem;
+            width: 100%;
         }
         .venue-item {
             display: flex; flex-direction: column; align-items: center; text-align: center;
-            flex: 1;
         }
-        .venue-sketch { 
-            width: 120px; height: 120px; object-fit: contain; 
-            margin-bottom: 1rem; opacity: 0.9; 
-            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.3)); /* Optional shadow to help it pop */
-        }
+        
         .venue-item .editorial-italic { font-size: 1.2rem; margin-bottom: 0.5rem; }
-        .venue-item h3 { font-size: 1.8rem; margin-bottom: 0.5rem; font-weight: 500; }
-        .venue-item .body-text { font-size: 1rem; margin-bottom: 1.5rem; line-height: 1.6; }
-        .btn-direction {
-            margin-top: auto; padding: 0.8rem 1.5rem;
-            background: transparent; color: var(--muted-gold);
-            border: 1px solid var(--muted-gold);
-            text-decoration: none; text-transform: uppercase; font-family: var(--font-sans);
-            font-size: 0.65rem; letter-spacing: 0.2em; border-radius: 3px; transition: all 0.3s;
+        /* Distinct font style for venue names */
+        .venue-item .venue-name { 
+            font-family: var(--font-sans); 
+            font-size: 1.5rem; 
+            letter-spacing: 0.2em; 
+            margin-bottom: 0.5rem; 
+            font-weight: 500; 
+            text-transform: uppercase;
         }
-        .btn-direction:hover { background: var(--muted-gold); color: #fff; }
+        .venue-item .body-text { font-size: 1rem; margin-bottom: 0.8rem; line-height: 1.6; }
+        /* Smaller, less prominent direction button */
+        .btn-direction-small {
+            font-family: var(--font-sans);
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--muted-gold);
+            text-decoration: underline;
+            text-transform: uppercase;
+            transition: opacity 0.3s;
+            margin-top: 0.5rem;
+        }
+        .btn-direction-small:hover { opacity: 0.7; }
+        
+        /* Highlighted Date Style */
+        .highlight-date {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--muted-gold);
+            letter-spacing: 0.3em;
+            margin-bottom: 2rem;
+        }
 
         /* --- COMPACT GRIDS TO FIT 100VH --- */
         .entourage-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; width: 100%; max-width: 800px; margin: 1.5rem auto 0; }
@@ -218,9 +293,7 @@
 
         /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 768px) {
-            .venue-grid { flex-direction: column; gap: 2rem; margin-top: 1rem; }
-            .venue-sketch { width: 80px; height: 80px; margin-bottom: 0.5rem; }
-            .venue-item .body-text { margin-bottom: 1rem; }
+            .venue-wrapper { gap: 2rem; }
             
             .gallery-container { height: 45vh; max-width: 90vw; }
 
@@ -264,16 +337,15 @@
 
         <!-- 02. GALLERY OF THE COUPLE (Image Background - 80% Opacity) -->
         <section class="page dark-section" id="gallery" style="background-color: var(--ink-charcoal);">
-            <!-- Image Background set to 80% opacity, cover and center for mobile visibility -->
-            <img class="image-bg" src="2nd page.jpeg" alt="Gallery Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0.8; z-index: 0;">
-            <!-- Slight dim overlay if the image is too bright, otherwise it relies on the opacity -->
+            <!-- Updated background alignment class -->
+            <img class="image-bg-responsive" src="2nd page.jpeg" alt="Gallery Background">
+            
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 0;"></div>
 
             <div class="content-layer reveal" style="width: 100%;">
                 <h2 class="title-medium" style="margin-bottom: 0.5rem;">Mga Alaala Namin</h2>
                 <h3 class="editorial-italic" style="margin-bottom: 1rem; font-size: 1.2rem;">Ang aming kwento sa larawan.</h3>
                 
-                <!-- Dynamic Photo Stacking Gallery -->
                 <div class="gallery-container">
                     <img src="1st.jpeg" class="slide" alt="Couple Memory 1">
                     <img src="2nd.jpeg" class="slide" alt="Couple Memory 2">
@@ -286,11 +358,20 @@
             </div>
         </section>
 
-        <!-- 03. ANG AMING KWENTO (New 3rd Page) -->
+        <!-- 03. ANG AMING KWENTO -->
         <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
-            <!-- Image Background for Page 3 -->
+            
+            <!-- Rising Petals Animation Container -->
+            <div class="petals-container">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+            </div>
+
             <img class="image-bg" src="3rd page.jpeg" alt="Story Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0;">
-            <!-- Dimming overlay to ensure text is readable against the background -->
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
 
             <div class="content-layer reveal">
@@ -311,32 +392,35 @@
             </div>
         </section>
 
-        <!-- 04. ANG ARAW NA HINIHINTAY NAMIN (Venues - No Cards) -->
+        <!-- 04. ANG ARAW NA HINIHINTAY NAMIN (Venues - Centered, No Images) -->
         <section class="page dark-section" id="wedding" style="background-color: var(--ink-charcoal);">
-            <!-- Image Background for Page 4 -->
             <img class="image-bg" src="4th page.jpeg" alt="Venue Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0;">
-            <!-- Dimming overlay to ensure text contrasts well -->
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
 
             <div class="content-layer reveal" style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                 <h2 class="title-medium" style="margin-bottom: 0.5rem;">Ang Araw Na Hinihintay Namin</h2>
-                <p class="subtitle" style="margin-bottom: 0;">31 Enero 2028</p>
                 
-                <!-- Plain Layout without cards -->
-                <div class="venue-grid">
+                <!-- Highlighted Date -->
+                <p class="subtitle highlight-date">31 ENERO 2028</p>
+                
+                <!-- Centered Vertical Layout for Venues -->
+                <div class="venue-wrapper">
                     <div class="venue-item">
-                        <img src="church-sketch.png" alt="Church Sketch" class="venue-sketch">
                         <p class="editorial-italic">Seremonya</p>
-                        <h3>San Sebastian Church</h3>
+                        <!-- Distinct font style for venue name -->
+                        <h3 class="venue-name">San Sebastian Church</h3>
                         <p class="body-text">Plaza del Carmen, Quiapo, Manila<br>4:30 PM</p>
-                        <a href="https://maps.google.com" target="_blank" class="btn-direction">Get Directions</a>
+                        <!-- Smaller direction link -->
+                        <a href="https://maps.google.com" target="_blank" class="btn-direction-small">Get Directions</a>
                     </div>
+                    
                     <div class="venue-item">
-                        <img src="hotel-sketch.png" alt="Hotel Sketch" class="venue-sketch">
                         <p class="editorial-italic">Reception</p>
-                        <h3>The Manila Hotel</h3>
+                        <!-- Distinct font style for venue name -->
+                        <h3 class="venue-name">The Manila Hotel</h3>
                         <p class="body-text">One Rizal Park, Ermita, Manila<br>6:30 PM</p>
-                        <a href="https://maps.google.com" target="_blank" class="btn-direction">Get Directions</a>
+                        <!-- Smaller direction link -->
+                        <a href="https://maps.google.com" target="_blank" class="btn-direction-small">Get Directions</a>
                     </div>
                 </div>
             </div>
@@ -463,7 +547,6 @@
             if (slides.length === 0) return;
             
             let current = 0;
-            // Show the first slide immediately
             slides[current].style.opacity = 1;
             slides[current].style.zIndex = 2;
 
