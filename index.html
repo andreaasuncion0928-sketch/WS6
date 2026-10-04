@@ -3,383 +3,526 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The House That Holds A Story | Andrea & [Name]</title>
+    <title>Elena & Adrian | A Modern Filipiniana Wedding</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400&family=La+Belle+Aurore&display=swap');
+        /* --- FONTS --- */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
 
+        /* --- VARIABLES --- */
         :root {
-            /* Color Palette - Filipino Heirloom */
-            --aged-ivory: #ECE6D5;
-            --narra-brown: #4A3320;
-            --deep-cacao: #1C130D;
-            --capiz-pearl: #E8E4D9;
-            --muted-terracotta: #8B5A43;
-            --faded-ink: #332B25;
+            /* Palette */
+            --warm-ivory: #F7F5F0;
+            --parchment: #EBE5D9;
+            --deep-cacao: #2A1F18;
+            --warm-wood: #8C6A54;
+            --muted-plum: #5D3A4B;
+            --royal-violet: #412A45;
+            --soft-lavender: #A890A6;
+            --mauve: #8A6578;
+            --antique-brass: #B59C75;
             
-            /* Typography System */
-            --font-primary: 'Cormorant Garamond', serif; /* Editorial, historical */
-            --font-functional: 'DM Sans', sans-serif;    /* Clean, understated */
-            --font-handwriting: 'La Belle Aurore', cursive; /* Human touch */
+            /* Typography */
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'DM Sans', sans-serif;
+            
+            /* Spacing */
+            --section-pad: 8rem 5vw;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none; /* Make it feel like an app/object */
-        }
-
+        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background-color: var(--deep-cacao);
-            color: var(--aged-ivory);
-            font-family: var(--font-primary);
-            overflow: hidden; /* No scrolling allowed. Discovery is interaction-based. */
-            height: 100vh;
-            width: 100vw;
-        }
-
-        /* --- SENSORY TEXTURES --- */
-        .film-grain {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.06"/%3E%3C/svg%3E');
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: overlay;
-        }
-
-        /* --- CINEMATIC STAGE MANAGEMENT --- */
-        .scene {
-            position: absolute;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1), transform 2.5s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: scale(0.98);
-        }
-
-        .scene.active {
-            opacity: 1;
-            pointer-events: auto;
-            transform: scale(1);
-        }
-
-        .scene.past {
-            opacity: 0;
-            transform: scale(1.05); /* Moves "past" the camera */
-        }
-
-        /* --- TYPOGRAPHY CLASSES --- */
-        h1, h2, h3 { font-weight: 400; line-height: 1.2; }
-        .text-editorial { font-size: clamp(2rem, 5vw, 4rem); letter-spacing: 0.02em; }
-        .text-handwriting { font-family: var(--font-handwriting); font-size: 2rem; color: var(--muted-terracotta); }
-        .text-functional { font-family: var(--font-functional); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; }
-        .text-body { font-size: 1.2rem; line-height: 1.8; color: var(--faded-ink); }
-
-        /* --- PHYSICAL OBJECTS --- */
-        .interaction-hint {
-            position: absolute;
-            bottom: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: var(--font-functional);
-            font-size: 0.6rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            opacity: 0.6;
-            animation: pulse 3s infinite;
-            cursor: pointer;
-        }
-
-        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
-
-        /* 01. THE FRONT DOOR */
-        #scene-door {
-            background: radial-gradient(circle at center, #2A1C12 0%, var(--deep-cacao) 100%);
-        }
-        .brass-handle {
-            width: 60px; height: 160px;
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 30px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: all 0.5s ease;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .brass-handle:hover { border-color: rgba(212, 175, 55, 0.6); box-shadow: inset 0 0 20px rgba(212,175,55,0.1); }
-        .brass-handle::after {
-            content: ''; width: 20px; height: 20px; background: rgba(212, 175, 55, 0.4); border-radius: 50%;
-        }
-
-        /* 02. THE SALA (How it began) */
-        #scene-sala {
-            background: #2C2018; /* Wood table color */
-            color: var(--aged-ivory);
-        }
-        .photo-album {
-            width: 320px; height: 400px;
-            background: var(--aged-ivory);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            position: relative;
-            cursor: pointer;
-            transition: transform 1s ease;
-            transform: rotate(-2deg);
-        }
-        .photo-album:hover { transform: rotate(0deg) scale(1.02); }
-        .photo-album::before {
-            content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px;
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        .album-photo {
-            position: absolute; top: 30px; left: 30px; right: 30px; height: 200px;
-            background: #D5CDC4; /* Sepia placeholder */
-            display: flex; justify-content: center; align-items: center;
-            overflow: hidden;
-        }
-        /* SVG Placeholder for nostalgic photo */
-        .album-photo svg { width: 50%; opacity: 0.3; stroke: var(--narra-brown); fill: none; }
-        .album-text { position: absolute; bottom: 40px; left: 30px; right: 30px; text-align: center; color: var(--faded-ink); }
-
-        /* 03. THE DINING ROOM (The People) */
-        #scene-dining {
-            background: #3A281E;
-        }
-        .table-setting {
-            display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; max-width: 800px;
-        }
-        .place-card {
-            background: var(--capiz-pearl);
-            padding: 1.5rem 2rem;
-            box-shadow: 2px 10px 20px rgba(0,0,0,0.4);
-            transform: rotate(-1deg);
-            cursor: pointer;
-            transition: all 0.5s ease;
-        }
-        .place-card:nth-child(even) { transform: rotate(2deg); }
-        .place-card:hover { transform: translateY(-10px) scale(1.05); z-index: 10; }
-
-        /* 04. THE VERANDA (The Life Ahead) */
-        #scene-veranda {
-            background: radial-gradient(circle at center, #4A3320 0%, var(--deep-cacao) 100%);
-        }
-        .capiz-window {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
-            width: 300px; height: 500px;
-            background: var(--narra-brown);
-            padding: 10px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
-            cursor: pointer;
-            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .capiz-pane {
-            background: rgba(232, 228, 217, 0.3);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: background 0.5s ease;
-        }
-        .capiz-window:hover .capiz-pane { background: rgba(232, 228, 217, 0.5); }
-        .window-open { transform: scale(1.2) translateY(-20px); opacity: 0; pointer-events: none; }
-
-        /* 05. THE GARDEN (The Reveal & RSVP) */
-        #scene-garden {
-            background: var(--aged-ivory); /* Flooded with warm light */
+            background-color: var(--warm-ivory);
             color: var(--deep-cacao);
+            font-family: var(--font-body);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
-        .envelope {
-            width: 400px; height: 250px;
-            background: #E0D9C8;
-            position: relative;
-            margin-top: 4rem;
-            cursor: pointer;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
-            transition: all 1s ease;
-            display: flex; justify-content: center; align-items: center;
+
+        /* Piña / Woven Paper Texture Overlay */
+        .texture-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.04"/%3E%3C/svg%3E');
+            pointer-events: none; z-index: 9999; mix-blend-mode: multiply;
         }
-        .envelope-flap {
-            position: absolute; top: 0; left: 0; width: 100%; height: 50%;
-            background: #D5CEBD;
-            clip-path: polygon(0 0, 50% 100%, 100% 0);
-            transform-origin: top;
-            transition: transform 1s ease;
-            z-index: 3;
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, h4, h5 { font-family: var(--font-display); font-weight: 400; line-height: 1.1; text-transform: uppercase; }
+        .title-large { font-size: clamp(3.5rem, 8vw, 7rem); letter-spacing: 0.03em; }
+        .title-medium { font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: 0.05em; }
+        .subtitle { font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; }
+        .body-text { font-size: 1.1rem; line-height: 1.8; font-weight: 300; max-width: 600px; margin: 0 auto; }
+        .editorial-italic { font-family: var(--font-display); font-style: italic; font-size: 1.5rem; text-transform: none; }
+        
+        /* --- ANIMATIONS (Fade Up Reveal) --- */
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .wedding-card {
-            position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px;
-            background: var(--capiz-pearl);
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- 00. THE COVER / OPENING --- */
+        #cover {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--deep-cacao);
+            z-index: 9000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; transform: translateY(20px);
-            transition: all 1s ease 0.5s;
-            z-index: 2;
-            padding: 2rem;
             text-align: center;
-            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 1.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 1.8s ease;
+            transform-origin: top;
         }
-        .envelope.open { height: 500px; background: transparent; box-shadow: none; cursor: default; }
-        .envelope.open .envelope-flap { transform: rotateX(180deg); opacity: 0; }
-        .envelope.open .wedding-card { opacity: 1; transform: translateY(0); box-shadow: 0 20px 40px rgba(0,0,0,0.15); height: 100%; position: relative; }
-
-        .btn-rsvp {
-            margin-top: 2rem; padding: 1rem 3rem;
-            background: transparent; border: 1px solid var(--narra-brown);
-            color: var(--narra-brown); font-family: var(--font-functional); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
-            cursor: pointer; transition: all 0.3s ease; text-decoration: none;
+        /* The requested hero image */
+        #cover::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('entrance.jpeg');
+            background-size: cover; background-position: center;
+            opacity: 0.7; z-index: -1;
         }
-        .btn-rsvp:hover { background: var(--narra-brown); color: var(--aged-ivory); }
+        #cover::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(42,31,24,0.3) 0%, rgba(42,31,24,0.7) 100%);
+            z-index: -1;
+        }
+        
+        .cover-content { color: var(--warm-ivory); z-index: 2; padding: 2rem; width: 100%; max-width: 800px; }
+        .cover-content .subtitle { color: var(--parchment); margin-bottom: 2rem; }
+        .cover-content .editorial-italic { margin-top: 3rem; color: var(--parchment); font-size: 1.2rem; }
+        
+        .btn-open {
+            margin-top: 4rem; padding: 1rem 0;
+            background: transparent; border: none;
+            color: var(--warm-ivory); font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 0.3em;
+            text-transform: uppercase; cursor: pointer;
+            border-bottom: 1px solid var(--warm-ivory);
+            transition: opacity 0.3s ease;
+        }
+        .btn-open:hover { opacity: 0.7; }
+        
+        /* Transition state when opened */
+        #cover.opened { transform: translateY(-100vh); opacity: 0; pointer-events: none; }
 
+        /* --- LAYOUT WRAPPER --- */
+        #invitation-content {
+            opacity: 0; transition: opacity 2s ease 0.5s;
+        }
+        #invitation-content.visible { opacity: 1; }
+
+        /* --- 01. OUR STORY --- */
+        #our-story { padding: var(--section-pad); text-align: center; }
+        .story-container { max-width: 800px; margin: 0 auto; position: relative; }
+        .story-image-placeholder {
+            width: 100%; aspect-ratio: 16/9; background: var(--parchment);
+            margin: 4rem 0; display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(42,31,24,0.1);
+        }
+
+        /* --- 02. THE WEDDING --- */
+        #the-wedding {
+            padding: var(--section-pad); background-color: var(--parchment); text-align: center;
+            border-top: 1px solid rgba(42,31,24,0.1); border-bottom: 1px solid rgba(42,31,24,0.1);
+        }
+        .events-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 5rem auto 0;
+        }
+        @media (max-width: 768px) { .events-grid { grid-template-columns: 1fr; gap: 5rem; } }
+        
+        .event-card { position: relative; padding: 3rem 2rem; border: 1px solid var(--antique-brass); }
+        /* Arch motif inspired by Filipino architecture */
+        .event-card::before {
+            content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(181, 156, 117, 0.4);
+            border-top-left-radius: 100px; border-top-right-radius: 100px; pointer-events: none;
+        }
+        .event-link {
+            display: inline-block; margin-top: 2rem; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--deep-cacao); text-decoration: none; border-bottom: 1px solid var(--deep-cacao);
+        }
+
+        /* --- 03. OUR PEOPLE --- */
+        #our-people { padding: var(--section-pad); text-align: center; }
+        .people-list { max-width: 600px; margin: 4rem auto 0; text-align: left; }
+        .people-group { margin-bottom: 4rem; }
+        .people-group h4 { font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 0.3em; margin-bottom: 1.5rem; color: var(--muted-plum); border-bottom: 1px solid rgba(42,31,24,0.1); padding-bottom: 0.5rem; }
+        
+        .person-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 0; border-bottom: 1px solid rgba(42,31,24,0.05); position: relative;
+            cursor: pointer;
+        }
+        .person-name { font-family: var(--font-display); font-size: 1.5rem; transition: color 0.3s; }
+        
+        /* Hover Portrait Reveal */
+        .person-portrait {
+            position: absolute; right: 0; top: 50%; transform: translateY(-50%) translateX(20px);
+            width: 120px; aspect-ratio: 3/4; background: var(--parchment); border: 1px solid var(--antique-brass);
+            opacity: 0; pointer-events: none; transition: all 0.4s ease; z-index: 10;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .person-item:hover .person-name { color: var(--muted-plum); }
+        .person-item:hover .person-portrait { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+        /* --- 04. MOMENTS (Horizontal Photo Journal) --- */
+        #moments { padding: 8rem 0; background: var(--deep-cacao); color: var(--warm-ivory); overflow: hidden; }
+        .moments-header { text-align: center; padding: 0 5vw 4rem; }
+        
+        .gallery-track {
+            display: flex; gap: 3rem; padding: 0 5vw 2rem;
+            overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; /* Hide scrollbar */
+        }
+        .gallery-track::-webkit-scrollbar { display: none; }
+        
+        .gallery-item {
+            flex: 0 0 auto; scroll-snap-align: center; width: 80vw; max-width: 500px;
+        }
+        .gallery-image {
+            width: 100%; aspect-ratio: 3/4; background: #3A2F28;
+            border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;
+        }
+        .gallery-image img { width: 100%; height: 100%; object-fit: cover; }
+        .gallery-caption {
+            margin-top: 1rem; font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--antique-brass); text-align: center;
+        }
+
+        /* --- 05. A FEW THINGS TO KNOW --- */
+        #info { padding: var(--section-pad); }
+        .info-container { max-width: 800px; margin: 0 auto; }
+        .info-block { margin-top: 4rem; }
+        .info-block h4 { font-size: 1.5rem; margin-bottom: 1rem; }
+        
+        /* Dress Code Palette */
+        .color-palette { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+        .color-swatch { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+        .color-circle { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); }
+        .color-name { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; }
+
+        /* --- 06. RSVP & CLOSING --- */
+        #rsvp {
+            padding: var(--section-pad); text-align: center; background: var(--parchment);
+            border-top: 1px solid rgba(42,31,24,0.1);
+        }
+        .stationery-card {
+            max-width: 600px; margin: 4rem auto 0; padding: 4rem 2rem;
+            background: var(--warm-ivory);
+            border: 1px solid var(--antique-brass);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        /* Capiz / Woven double border */
+        .stationery-card::before {
+            content: ''; position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px;
+            border: 1px dashed rgba(181, 156, 117, 0.4); pointer-events: none;
+        }
+        
+        .qr-placeholder {
+            width: 150px; height: 150px; margin: 3rem auto 1rem;
+            background: white; border: 1px solid rgba(0,0,0,0.1); padding: 10px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .qr-placeholder img { width: 100%; height: 100%; object-fit: contain; }
+
+        #closing { padding: 10rem 5vw; text-align: center; background: var(--deep-cacao); color: var(--warm-ivory); }
+        .closing-footer { margin-top: 6rem; font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.3); text-transform: uppercase; }
+
+        /* Utilities */
+        .image-placeholder-text { font-family: var(--font-body); font-size: 0.7rem; letter-spacing: 0.2em; opacity: 0.5; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-    <!-- Cinematic Grain Overlay -->
-    <div class="film-grain"></div>
+    <!-- Global Texture Overlay -->
+    <div class="texture-overlay"></div>
 
-    <!-- Hidden Audio Elements (Simulated Ambient Sound) -->
-    <!-- Note: Browsers require interaction before playing audio, so this plays on the first door click -->
-    <audio id="sfx-door" src="data:audio/mp3;base64,//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" preload="auto"></audio>
-
-    <!-- 01. THE FRONT DOOR -->
-    <div id="scene-door" class="scene active">
-        <p class="text-functional" style="color: rgba(255,255,255,0.4); margin-bottom: 3rem;">The House That Holds A Story</p>
-        
-        <div class="brass-handle" onclick="advanceScene('scene-door', 'scene-sala')"></div>
-        
-        <p class="text-editorial" style="margin-top: 3rem; color: var(--aged-ivory);">Come in.</p>
-        <p class="text-handwriting" style="margin-top: 1rem;">There is a story we would like you to hear.</p>
-    </div>
-
-    <!-- 02. THE SALA (How it began) -->
-    <div id="scene-sala" class="scene">
-        <p class="text-functional" style="color: rgba(255,255,255,0.3); position: absolute; top: 10%;">The Sala</p>
-        
-        <div class="photo-album" onclick="advanceScene('scene-sala', 'scene-dining')">
-            <div class="album-photo">
-                <!-- Subtle SVG representing a coffee cup / meeting -->
-                <svg viewBox="0 0 100 100">
-                    <path d="M20,70 L80,70 C80,85 20,85 20,70 Z M30,30 L30,70 M70,30 L70,70 M70,40 C85,40 85,60 70,60" stroke-width="2"/>
-                    <path d="M40,25 Q45,10 50,25 T60,25" stroke-width="1.5" stroke-dasharray="2,2"/>
-                </svg>
-            </div>
-            <div class="album-text">
-                <p class="text-handwriting" style="font-size: 1.5rem; margin-bottom: 1rem;">It started with coffee.</p>
-                <p class="text-functional" style="font-size: 0.6rem; color: rgba(0,0,0,0.5);">We met over iced coffee on an ordinary afternoon in Manila. What started as a conversation turned into a journey.</p>
-            </div>
-        </div>
-        
-        <p class="interaction-hint">Turn the page</p>
-    </div>
-
-    <!-- 03. THE DINING ROOM (The People) -->
-    <div id="scene-dining" class="scene">
-        <p class="text-functional" style="color: rgba(255,255,255,0.3); position: absolute; top: 10%;">The Dining Table</p>
-        <p class="text-editorial" style="margin-bottom: 4rem; text-align: center;">The people who shaped us.</p>
-        
-        <div class="table-setting" onclick="advanceScene('scene-dining', 'scene-veranda')">
-            <!-- Place Cards Acting as Entourage Reveal -->
-            <div class="place-card">
-                <p class="text-handwriting" style="color: var(--deep-cacao);">Sofia Reyes</p>
-                <p class="text-functional" style="color: var(--muted-terracotta); margin-top: 0.5rem; font-size: 0.5rem;">Maid of Honor</p>
-            </div>
-            <div class="place-card">
-                <p class="text-handwriting" style="color: var(--deep-cacao);">Daniel Cruz</p>
-                <p class="text-functional" style="color: var(--muted-terracotta); margin-top: 0.5rem; font-size: 0.5rem;">Best Man</p>
-            </div>
-            <div class="place-card">
-                <p class="text-handwriting" style="color: var(--deep-cacao);">Isabella Santos</p>
-                <p class="text-functional" style="color: var(--muted-terracotta); margin-top: 0.5rem; font-size: 0.5rem;">Bridesmaid</p>
-            </div>
-            <div class="place-card">
-                <p class="text-handwriting" style="color: var(--deep-cacao);">Mateo Lim</p>
-                <p class="text-functional" style="color: var(--muted-terracotta); margin-top: 0.5rem; font-size: 0.5rem;">Groomsman</p>
-            </div>
-        </div>
-
-        <p class="interaction-hint">Walk to the Veranda</p>
-    </div>
-
-    <!-- 04. THE VERANDA (The Life Ahead / Transition) -->
-    <div id="scene-veranda" class="scene">
-        <p class="text-functional" style="color: rgba(255,255,255,0.3); position: absolute; top: 10%;">The Veranda</p>
-        
-        <div class="capiz-window" onclick="openWindow(this, 'scene-veranda', 'scene-garden')">
-            <!-- Procedurally generated Capiz panes -->
-            <div class="capiz-pane"></div><div class="capiz-pane"></div><div class="capiz-pane"></div>
-            <div class="capiz-pane"></div><div class="capiz-pane"></div><div class="capiz-pane"></div>
-            <div class="capiz-pane"></div><div class="capiz-pane"></div><div class="capiz-pane"></div>
-            <div class="capiz-pane"></div><div class="capiz-pane"></div><div class="capiz-pane"></div>
-            <div class="capiz-pane"></div><div class="capiz-pane"></div><div class="capiz-pane"></div>
-        </div>
-
-        <p class="text-editorial" style="margin-top: 3rem; text-align: center;">And now, we're here.</p>
-        <p class="interaction-hint">Push open the windows</p>
-    </div>
-
-    <!-- 05. THE GARDEN (The Reveal & RSVP) -->
-    <div id="scene-garden" class="scene">
-        <h1 class="text-editorial">Andrea & [Name]</h1>
-        <p class="text-handwriting" style="margin-top: 1rem;">are getting married.</p>
-        <p class="text-functional" style="margin-top: 2rem; color: var(--muted-terracotta);">Come home to celebrate with us.</p>
-        
-        <!-- The Final Heirloom Object: The Envelope -->
-        <div class="envelope" id="final-envelope" onclick="openEnvelope(this)">
-            <div class="envelope-flap"></div>
-            <div class="wedding-card">
-                <p class="text-editorial" style="font-size: 2rem; color: var(--deep-cacao);">September 27, 2026</p>
-                
-                <div style="margin: 2rem 0; width: 1px; height: 40px; background: var(--muted-terracotta);"></div>
-                
-                <p class="text-functional" style="color: var(--deep-cacao);">Ceremony & Reception</p>
-                <p class="text-body" style="font-size: 1.2rem; margin-top: 0.5rem; color: var(--deep-cacao);">Felicidad Mansion<br>6:00 PM</p>
-                
-                <p class="text-functional" style="margin-top: 1.5rem; font-size: 0.6rem; color: rgba(0,0,0,0.5);">Dress Code: Formal Filipiniana</p>
-                
-                <a href="#" class="btn-rsvp" onclick="event.stopPropagation(); alert('RSVP Modal Opens Here');">RSVP</a>
-            </div>
-            <p class="interaction-hint" id="envelope-hint" style="bottom: -30px; color: var(--narra-brown);">Open the invitation</p>
-        </div>
-    </div>
-
-    <!-- CINEMATIC LOGIC -->
-    <script>
-        // Advances the scene by changing CSS classes to trigger transitions
-        function advanceScene(currentId, nextId) {
-            const currentScene = document.getElementById(currentId);
-            const nextScene = document.getElementById(nextId);
+    <!-- 00. OPENING COVER -->
+    <div id="cover">
+        <div class="cover-content">
+            <p class="subtitle">Together with their families</p>
+            <h1 class="title-large" style="margin-bottom: 2rem;">Elena<br><span style="font-size: 0.5em; vertical-align: middle;">&</span><br>Adrian</h1>
+            <p class="subtitle" style="margin-bottom: 0;">31 January 2028 · Manila</p>
+            <p class="editorial-italic">It started with coffee.</p>
             
-            // Play fake audio on first click (simulating ambient sound)
-            if(currentId === 'scene-door') {
-                try { document.getElementById('sfx-door').play(); } catch(e) {}
-            }
+            <button class="btn-open" onclick="openInvitation()">Open Invitation &rarr;</button>
+        </div>
+    </div>
 
-            // Move current scene past the camera
-            currentScene.classList.remove('active');
-            currentScene.classList.add('past');
+    <!-- WRAPPER FOR ALL CONTENT -->
+    <main id="invitation-content">
+        
+        <!-- 01. OUR STORY -->
+        <section id="our-story">
+            <div class="story-container reveal">
+                <p class="subtitle">01 &mdash; Our Story</p>
+                <h2 class="title-medium" style="margin: 2rem 0;">It started with coffee.</h2>
+                <p class="body-text">
+                    We met over iced coffee on an ordinary afternoon in Manila. What was supposed to be a quick catchup turned into hours of talking about everything from worst travel mistakes to favorite albums. By the time the coffee shop was closing, we both knew something quiet and permanent had just begun.
+                </p>
+                
+                <div class="story-image-placeholder">
+                    <span class="image-placeholder-text">story-01.jpg</span>
+                    <!-- <img src="story-01.jpg" alt="Elena and Adrian" style="width: 100%; height: 100%; object-fit: cover;"> -->
+                </div>
+                
+                <h3 class="title-medium" style="margin-bottom: 1rem; font-size: 2.5rem;">2015</h3>
+                <p class="subtitle" style="margin-bottom: 2rem;">The year everything changed.</p>
+                <p class="editorial-italic" style="margin-bottom: 4rem;">we became us.</p>
+                
+                <h3 class="title-medium" style="font-size: 2rem;">And now,<br>we're getting married.</h3>
+            </div>
+        </section>
 
-            // Bring in the next scene
+        <!-- 02. THE WEDDING -->
+        <section id="the-wedding">
+            <div class="reveal">
+                <p class="subtitle">02 &mdash; The Wedding</p>
+                <p class="editorial-italic" style="margin: 1rem 0 2rem;">A day we'll always remember</p>
+                <h2 class="title-medium">31 January 2028</h2>
+                
+                <div class="events-grid">
+                    <div class="event-card">
+                        <h4 style="font-size: 1.5rem; margin-bottom: 1.5rem;">The Ceremony</h4>
+                        <h5 style="font-size: 1.2rem; margin-bottom: 0.5rem;">San Sebastian Church</h5>
+                        <p class="body-text" style="font-size: 0.95rem;">Plaza del Carmen, Quiapo, Manila</p>
+                        <p class="body-text" style="font-size: 0.95rem; margin-top: 1rem;">4:30 PM</p>
+                        <a href="#" class="event-link">Get Directions &rarr;</a>
+                    </div>
+                    
+                    <div class="event-card">
+                        <h4 style="font-size: 1.5rem; margin-bottom: 1.5rem;">The Reception</h4>
+                        <h5 style="font-size: 1.2rem; margin-bottom: 0.5rem;">The Manila Hotel</h5>
+                        <p class="body-text" style="font-size: 0.95rem;">One Rizal Park, Ermita, Manila</p>
+                        <p class="body-text" style="font-size: 0.95rem; margin-top: 1rem;">6:30 PM</p>
+                        <a href="#" class="event-link">Get Directions &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03. OUR PEOPLE -->
+        <section id="our-people">
+            <div class="reveal">
+                <p class="subtitle">03 &mdash; The People Beside Us</p>
+                <p class="editorial-italic" style="margin-top: 1rem;">The ones who have been part of the story.</p>
+                
+                <div class="people-list">
+                    <div class="people-group">
+                        <h4>Maid of Honor</h4>
+                        <div class="person-item">
+                            <span class="person-name">Sofia Reyes</span>
+                            <div class="person-portrait"><span class="image-placeholder-text">Portrait</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="people-group">
+                        <h4>Best Man</h4>
+                        <div class="person-item">
+                            <span class="person-name">Daniel Cruz</span>
+                            <div class="person-portrait"><span class="image-placeholder-text">Portrait</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="people-group">
+                        <h4>Bridesmaids</h4>
+                        <div class="person-item"><span class="person-name">Clara</span><div class="person-portrait"><span class="image-placeholder-text">Portrait</span></div></div>
+                        <div class="person-item"><span class="person-name">Nina</span><div class="person-portrait"><span class="image-placeholder-text">Portrait</span></div></div>
+                        <div class="person-item"><span class="person-name">Bea</span><div class="person-portrait"><span class="image-placeholder-text">Portrait</span></div></div>
+                        <div class="person-item"><span class="person-name">Isabelle</span><div class="person-portrait"><span class="image-placeholder-text">Portrait</span></div></div>
+                    </div>
+                    
+                    <div class="people-group">
+                        <h4>Groomsmen</h4>
+                        <div class="person-item"><span class="person-name">Marco</span><div class="person-portrait"><span class="image-placeholder-text">Portrait</span></div></div>
+                        <div class="person-item"><span class="person-name">Ethan</span><div class="person-portrait"><span class="image-placeholder-text">Portrait</span></div></div>
+                        <div class="person-item"><span class="person-name">James</span><div class="person-portrait"><span class="image-placeholder-text">Portrait</span></div></div>
+                        <div class="person-item"><span class="person-name">Rafael</span><div class="person-portrait"><span class="image-placeholder-text">Portrait</span></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04. MOMENTS -->
+        <section id="moments">
+            <div class="moments-header reveal">
+                <p class="subtitle" style="color: var(--antique-brass);">04 &mdash; Moments</p>
+                <h2 class="title-medium" style="margin-top: 1rem;">Little Pieces of Us</h2>
+            </div>
+            
+            <!-- Horizontal Scroll Gallery -->
+            <div class="gallery-track reveal">
+                <div class="gallery-item">
+                    <div class="gallery-image"><span class="image-placeholder-text">photo01.jpg</span></div>
+                    <p class="gallery-caption">01 — Elena & Adrian</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image"><span class="image-placeholder-text">photo02.jpg</span></div>
+                    <p class="gallery-caption">02 — Chronicles</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image"><span class="image-placeholder-text">photo03.jpg</span></div>
+                    <p class="gallery-caption">03 — Monochrome & Gold</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image"><span class="image-placeholder-text">photo04.jpg</span></div>
+                    <p class="gallery-caption">04 — Quiet Hours</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image"><span class="image-placeholder-text">photo05.jpg</span></div>
+                    <p class="gallery-caption">05 — Scrapbook</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image"><span class="image-placeholder-text">photo06.jpg</span></div>
+                    <p class="gallery-caption">06 — Warm Light</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image"><span class="image-placeholder-text">photo07.jpg</span></div>
+                    <p class="gallery-caption">07 — Archive</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image"><span class="image-placeholder-text">photo08.jpg</span></div>
+                    <p class="gallery-caption">08 — Portraits</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image"><span class="image-placeholder-text">photo09.jpg</span></div>
+                    <p class="gallery-caption">09 — Film Grain</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image"><span class="image-placeholder-text">photo10.jpg</span></div>
+                    <p class="gallery-caption">10 — Until Then</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image"><span class="image-placeholder-text">photo11.jpg</span></div>
+                    <p class="gallery-caption">11 — The Beginning</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05. A FEW THINGS TO KNOW -->
+        <section id="info">
+            <div class="info-container reveal">
+                <p class="subtitle" style="text-align: center;">05 &mdash; A Few Things To Know</p>
+                
+                <div class="info-block">
+                    <h4>What to Wear</h4>
+                    <p class="subtitle" style="margin-bottom: 1rem; color: var(--muted-plum);">Formal Attire in Shades of Purple</p>
+                    <p class="body-text" style="margin: 0;">We kindly invite guests to celebrate in rich or muted tones of purple—from deep plum and royal violet to soft lavender and mauve.</p>
+                    
+                    <div class="color-palette">
+                        <div class="color-swatch">
+                            <div class="color-circle" style="background-color: var(--muted-plum);"></div>
+                            <span class="color-name">Plum</span>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-circle" style="background-color: var(--royal-violet);"></div>
+                            <span class="color-name">Violet</span>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-circle" style="background-color: #6C4B6E;"></div>
+                            <span class="color-name">Purple</span>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-circle" style="background-color: var(--soft-lavender);"></div>
+                            <span class="color-name">Lilac</span>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-circle" style="background-color: var(--mauve);"></div>
+                            <span class="color-name">Mauve</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Can I bring a plus one?</h4>
+                    <p class="body-text" style="margin: 0;">Due to capacity limits at our venue, we can only accommodate guests who are formally named on the invitation. Thank you for your understanding!</p>
+                </div>
+
+                <div class="info-block">
+                    <h4>Gifts</h4>
+                    <p class="body-text" style="margin: 0;">Your presence is the greatest gift of all. However, if you wish to honor us with a gift, monetary contributions toward our new beginning together would be warmly appreciated.</p>
+                </div>
+
+                <div class="info-block">
+                    <h4>Unplugged Ceremony</h4>
+                    <p class="body-text" style="margin: 0;">We ask that you kindly put away your mobile phones and cameras during the ceremony. We have hired professional photographers to capture every moment so you can relax and be present with us.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 06. RSVP & CLOSING -->
+        <section id="rsvp">
+            <div class="reveal">
+                <p class="subtitle">06 &mdash; RSVP</p>
+                <div class="stationery-card">
+                    <h2 class="title-medium" style="color: var(--muted-plum);">We'd love to have you with us</h2>
+                    <p class="editorial-italic" style="margin-top: 1rem;">Will you join us for the next chapter?</p>
+                    
+                    <p class="body-text" style="margin-top: 2rem; font-size: 0.95rem;">Please scan the QR code below using your mobile phone camera to confirm your attendance.</p>
+                    
+                    <div class="qr-placeholder">
+                        <span class="image-placeholder-text">sampleQR.png</span>
+                        <!-- <img src="sampleQR.png" alt="RSVP QR Code"> -->
+                    </div>
+                    <p class="subtitle" style="font-size: 0.6rem;">Scan to confirm attendance</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 07. CLOSING -->
+        <section id="closing">
+            <div class="reveal">
+                <h1 class="title-large" style="color: var(--warm-ivory);">Elena & Adrian</h1>
+                <p class="editorial-italic" style="margin: 2rem 0; color: var(--parchment);">And this is only the beginning.</p>
+                <p class="subtitle" style="color: var(--antique-brass);">31 January 2028 · Manila</p>
+                
+                <p class="body-text" style="margin-top: 4rem; color: var(--warm-ivory);">We can't wait to celebrate with you.</p>
+                
+                <div class="closing-footer">
+                    StoryInvites<br><span style="opacity: 0.5; margin-top: 5px; display: inline-block;">Your story. Your style. Your invitation.</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // --- OPEN INVITATION INTERACTION ---
+        function openInvitation() {
+            const cover = document.getElementById('cover');
+            const content = document.getElementById('invitation-content');
+            
+            cover.classList.add('opened');
+            
+            // Allow time for cover to transition out before fading content in
             setTimeout(() => {
-                nextScene.classList.add('active');
-            }, 1000); // Wait for the fade out to halfway complete
-        }
-
-        // Specific interaction for the Veranda windows
-        function openWindow(element, currentId, nextId) {
-            element.classList.add('window-open');
-            setTimeout(() => {
-                advanceScene(currentId, nextId);
+                content.classList.add('visible');
+                // Trigger initial scroll observation immediately after revealing content
+                handleScrollAnimation(); 
             }, 800);
         }
 
-        // Specific interaction for the final envelope
-        function openEnvelope(element) {
-            if (!element.classList.contains('open')) {
-                element.classList.add('open');
-                document.getElementById('envelope-hint').style.display = 'none';
-            }
+        // --- INTERSECTION OBSERVER FOR FADE UPS ---
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+        
+        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Run animation only once
+                }
+            });
+        }, revealOptions);
+
+        function handleScrollAnimation() {
+            revealElements.forEach(el => {
+                revealOnScroll.observe(el);
+            });
         }
     </script>
-
 </body>
 </html>
