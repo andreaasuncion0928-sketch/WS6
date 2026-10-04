@@ -161,6 +161,17 @@
             z-index: 0;
         }
 
+        /* --- GLASS PANEL UTILITY (For Story & Venues) --- */
+        .glass-panel {
+            background: rgba(249, 247, 242, 0.08); 
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(249, 247, 242, 0.15);
+            border-radius: 8px;
+            padding: 2rem;
+            width: 100%;
+        }
+
         /* --- 02. GALLERY SECTION UTILITIES --- */
         .gallery-container {
             position: relative;
@@ -249,6 +260,12 @@
         .petals-full .petal:nth-child(11){ left: 30%; width: 14px; height: 14px; animation-duration: 23s; animation-delay: 11s; }
         .petals-full .petal:nth-child(12){ left: 70%; width: 18px; height: 18px; animation-duration: 31s; animation-delay: 13s; }
 
+        /* --- 03. STORY GLASS PANEL --- */
+        .story-glass-panel {
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            max-width: 650px;
+            margin: 0 auto;
+        }
 
         /* --- 04. VENUE CENTERED LAYOUT WITH GLASS PANELS --- */
         .venue-wrapper {
@@ -261,13 +278,6 @@
         }
         .venue-glass-panel {
             display: flex; flex-direction: column; align-items: center; text-align: center;
-            background: rgba(249, 247, 242, 0.08); 
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            border: 1px solid rgba(249, 247, 242, 0.15);
-            border-radius: 8px;
-            padding: 2rem;
-            width: 100%;
             max-width: 450px;
         }
         .venue-glass-panel .editorial-italic { font-size: 1.1rem; margin-bottom: 0.5rem; color: rgba(249,247,242,0.8); }
@@ -390,6 +400,7 @@
             width: 180px; 
             height: auto; 
             opacity: 0.95;
+            border-radius: 8px;
             filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3));
         }
 
@@ -458,6 +469,7 @@
         @media (max-width: 768px) {
             .venue-wrapper { gap: 1.5rem; }
             .venue-glass-panel { padding: 1.5rem; }
+            .story-glass-panel { padding: 1.5rem; }
             .gallery-container { height: 45vh; max-width: 90vw; }
             .entourage-grid-new { grid-template-columns: 1fr; gap: 1rem; }
             .info-grid { grid-template-columns: 1fr; gap: 1.5rem; }
@@ -506,7 +518,7 @@
 
         <!-- 02. GALLERY OF THE COUPLE (MGA SANDALI) -->
         <section class="page dark-section" id="gallery" style="background-color: var(--ink-charcoal);">
-            <img class="bg-full-visible" src="2nd page.jpeg" alt="Gallery Background">
+            <img class="bg-full-visible" src="5th page.jpeg" alt="Gallery Background">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
 
             <div class="content-layer reveal" style="width: 100%;">
@@ -525,11 +537,12 @@
             </div>
         </section>
 
-        <!-- 03. ANG AMING KWENTO (WITH RISING PETALS) -->
+        <!-- 03. ANG AMING KWENTO (WITH RISING PETALS & GLASS PANEL) -->
         <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
             <img class="bg-full-visible" src="3rd page.jpeg" alt="Story Background">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.7); z-index: 0;"></div>
 
+            <!-- Petals layered behind the text/panel -->
             <div class="petals-container">
                 <div class="petal"></div>
                 <div class="petal"></div>
@@ -540,20 +553,23 @@
             </div>
 
             <div class="content-layer reveal">
-                <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Aming Kwento</h2>
-                <h3 class="editorial-italic" style="margin-bottom: 1.5rem;">Nagsimula sa kape.</h3>
-                
-                <p class="body-text" style="margin-bottom: 1rem;">
-                    Sino ang mag-aakala na ang isang simpleng kape sa isang ordinaryong hapon ang magiging simula ng lahat?
-                </p>
-                <p class="body-text" style="margin-bottom: 1rem;">
-                    Ang akala naming saglit na pagkikita ay nauwi sa walang-katapusang kwentuhan—tawanan tungkol sa mga sablay na byahe, at pagbabahagi ng mga paboritong kanta.
-                </p>
-                <p class="body-text" style="margin-bottom: 3rem;">
-                    Nang magpaalam kami nang gabing iyon, may kakaibang kaba at saya. Pareho naming naramdaman na ito na ang simula ng isang napakagandang kwento.
-                </p>
-                
-                <h3 class="title-medium" style="font-size: 1.8rem;">At ngayon, ikakasal na kami!</h3>
+                <!-- Story Glass Panel -->
+                <div class="glass-panel story-glass-panel">
+                    <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Aming Kwento</h2>
+                    <h3 class="editorial-italic" style="margin-bottom: 1.5rem;">Nagsimula sa kape.</h3>
+                    
+                    <p class="body-text" style="margin-bottom: 1rem; color: rgba(249,247,242,0.9);">
+                        Sino ang mag-aakala na ang isang simpleng kape sa isang ordinaryong hapon ang magiging simula ng lahat?
+                    </p>
+                    <p class="body-text" style="margin-bottom: 1rem; color: rgba(249,247,242,0.9);">
+                        Ang akala naming saglit na pagkikita ay nauwi sa walang-katapusang kwentuhan—tawanan tungkol sa mga sablay na byahe, at pagbabahagi ng mga paboritong kanta.
+                    </p>
+                    <p class="body-text" style="margin-bottom: 3rem; color: rgba(249,247,242,0.9);">
+                        Nang magpaalam kami nang gabing iyon, may kakaibang kaba at saya. Pareho naming naramdaman na ito na ang simula ng isang napakagandang kwento.
+                    </p>
+                    
+                    <h3 class="title-medium" style="font-size: 1.8rem;">At ngayon, ikakasal na kami!</h3>
+                </div>
             </div>
         </section>
 
@@ -569,7 +585,7 @@
                 
                 <div class="venue-wrapper">
                     <!-- Glassmorphism Panel 1 -->
-                    <div class="venue-glass-panel">
+                    <div class="glass-panel venue-glass-panel">
                         <p class="editorial-italic">Seremonya</p>
                         <h3 class="venue-name">San Sebastian Church</h3>
                         <p class="body-text">Plaza del Carmen, Quiapo, Manila<br>4:30 PM</p>
@@ -577,7 +593,7 @@
                     </div>
                     
                     <!-- Glassmorphism Panel 2 -->
-                    <div class="venue-glass-panel">
+                    <div class="glass-panel venue-glass-panel">
                         <p class="editorial-italic">Reception</p>
                         <h3 class="venue-name">The Manila Hotel</h3>
                         <p class="body-text">One Rizal Park, Ermita, Manila<br>6:30 PM</p>
@@ -647,10 +663,9 @@
                         </div>
                     </div>
 
-                    <!-- Center Column (Sketch Placeholder) -->
+                    <!-- Center Column -->
                     <div class="attire-col center-col">
-                        <!-- Use generic sketch placeholder or update src -->
-                        <img src="attire-sketch.png" alt="Barong and Filipiniana" class="attire-sketch">
+                        <img src="dress.png" alt="Barong and Filipiniana" class="attire-sketch">
                     </div>
 
                     <!-- Right Column -->
