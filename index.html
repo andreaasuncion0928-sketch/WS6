@@ -63,20 +63,7 @@
             transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* --- ILLUSTRATION SYSTEM --- */
-        .illustration { position: absolute; pointer-events: none; opacity: 0.8; z-index: 0; }
-        .illustration svg { stroke: var(--ink-brown); stroke-width: 0.75; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-        
-        /* Positioning Helpers */
-        .pos-top-left { top: 2rem; left: 2rem; }
-        .pos-top-right { top: 2rem; right: 2rem; }
-        .pos-bottom-left { bottom: 2rem; left: 2rem; }
-        .pos-bottom-right { bottom: 2rem; right: 2rem; }
-        .pos-center-right { top: 50%; right: 2rem; transform: translateY(-50%); }
-        .pos-center-left { top: 50%; left: 2rem; transform: translateY(-50%); }
-
-        .content-layer { position: relative; z-index: 2; }
+        .content-layer { position: relative; z-index: 2; width: 100%; }
 
         /* --- 01. THE OPENING --- */
         #entrance {
@@ -88,7 +75,6 @@
             transition: opacity 1.5s ease, transform 1.5s cubic-bezier(0.65, 0, 0.35, 1);
         }
         
-        /* The Hero Image (Using the requested entrance.jpeg) */
         .hero-image-wrapper {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; display: flex; justify-content: center; align-items: center;
@@ -96,7 +82,6 @@
         }
         .hero-image-wrapper img {
             width: 100%; height: 100%; object-fit: cover; opacity: 0.85;
-            /* Fades smoothly into the ivory paper color around the edges */
             mask-image: radial-gradient(circle at center, black 30%, transparent 100%);
             -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 100%);
         }
@@ -124,48 +109,43 @@
         .page {
             min-height: 100vh; padding: var(--section-pad); display: flex; align-items: center; justify-content: center;
             position: relative; text-align: center; width: 100%;
+            border-bottom: 1px solid rgba(42,38,35,0.05);
         }
 
-        /* --- 02. ANG KWENTO NAMIN --- */
-        #story .content-layer { max-width: 700px; margin: 0 auto; }
-        .sketch-woman-coffee { width: 180px; height: 280px; }
-        .sketch-leaves { width: 120px; height: 180px; }
+        /* --- 02. ANG KWENTO NAMIN (Video Background) --- */
+        #story {
+            position: relative;
+            overflow: hidden;
+            color: var(--paper-ivory); /* Light text to stand out against video */
+            border-bottom: none;
+        }
+        
+        .video-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 0;
+        }
+        
+        .video-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(42, 38, 35, 0.65); /* Dark tint for text readability */
+            z-index: 1;
+        }
+
+        #story .content-layer { max-width: 700px; margin: 0 auto; z-index: 2; }
+        #story .editorial-italic { color: var(--paper-ivory); }
+        #story .body-text { color: rgba(249, 247, 242, 0.9); }
 
         /* --- 03. ANG ARAW NA HINIHINTAY NAMIN --- */
-        .church-illustration { width: 200px; height: 250px; margin: 0 auto 2rem; }
-        .horizontal-line { width: 1px; height: 80px; background: var(--muted-gold); margin: 3rem auto; opacity: 0.4; }
+        .horizontal-line { width: 1px; height: 80px; background: var(--muted-gold); margin: 4rem auto; opacity: 0.4; }
 
         /* --- 04. ANG MGA TAONG KASAMA NAMIN --- */
-        .entourage-gallery { display: flex; flex-wrap: wrap; gap: 4rem; justify-content: center; max-width: 900px; margin: 4rem auto 0; }
+        .entourage-gallery { display: flex; flex-direction: column; gap: 4rem; justify-content: center; max-width: 900px; margin: 4rem auto 0; }
         .entourage-group { display: flex; flex-direction: column; align-items: center; }
-        .sketch-portrait { width: 70px; height: 90px; margin-bottom: 1rem; }
         .entourage-group h4 { font-family: var(--font-sans); font-size: 0.7rem; letter-spacing: 0.3em; color: var(--muted-gold); margin-top: 1rem; }
-        .entourage-group p { font-size: 1.3rem; line-height: 1.8; }
-
-        /* --- 05. MGA SANDALI NAMIN (Layered Scrapbook) --- */
-        .memory-canvas { position: relative; width: 100%; max-width: 900px; min-height: 60vh; margin: 4rem auto 0; }
-        .pinned-photo {
-            position: absolute; background: #fff; padding: 10px 10px 35px 10px;
-            box-shadow: 2px 8px 25px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.02);
-            transition: transform 0.4s ease;
-        }
-        .pinned-photo:hover { transform: scale(1.02) !important; z-index: 10 !important; }
-        .pinned-photo img { width: 100%; height: 100%; object-fit: cover; background: #e5e0d8; }
-        
-        /* Positioning for layered effect */
-        .photo-1 { width: 220px; height: 280px; top: 10%; left: 10%; transform: rotate(-3deg); z-index: 2; }
-        .photo-2 { width: 280px; height: 200px; top: 30%; right: 10%; transform: rotate(2deg); z-index: 3; }
-        .photo-3 { width: 200px; height: 240px; bottom: 0; left: 35%; transform: rotate(-1deg); z-index: 4; }
-        
-        .memory-motif { position: absolute; z-index: 5; opacity: 0.7; }
-        .motif-coffee { width: 50px; height: 50px; top: 5%; right: 20%; }
-        .motif-flower { width: 60px; height: 80px; bottom: 10%; left: 15%; }
-        .motif-date { font-family: var(--font-display); font-style: italic; font-size: 1.2rem; top: 50%; left: 5%; transform: rotate(-15deg); color: var(--ink-brown); }
+        .entourage-names { font-size: 1.5rem; line-height: 2; }
 
         /* --- 06. BAGO TAYO MAGDIWANG (Details) --- */
         .info-grid { max-width: 700px; margin: 4rem auto 0; display: flex; flex-direction: column; gap: 4rem; }
-        .fashion-sketches { display: flex; justify-content: center; gap: 2rem; margin: 2rem 0; }
-        .sketch-attire { width: 120px; height: 200px; }
         
         .color-palette { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
         .color-swatch { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
@@ -173,29 +153,17 @@
         .color-name { font-family: var(--font-sans); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; }
 
         /* --- 07. SANA MAKASAMA NAMIN KAYO (RSVP) --- */
-        .rsvp-envelope-scene { display: flex; flex-direction: column; align-items: center; margin-top: 4rem; position: relative; }
-        .sketch-woman-envelope { width: 200px; height: 300px; margin-bottom: -50px; z-index: 1; }
         .qr-stationery {
-            width: 250px; padding: 2rem; background: #fff; position: relative; z-index: 2;
+            width: 250px; padding: 2rem; background: #fff; margin: 0 auto; position: relative; z-index: 2;
             border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 15px 40px rgba(0,0,0,0.04);
         }
-        .qr-woven-border { position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px; pointer-events: none; }
-        .qr-woven-border svg { width: 100%; height: 100%; stroke: var(--muted-gold); stroke-width: 0.5; }
         .qr-placeholder { width: 100%; aspect-ratio: 1; background: rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(0,0,0,0.1); margin-bottom: 1rem; }
 
         /* --- 08. THE LAST PAGE --- */
         #closing { padding: 15rem 5vw; }
-        .sketch-couple { width: 180px; height: 250px; margin: 0 auto 3rem; }
         .closing-footer { margin-top: 6rem; font-family: var(--font-sans); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--muted-gold); text-transform: uppercase; }
 
-        /* Utilities */
         .img-label { font-family: var(--font-sans); font-size: 0.7rem; color: rgba(0,0,0,0.3); letter-spacing: 0.1em; text-transform: uppercase;}
-
-        @media (max-width: 768px) {
-            .memory-canvas { min-height: 80vh; display: flex; flex-direction: column; align-items: center; gap: 2rem; margin-top: 2rem; }
-            .pinned-photo { position: relative; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important; transform: none !important; width: 80% !important; height: auto !important; aspect-ratio: 3/4; }
-            .memory-motif { display: none; }
-        }
     </style>
 </head>
 <body>
@@ -203,16 +171,16 @@
     <!-- Paper Grain Texture Overlay -->
     <div class="paper-grain"></div>
 
-    <!-- 01. THE OPENING (Hero Image) -->
+    <!-- 01. THE OPENING -->
     <div id="entrance">
         <div class="hero-image-wrapper">
-            <!-- Using the specified entrance.jpeg image[cite: 3] -->
             <img src="entrance.jpeg" alt="Warm Ivory Architectural Entrance">
         </div>
         <div class="entrance-content">
+            <p class="subtitle" style="margin-bottom: 2rem;">Kasama ng aming mga pamilya</p>
             <h1 class="title-large" style="margin-bottom: 1rem;">Elena & Adrian</h1>
-            <p class="subtitle" style="color: var(--ink-charcoal);">31 January 2028 · Manila</p>
-            <p class="editorial-italic" style="margin-top: 3rem;">It started with coffee.</p>
+            <p class="subtitle" style="color: var(--ink-charcoal);">31 Enero 2028 · Manila</p>
+            <p class="editorial-italic" style="margin-top: 3rem;">Nagsimula sa kape.</p>
             <button class="btn-open" onclick="openInvitation()">Buksan ang imbitasyon &rarr;</button>
         </div>
     </div>
@@ -220,28 +188,17 @@
     <!-- STATIONERY WRAPPER -->
     <main id="invitation-stationery">
 
-        <!-- 02. ANG KWENTO NAMIN -->
+        <!-- 02. ANG KWENTO NAMIN (Video Background) -->
         <section class="page" id="story">
-            <!-- Asymmetrical Filipiniana Sketches -->
-            <div class="illustration pos-top-left sketch-leaves">
-                <svg viewBox="0 0 100 150"><path d="M10,140 Q40,90 50,20 M50,20 Q60,60 90,80 M50,20 Q30,50 10,60 M50,20 Q70,40 90,40 M50,20 Q20,30 10,30 M50,20 Q40,80 70,110 M50,20 Q30,80 20,110"/></svg>
-            </div>
-            <div class="illustration pos-bottom-right sketch-woman-coffee">
-                <!-- Filipiniana woman holding coffee outline -->
-                <svg viewBox="0 0 150 250">
-                    <path d="M75,20 C65,20 60,30 60,40 C60,50 70,55 75,55 C80,55 90,50 90,40 C90,30 85,20 75,20 Z" />
-                    <path d="M75,55 C75,70 65,80 50,85 C35,90 30,110 30,130 C30,140 40,140 50,140" />
-                    <path d="M50,140 L55,130 C60,130 65,135 65,140" /> <!-- Cup -->
-                    <path d="M75,55 C75,70 85,80 100,85 C115,90 120,110 120,130 L110,140" />
-                    <path d="M50,85 C40,70 30,70 20,80 C10,90 20,110 30,100 Z" /> <!-- Sleeve -->
-                    <path d="M100,85 C110,70 120,70 130,80 C140,90 130,110 120,100 Z" /> <!-- Sleeve -->
-                    <path d="M60,110 C50,150 40,200 30,240 L120,240 C110,200 100,150 90,110" />
-                </svg>
-            </div>
+            <!-- Video Background -->
+            <video class="video-bg" autoplay loop muted playsinline>
+                <source src="background.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
 
             <div class="content-layer reveal">
                 <h2 class="title-medium" style="margin-bottom: 2rem;">Ang Kwento Namin</h2>
-                <h3 class="editorial-italic" style="margin-bottom: 2rem;">Nagsimula sa kape.</h3>
+                <h3 class="editorial-italic" style="margin-bottom: 3rem;">Nagsimula sa kape.</h3>
                 
                 <p class="body-text" style="margin-bottom: 1.5rem;">
                     Hindi namin akalain na ang simpleng kape sa isang ordinaryong hapon sa Manila ang magiging simula ng lahat.
@@ -253,7 +210,7 @@
                     Pagkaalis namin sa coffee shop, parang pareho naming alam na may nagsimula.
                 </p>
                 
-                <div style="margin: 4rem 0;">
+                <div style="margin: 5rem 0;">
                     <h3 class="title-medium" style="font-size: 2.5rem;">2015</h3>
                     <p class="editorial-italic" style="margin-top: 1rem; font-size: 1.2rem;">Dito nagsimula ang “tayo.”</p>
                 </div>
@@ -264,37 +221,18 @@
 
         <!-- 03. ANG ARAW NA HINIHINTAY NAMIN -->
         <section class="page" id="wedding">
-            <div class="illustration pos-top-left" style="width: 100px; height: 100px;">
-                <!-- Sampaguita detail -->
-                <svg viewBox="0 0 100 100"><path d="M50,50 C30,30 20,50 50,70 C80,50 70,30 50,50 Z M50,50 C30,70 20,50 50,30 C80,50 70,70 50,50 Z"/></svg>
-            </div>
-            
             <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 3rem;">Ang Araw Na Hinihintay Namin</h2>
-                
-                <!-- Fine-line Church Illustration -->
-                <div class="church-illustration">
-                    <svg viewBox="0 0 200 250">
-                        <!-- Facade -->
-                        <path d="M40,230 L40,100 L100,20 L160,100 L160,230 Z"/>
-                        <!-- Spires -->
-                        <path d="M40,100 L40,30 L60,80 M160,100 L160,30 L140,80"/>
-                        <!-- Rose window & Door -->
-                        <circle cx="100" cy="100" r="20" stroke-dasharray="2,4"/>
-                        <path d="M75,230 L75,170 C75,150 125,150 125,170 L125,230"/>
-                    </svg>
-                </div>
-
+                <h2 class="title-medium" style="margin-bottom: 4rem;">Ang Araw Na Hinihintay Namin</h2>
                 <p class="subtitle" style="margin-bottom: 2rem; color: var(--ink-charcoal);">31 Enero 2028</p>
                 
                 <p class="editorial-italic" style="margin-bottom: 1rem;">Seremonya</p>
-                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">San Sebastian Church</h3>
+                <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem;">San Sebastian Church</h3>
                 <p class="body-text">Plaza del Carmen, Quiapo, Manila<br>4:30 PM</p>
                 
                 <div class="horizontal-line"></div>
 
                 <p class="editorial-italic" style="margin-bottom: 1rem;">Reception</p>
-                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">The Manila Hotel</h3>
+                <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem;">The Manila Hotel</h3>
                 <p class="body-text">One Rizal Park, Ermita, Manila<br>6:30 PM</p>
             </div>
         </section>
@@ -309,27 +247,21 @@
 
                 <div class="entourage-gallery">
                     <div class="entourage-group">
-                        <div class="sketch-portrait">
-                            <svg viewBox="0 0 60 80"><ellipse cx="30" cy="30" rx="15" ry="20"/><path d="M10,80 C10,50 50,50 50,80"/></svg>
-                        </div>
                         <p class="entourage-names">Sofia Reyes</p>
                         <h4>Maid of Honor</h4>
                     </div>
                     
-                    <div class="entourage-group" style="transform: translateY(30px);">
-                        <div class="sketch-portrait">
-                            <svg viewBox="0 0 60 80"><ellipse cx="30" cy="30" rx="12" ry="18"/><path d="M15,80 C15,60 45,60 45,80"/></svg>
-                        </div>
+                    <div class="entourage-group">
                         <p class="entourage-names">Daniel Cruz</p>
                         <h4>Best Man</h4>
                     </div>
                     
-                    <div class="entourage-group" style="width: 100%; margin-top: 2rem;">
+                    <div class="entourage-group" style="margin-top: 2rem;">
                         <p class="entourage-names">Clara · Nina · Bea · Isabelle</p>
                         <h4>Bridesmaids</h4>
                     </div>
                     
-                    <div class="entourage-group" style="width: 100%;">
+                    <div class="entourage-group">
                         <p class="entourage-names">Marco · Ethan · James · Rafael</p>
                         <h4>Groomsmen</h4>
                     </div>
@@ -337,38 +269,13 @@
             </div>
         </section>
 
-        <!-- 05. MGA SANDALI NAMIN (Scrapbook / Memories) -->
+        <!-- 05. MGA SANDALI NAMIN -->
         <section class="page" id="moments">
             <div class="content-layer reveal" style="width: 100%;">
                 <h2 class="title-medium" style="margin-bottom: 1rem;">Mga Sandali Namin</h2>
                 <p class="body-text" style="font-style: italic;">
                     Mga simpleng araw, maliliit na moments, at mga alaala na naging bahagi ng kwento namin.
                 </p>
-                
-                <div class="memory-canvas">
-                    <!-- Layered Photos with SVG Motifs -->
-                    <div class="pinned-photo photo-1">
-                        <div style="width:100%; height:100%; background:rgba(0,0,0,0.05); display:flex; align-items:center; justify-content:center;"><span class="img-label">Photo 1</span></div>
-                    </div>
-                    
-                    <div class="memory-motif motif-coffee">
-                        <svg viewBox="0 0 50 50"><ellipse cx="25" cy="25" rx="15" ry="5"/><path d="M10,25 C10,40 40,40 40,25"/></svg>
-                    </div>
-
-                    <div class="pinned-photo photo-2">
-                        <div style="width:100%; height:100%; background:rgba(0,0,0,0.05); display:flex; align-items:center; justify-content:center;"><span class="img-label">Photo 2</span></div>
-                    </div>
-                    
-                    <div class="memory-motif motif-date">10.12.23</div>
-
-                    <div class="pinned-photo photo-3">
-                        <div style="width:100%; height:100%; background:rgba(0,0,0,0.05); display:flex; align-items:center; justify-content:center;"><span class="img-label">Photo 3</span></div>
-                    </div>
-                    
-                    <div class="memory-motif motif-flower">
-                        <svg viewBox="0 0 60 80"><path d="M30,80 L30,40 M30,40 C10,20 20,10 30,30 C40,10 50,20 30,40 Z"/></svg>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -383,28 +290,6 @@
                         <p class="editorial-italic" style="margin-bottom: 0.5rem;">Ano ang isusuot?</p>
                         <h4 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Formal Attire</h4>
                         <p class="subtitle" style="color: var(--plum); margin-bottom: 2rem;">Shades of Purple</p>
-                        
-                        <div class="fashion-sketches">
-                            <div class="sketch-attire">
-                                <!-- Woman Filipiniana Sketch -->
-                                <svg viewBox="0 0 100 150">
-                                    <path d="M35,20 C30,20 25,25 25,35 C25,45 35,50 40,50 C45,50 55,45 55,35 C55,25 50,20 40,20 Z" />
-                                    <path d="M40,50 C40,65 30,75 15,80 C5,85 5,100 15,120 L25,100" />
-                                    <path d="M15,80 C5,65 5,65 -5,75 C-15,85 -5,105 5,95 Z" />
-                                    <path d="M65,80 C75,65 75,65 85,75 C95,85 85,105 75,95 Z" />
-                                    <path d="M25,95 C15,140 5,200 0,240 L80,240 C75,200 65,140 55,95" />
-                                </svg>
-                            </div>
-                            <div class="sketch-attire">
-                                <!-- Man Barong Sketch -->
-                                <svg viewBox="0 0 100 150">
-                                    <path d="M65,20 C55,20 50,30 50,40 C50,50 60,55 65,55 C70,55 80,50 80,40 Z" />
-                                    <path d="M50,55 L40,80 L40,150 M80,55 L90,80 L90,150" />
-                                    <path d="M45,70 L85,70 L85,140 L45,140 Z" />
-                                    <path d="M55,75 L55,130 M75,75 L75,130" stroke-dasharray="1,2"/>
-                                </svg>
-                            </div>
-                        </div>
 
                         <p class="body-text">
                             Suotin ang inyong best formal look sa shades of purple—from deep plum at royal violet hanggang soft lavender at mauve.
@@ -413,6 +298,7 @@
                         <div class="color-palette">
                             <div class="color-swatch"><div class="color-circle" style="background: var(--plum);"></div><span class="color-name">Plum</span></div>
                             <div class="color-swatch"><div class="color-circle" style="background: var(--violet);"></div><span class="color-name">Violet</span></div>
+                            <div class="color-swatch"><div class="color-circle" style="background: var(--purple);"></div><span class="color-name">Purple</span></div>
                             <div class="color-swatch"><div class="color-circle" style="background: var(--lilac);"></div><span class="color-name">Lilac</span></div>
                             <div class="color-swatch"><div class="color-circle" style="background: var(--mauve);"></div><span class="color-name">Mauve</span></div>
                         </div>
@@ -442,34 +328,16 @@
         <!-- 07. SANA MAKASAMA NAMIN KAYO (RSVP) -->
         <section class="page" id="rsvp">
             <div class="content-layer reveal" style="width: 100%;">
-                <h2 class="title-medium" style="margin-bottom: 1rem;">Sasama Kayo?</h2>
+                <h2 class="title-medium" style="margin-bottom: 4rem;">Sasama Kayo?</h2>
                 
-                <div class="rsvp-envelope-scene">
-                    <div class="sketch-woman-envelope">
-                        <!-- Woman holding envelope sketch -->
-                        <svg viewBox="0 0 150 250">
-                            <path d="M75,20 C65,20 60,30 60,40 C60,50 70,55 75,55 C80,55 90,50 90,40 Z" />
-                            <path d="M75,55 C75,70 65,80 50,85 C35,90 30,110 30,130 L60,110" />
-                            <path d="M50,85 C40,70 30,70 20,80 C10,90 20,110 30,100 Z" />
-                            <path d="M60,110 C50,150 40,200 30,240 L120,240 C110,200 100,150 90,110" />
-                        </svg>
+                <div class="qr-stationery">
+                    <div class="qr-placeholder">
+                        <span class="img-label">[ QR CODE ]</span>
                     </div>
-                    
-                    <div class="qr-stationery">
-                        <div class="qr-woven-border">
-                            <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-                                <rect x="2" y="2" width="96" height="96" fill="none" stroke-dasharray="2,2"/>
-                                <rect x="6" y="6" width="88" height="88" fill="none"/>
-                            </svg>
-                        </div>
-                        <div class="qr-placeholder">
-                            <span class="img-label">[ QR CODE ]</span>
-                        </div>
-                        <p class="subtitle" style="color: var(--ink-charcoal);">Scan to confirm</p>
-                    </div>
+                    <p class="subtitle" style="color: var(--ink-charcoal);">Scan to confirm</p>
                 </div>
                 
-                <h3 class="editorial-italic" style="font-size: 2rem; margin: 3rem 0 1rem;">Sana makasama namin kayo.</h3>
+                <h3 class="editorial-italic" style="font-size: 2rem; margin: 4rem 0 1rem;">Sana makasama namin kayo.</h3>
                 <p class="body-text">
                     Kung makakasama kayo sa araw na ito, i-scan ang QR code para makumpirma ang inyong attendance.
                 </p>
@@ -478,35 +346,12 @@
 
         <!-- 08. THE LAST PAGE (Closing) -->
         <section class="page" id="closing">
-            <div class="illustration pos-top-left sketch-leaves" style="opacity: 0.4;">
-                <svg viewBox="0 0 100 150"><path d="M10,140 Q40,90 50,20 M50,20 Q60,60 90,80 M50,20 Q30,50 10,60 M50,20 Q70,40 90,40"/></svg>
-            </div>
-            <div class="illustration pos-bottom-right" style="width: 80px; height: 80px; opacity: 0.4;">
-                <svg viewBox="0 0 100 100"><path d="M50,50 C30,30 20,50 50,70 C80,50 70,30 50,50 Z M50,50 C30,70 20,50 50,30 C80,50 70,70 50,50 Z"/></svg>
-            </div>
-            
             <div class="content-layer reveal" style="width: 100%;">
-                <div class="sketch-couple">
-                    <!-- The Couple Sketch -->
-                    <svg viewBox="0 0 200 250">
-                        <!-- Woman -->
-                        <path d="M60,40 C50,40 45,50 45,60 C45,70 55,75 60,75 C65,75 75,70 75,60 Z" />
-                        <path d="M60,75 C60,90 50,100 35,105 C20,110 15,130 15,150 L35,120" />
-                        <path d="M35,105 C25,90 15,90 5,100 C-5,110 5,130 15,120 Z" /> 
-                        <path d="M45,120 C35,170 20,240 10,250 L100,250 C90,240 75,170 65,120" />
-                        <!-- Man -->
-                        <path d="M130,30 C120,30 115,40 115,50 C115,60 125,65 130,65 C135,65 145,60 145,50 Z" />
-                        <path d="M115,65 L105,90 L105,150 M145,65 L155,90 L155,150" />
-                        <path d="M110,80 L150,80 L150,180 L110,180 Z" />
-                        <path d="M120,90 L120,170 M140,90 L140,170" stroke-dasharray="1,3"/>
-                    </svg>
-                </div>
-                
                 <h1 class="title-large" style="margin-bottom: 1rem;">Elena & Adrian</h1>
                 <p class="editorial-italic" style="font-size: 1.5rem; margin-bottom: 1rem;">At dito pa lang nagsisimula ang bagong chapter.</p>
                 <p class="subtitle" style="color: var(--ink-charcoal);">31 Enero 2028 · Manila</p>
                 
-                <p class="body-text" style="margin-top: 3rem;">Maraming salamat sa pagiging bahagi ng kwento namin.</p>
+                <p class="body-text" style="margin-top: 4rem;">Maraming salamat sa pagiging bahagi ng kwento namin.</p>
                 
                 <div class="closing-footer">
                     StoryInvites<br><span style="text-transform: none; font-style: italic; opacity: 0.6; display: inline-block; margin-top: 5px;">Your story. Your style. Your invitation.</span>
@@ -522,7 +367,7 @@
             const entrance = document.getElementById('entrance');
             const stationery = document.getElementById('invitation-stationery');
             
-            // Fade and move the entrance up
+            // Fade out the entrance
             entrance.classList.add('opened');
             
             // Fade in the stationery content
