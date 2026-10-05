@@ -79,7 +79,7 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
         .content-layer { position: relative; z-index: 2; width: 100%; }
 
-        /* --- 01. THE OPENING --- */
+        /* --- 01. THE OPENING (INTRO CARD IS FULL OPACITY WHITE) --- */
         #entrance {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: var(--paper-ivory);
@@ -102,8 +102,9 @@
         
         .entrance-content {
             position: relative; z-index: 2; padding: 3rem 2rem;
-            background: rgba(249, 247, 242, 0.05); backdrop-filter: blur(15px);
+            background: rgba(249, 247, 242, 0.95); backdrop-filter: blur(15px);
             border: 1px solid rgba(42,38,35,0.05); max-width: 600px; width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
         
         .btn-open {
@@ -161,12 +162,12 @@
             z-index: 0;
         }
 
-        /* --- GLASS PANEL UTILITY (Updated to 5% opacity) --- */
+        /* --- GLASS PANEL UTILITY (INNER PAGES - SEE THROUGH 8% FILL) --- */
         .glass-panel {
-            background: rgba(249, 247, 242, 0.05); 
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            border: 1px solid rgba(249, 247, 242, 0.15);
+            background: rgba(249, 247, 242, 0.08); 
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(249, 247, 242, 0.2);
             border-radius: 8px;
             padding: 2rem;
             width: 100%;
@@ -310,8 +311,8 @@
             margin: 3rem auto 0;
         }
         .category-btn {
-            background: rgba(249, 247, 242, 0.05);
-            border: 1px solid rgba(249, 247, 242, 0.4);
+            background: rgba(249, 247, 242, 0.08);
+            border: 1px solid rgba(249, 247, 242, 0.3);
             color: var(--paper-ivory);
             padding: 1.2rem;
             font-family: var(--font-sans);
@@ -321,10 +322,10 @@
             cursor: pointer;
             border-radius: 4px;
             transition: background 0.3s, border-color 0.3s;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(4px);
         }
         .category-btn:hover {
-            background: rgba(249, 247, 242, 0.15);
+            background: rgba(249, 247, 242, 0.18);
             border-color: var(--paper-ivory);
         }
 
@@ -489,7 +490,7 @@
         <div class="video-overlay"></div>
     </div>
 
-    <!-- 01. THE OPENING -->
+    <!-- 01. THE OPENING (WHITE FULL-OPACITY CARD) -->
     <div id="entrance">
         <div class="hero-image-wrapper">
             <img src="entrance.jpeg" alt="Warm Ivory Architectural Entrance">
@@ -527,7 +528,7 @@
             </div>
         </section>
 
-        <!-- 03. ANG AMING KWENTO (UPDATED BACKGROUND IMAGE TO kwento.jpeg) -->
+        <!-- 03. ANG AMING KWENTO -->
         <section class="page dark-section" id="story" style="background-color: var(--ink-charcoal);">
             <img class="bg-full-visible" src="kwento.jpeg" alt="Story Background">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.7); z-index: 0;"></div>
@@ -547,7 +548,7 @@
             </div>
 
             <div class="content-layer reveal">
-                <!-- Story Glass Panel -->
+                <!-- Story Glass Panel (Transparent / See-Through) -->
                 <div class="glass-panel story-glass-panel">
                     <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Aming Kwento</h2>
                     <h3 class="editorial-italic" style="margin-bottom: 1.5rem;">Nagsimula sa kape.</h3>
@@ -567,7 +568,7 @@
             </div>
         </section>
 
-        <!-- 04. ANG ARAW NA HINIHINTAY NAMIN (Venues in Glass Panels) -->
+        <!-- 04. ANG ARAW NA HINIHINTAY NAMIN (Venues in See-Through Glass Panels) -->
         <section class="page dark-section" id="wedding" style="background-color: var(--ink-charcoal);">
             <img class="bg-full-visible" src="4th page.jpeg" alt="Venue Background">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
@@ -597,9 +598,11 @@
             </div>
         </section>
 
-        <!-- 05. ANG MGA TAONG KASAMA NAMIN (ENTOURAGE - SOLID BACKGROUND WITH MORE PETALS) -->
-        <section class="page dark-section" id="entourage" style="background-color: #67645F;">
-            
+        <!-- 05. ANG MGA TAONG KASAMA NAMIN (UPDATED TO USE entourage.jpeg BACKGROUND) -->
+        <section class="page dark-section" id="entourage" style="background-color: var(--ink-charcoal);">
+            <img class="bg-full-visible" src="entourage.jpeg" alt="Entourage Background">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.7); z-index: 0;"></div>
+
             <div class="petals-container petals-full">
                 <!-- 12 Petals spread across the full width -->
                 <div class="petal"></div>
