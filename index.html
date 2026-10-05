@@ -79,7 +79,7 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
         .content-layer { position: relative; z-index: 2; width: 100%; }
 
-        /* --- 01. THE OPENING (INTRO CARD IS FULL OPACITY WHITE) --- */
+        /* --- 01. THE OPENING (FULL OPACITY WHITE INTRO CARD) --- */
         #entrance {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: var(--paper-ivory);
@@ -162,7 +162,7 @@
             z-index: 0;
         }
 
-        /* --- GLASS PANEL UTILITY (INNER PAGES - SEE THROUGH 8% FILL) --- */
+        /* --- GLASS PANEL UTILITY (SEE-THROUGH 8% FILL) --- */
         .glass-panel {
             background: rgba(249, 247, 242, 0.08); 
             backdrop-filter: blur(4px);
@@ -172,6 +172,58 @@
             padding: 2rem;
             width: 100%;
         }
+
+        /* --- GLOBAL RISING PETALS ANIMATIONS --- */
+        .global-petals-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            pointer-events: none; 
+            z-index: 3; 
+        }
+        .petal {
+            position: absolute;
+            bottom: -60px; 
+            background-color: rgba(249, 247, 242, 0.4); 
+            border-radius: 50% 0 50% 50%; 
+            opacity: 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            animation: rise linear infinite;
+        }
+        
+        @keyframes rise {
+            0% { 
+                transform: translateY(0) rotate(0deg) scale(0.6); 
+                opacity: 0; 
+            }
+            15% { 
+                opacity: 0.55; 
+            }
+            85% { 
+                opacity: 0.55; 
+            }
+            100% { 
+                transform: translateY(-115vh) rotate(360deg) scale(1.1); 
+                opacity: 0; 
+            }
+        }
+        
+        /* Balanced Petal Distribution Across All Pages */
+        .global-petals-container .petal:nth-child(1)  { left: 6%;   width: 14px; height: 14px; animation-duration: 14s; animation-delay: 0s; }
+        .global-petals-container .petal:nth-child(2)  { left: 16%;  width: 18px; height: 18px; animation-duration: 16s; animation-delay: 3s; }
+        .global-petals-container .petal:nth-child(3)  { left: 28%;  width: 12px; height: 12px; animation-duration: 13s; animation-delay: 7s; }
+        .global-petals-container .petal:nth-child(4)  { left: 40%;  width: 16px; height: 16px; animation-duration: 17s; animation-delay: 1s; }
+        .global-petals-container .petal:nth-child(5)  { left: 52%;  width: 13px; height: 13px; animation-duration: 15s; animation-delay: 5s; }
+        .global-petals-container .petal:nth-child(6)  { left: 64%;  width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
+        .global-petals-container .petal:nth-child(7)  { left: 76%;  width: 11px; height: 11px; animation-duration: 12s; animation-delay: 8s; }
+        .global-petals-container .petal:nth-child(8)  { left: 86%;  width: 17px; height: 17px; animation-duration: 15s; animation-delay: 4s; }
+        .global-petals-container .petal:nth-child(9)  { left: 93%;  width: 14px; height: 14px; animation-duration: 16s; animation-delay: 6s; }
+        .global-petals-container .petal:nth-child(10) { left: 22%;  width: 15px; height: 15px; animation-duration: 14s; animation-delay: 9s; }
+        .global-petals-container .petal:nth-child(11) { left: 58%;  width: 18px; height: 18px; animation-duration: 17s; animation-delay: 11s; }
+        .global-petals-container .petal:nth-child(12) { left: 82%;  width: 13px; height: 13px; animation-duration: 13s; animation-delay: 10s; }
 
         /* --- 02. GALLERY SECTION UTILITIES --- */
         .gallery-container {
@@ -198,59 +250,6 @@
             transition: opacity 1s ease-in-out; 
             z-index: 1;
         }
-
-        /* --- 03 & 05. RISING PETALS ANIMATIONS --- */
-        .petals-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none; 
-            z-index: 1; 
-        }
-        .petal {
-            position: absolute;
-            bottom: -50px; 
-            background-color: rgba(249, 247, 242, 0.25); 
-            border-radius: 50% 0 50% 50%; 
-            opacity: 0;
-            animation: rise linear infinite;
-        }
-        
-        @keyframes rise {
-            0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
-            10% { opacity: 0.35; }
-            90% { opacity: 0.35; }
-            100% { transform: translateY(-110vh) rotate(360deg) scale(1); opacity: 0; }
-        }
-        
-        /* Petals strictly on the left and right sides (Used in 3rd Page) */
-        .petals-sides .petal:nth-child(1) { left: 5%;  animation-duration: 25s; animation-delay: 1s; width: 12px; height: 12px; }
-        .petals-sides .petal:nth-child(2) { left: 12%; animation-duration: 28s; animation-delay: 5s; width: 18px; height: 18px; }
-        .petals-sides .petal:nth-child(3) { left: 20%; animation-duration: 22s; animation-delay: 2s; width: 10px; height: 10px; }
-        .petals-sides .petal:nth-child(4) { left: 8%;  animation-duration: 26s; animation-delay: 8s; width: 15px; height: 15px; }
-        .petals-sides .petal:nth-child(5) { left: 15%; animation-duration: 30s; animation-delay: 4s; width: 14px; height: 14px; }
-        .petals-sides .petal:nth-child(6) { left: 85%; animation-duration: 24s; animation-delay: 3s; width: 16px; height: 16px; }
-        .petals-sides .petal:nth-child(7) { left: 92%; animation-duration: 29s; animation-delay: 7s; width: 12px; height: 12px; }
-        .petals-sides .petal:nth-child(8) { left: 80%; animation-duration: 21s; animation-delay: 1s; width: 20px; height: 20px; }
-        .petals-sides .petal:nth-child(9) { left: 95%; animation-duration: 27s; animation-delay: 6s; width: 14px; height: 14px; }
-        .petals-sides .petal:nth-child(10){ left: 88%; animation-duration: 31s; animation-delay: 9s; width: 11px; height: 11px; }
-
-        /* Full Width High Frequency Petals (Used in 5th Page) */
-        .petals-full .petal:nth-child(1) { left: 8%; width: 14px; height: 14px; animation-duration: 22s; animation-delay: 0s; }
-        .petals-full .petal:nth-child(2) { left: 22%; width: 19px; height: 19px; animation-duration: 26s; animation-delay: 3s; }
-        .petals-full .petal:nth-child(3) { left: 35%; width: 11px; height: 11px; animation-duration: 20s; animation-delay: 7s; }
-        .petals-full .petal:nth-child(4) { left: 48%; width: 16px; height: 16px; animation-duration: 28s; animation-delay: 1s; }
-        .petals-full .petal:nth-child(5) { left: 62%; width: 13px; height: 13px; animation-duration: 24s; animation-delay: 5s; }
-        .petals-full .petal:nth-child(6) { left: 78%; width: 20px; height: 20px; animation-duration: 27s; animation-delay: 8s; }
-        .petals-full .petal:nth-child(7) { left: 88%; width: 10px;  height: 10px;  animation-duration: 19s; animation-delay: 2s; }
-        .petals-full .petal:nth-child(8) { left: 15%; width: 17px; height: 17px; animation-duration: 25s; animation-delay: 6s; }
-        .petals-full .petal:nth-child(9) { left: 55%; width: 12px; height: 12px; animation-duration: 21s; animation-delay: 4s; }
-        .petals-full .petal:nth-child(10){ left: 82%; width: 15px; height: 15px; animation-duration: 29s; animation-delay: 9s; }
-        .petals-full .petal:nth-child(11){ left: 30%; width: 14px; height: 14px; animation-duration: 23s; animation-delay: 11s; }
-        .petals-full .petal:nth-child(12){ left: 70%; width: 18px; height: 18px; animation-duration: 31s; animation-delay: 13s; }
 
         /* --- 03. STORY GLASS PANEL --- */
         .story-glass-panel {
@@ -507,6 +506,22 @@
     <!-- STATIONERY WRAPPER -->
     <main id="invitation-stationery">
 
+        <!-- GLOBAL RISING PETALS OVERLAY (Visible across all stationery pages) -->
+        <div class="global-petals-container">
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+        </div>
+
         <!-- 02. GALLERY OF THE COUPLE (MGA SANDALI) -->
         <section class="page dark-section" id="gallery" style="background-color: var(--ink-charcoal);">
             <img class="bg-full-visible" src="5th page.jpeg" alt="Gallery Background">
@@ -533,20 +548,6 @@
             <img class="bg-full-visible" src="kwento.jpeg" alt="Story Background">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.7); z-index: 0;"></div>
 
-            <!-- Petals strictly on left and right sides to avoid disturbing the text panel -->
-            <div class="petals-container petals-sides">
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-            </div>
-
             <div class="content-layer reveal">
                 <!-- Story Glass Panel (Transparent / See-Through) -->
                 <div class="glass-panel story-glass-panel">
@@ -568,7 +569,7 @@
             </div>
         </section>
 
-        <!-- 04. ANG ARAW NA HINIHINTAY NAMIN (Venues in See-Through Glass Panels) -->
+        <!-- 04. ANG ARAW NA HINIHINTAY NAMIN -->
         <section class="page dark-section" id="wedding" style="background-color: var(--ink-charcoal);">
             <img class="bg-full-visible" src="4th page.jpeg" alt="Venue Background">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.65); z-index: 0;"></div>
@@ -598,26 +599,10 @@
             </div>
         </section>
 
-        <!-- 05. ANG MGA TAONG KASAMA NAMIN (UPDATED TO USE entourage.jpeg BACKGROUND) -->
+        <!-- 05. ANG MGA TAONG KASAMA NAMIN -->
         <section class="page dark-section" id="entourage" style="background-color: var(--ink-charcoal);">
             <img class="bg-full-visible" src="entourage.jpeg" alt="Entourage Background">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(42, 38, 35, 0.7); z-index: 0;"></div>
-
-            <div class="petals-container petals-full">
-                <!-- 12 Petals spread across the full width -->
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-                <div class="petal"></div>
-            </div>
 
             <div class="content-layer reveal" style="width: 100%;">
                 <h2 class="title-medium" style="margin-bottom: 1rem;">Ang Mga Taong Kasama Namin</h2>
@@ -750,13 +735,13 @@
 
     </main>
 
-    <!-- ENTOURAGE LIGHTBOX OVERLAY (Outside main for fixed positioning) -->
+    <!-- ENTOURAGE LIGHTBOX OVERLAY -->
     <div class="lightbox-overlay" id="entourage-lightbox">
         <div class="lightbox-content">
             <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
             <h3 class="editorial-italic lightbox-title" id="lightbox-title">Title</h3>
             <div class="lightbox-list" id="lightbox-list">
-                <!-- Names will be injected here via JS -->
+                <!-- Names injected via JS -->
             </div>
         </div>
     </div>
@@ -766,7 +751,7 @@
         const backgroundMusic = new Audio('song.mp3');
         backgroundMusic.loop = true;
 
-        // --- GALLERY SCRIPT: Fades next image over current ---
+        // --- GALLERY SCRIPT ---
         let galleryInitialized = false;
         function initGallery() {
             if (galleryInitialized) return;
@@ -835,7 +820,6 @@
             const entrance = document.getElementById('entrance');
             const stationery = document.getElementById('invitation-stationery');
             
-            // Start the song and skip the long intro
             backgroundMusic.currentTime = 12; 
             backgroundMusic.play().catch(err => console.log("Audio playback failed:", err));
 
